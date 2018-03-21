@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYGZdl{} rally task start \PYG{l+s+sb}{`}/opt/stack/rally/samples/tasks/scenarios/nova/
-boot\PYGZhy{}and\PYGZhy{}delete.json\PYG{l+s+sb}{`}
-\end{Verbatim}

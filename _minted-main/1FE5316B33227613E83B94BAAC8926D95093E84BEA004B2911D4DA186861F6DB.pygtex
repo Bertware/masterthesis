@@ -1,4 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYGZdl{} faafo create \PYGZhy{}\PYGZhy{}width \PYG{l+m}{5555} \PYGZhy{}\PYGZhy{}height \PYG{l+m}{5555} \PYGZhy{}\PYGZhy{}tasks \PYG{l+m}{3}
-\PYGZdl{} faafo list
-\end{Verbatim}
