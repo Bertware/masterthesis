@@ -1,0 +1,24 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: main.aux
+The style file: IEEEtran.bst
+A level-1 auxiliary file: chapters/Dankwoord.aux
+A level-1 auxiliary file: chapters/Chapter1-Inleiding-Literatuurstudie.aux
+A level-1 auxiliary file: chapters/Chapter2-Implementatie.aux
+A level-1 auxiliary file: chapters/Bibliografie.aux
+A level-1 auxiliary file: chapters/Bijlagen.aux
+Database file #1: referenties.bib
+Warning--entry type for "digimeter17" isn't style-file defined
+--line 100 of file referenties.bib
+I was expecting a `,' or a `}'---line 158 of file referenties.bib
+ :  
+ :  doi = {10.1137/1.9781611973198.12},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty booktitle in colpaert15
+Warning--empty journal in fielding99
+Warning--empty booktitle in Melendez17
+
+Done.
+(There was 1 error message)

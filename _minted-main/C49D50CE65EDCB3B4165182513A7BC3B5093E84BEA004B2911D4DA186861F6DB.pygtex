@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZdl{} sudo su stack
+\PYGZdl{} sudo chown stack:stack \PYG{l+s+sb}{`}readlink /proc/self/fd/0\PYG{l+s+sb}{`}
+\PYGZdl{} screen \PYGZhy{}c /devstack/stack\PYGZhy{}screenrc
+\end{Verbatim}

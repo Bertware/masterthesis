@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{l+lScalar+lScalarPlain}{cpu\PYGZus{}alarm\PYGZus{}high}\PYG{p+pIndicator}{:}
+    \PYG{l+lScalar+lScalarPlain}{type}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{OS::Aodh::Alarm}
+    \PYG{l+lScalar+lScalarPlain}{properties}\PYG{p+pIndicator}{:}
+      \PYG{l+lScalar+lScalarPlain}{description}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{Scale\PYGZhy{}up if the average CPU \PYGZgt{} 90 \PYGZpc{} for period of seconds}
+      \PYG{l+lScalar+lScalarPlain}{meter\PYGZus{}name}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{cpu\PYGZus{}util}
+      \PYG{l+lScalar+lScalarPlain}{statistic}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{avg}
+      \PYG{l+lScalar+lScalarPlain}{period}\PYG{p+pIndicator}{:} \PYG{p+pIndicator}{\PYGZob{}} \PYG{n+nv}{get\PYGZus{}param}\PYG{p+pIndicator}{:} \PYG{n+nv}{period} \PYG{p+pIndicator}{\PYGZcb{}}
+      \PYG{l+lScalar+lScalarPlain}{evaluation\PYGZus{}periods}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{1}
+      \PYG{l+lScalar+lScalarPlain}{threshold}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{90}
+      \PYG{l+lScalar+lScalarPlain}{alarm\PYGZus{}actions}\PYG{p+pIndicator}{:}
+        \PYG{p+pIndicator}{\PYGZhy{}} \PYG{p+pIndicator}{\PYGZob{}}\PYG{n+nv}{get\PYGZus{}attr}\PYG{p+pIndicator}{:} \PYG{p+pIndicator}{[}\PYG{n+nv}{scale\PYGZus{}up\PYGZus{}policy}\PYG{p+pIndicator}{,} \PYG{n+nv}{alarm\PYGZus{}url}\PYG{p+pIndicator}{]\PYGZcb{}}
+      \PYG{l+lScalar+lScalarPlain}{comparison\PYGZus{}operator}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{gt}
+
+  \PYG{l+lScalar+lScalarPlain}{cpu\PYGZus{}alarm\PYGZus{}low}\PYG{p+pIndicator}{:}
+    \PYG{l+lScalar+lScalarPlain}{type}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{OS::Aodh::Alarm}
+    \PYG{l+lScalar+lScalarPlain}{properties}\PYG{p+pIndicator}{:}
+      \PYG{l+lScalar+lScalarPlain}{description}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{Scale\PYGZhy{}down if the average CPU \PYGZlt{} 15 \PYGZpc{} for period of seconds}
+      \PYG{l+lScalar+lScalarPlain}{meter\PYGZus{}name}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{cpu\PYGZus{}util}
+      \PYG{l+lScalar+lScalarPlain}{statistic}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{avg}
+      \PYG{l+lScalar+lScalarPlain}{period}\PYG{p+pIndicator}{:} \PYG{p+pIndicator}{\PYGZob{}} \PYG{n+nv}{get\PYGZus{}param}\PYG{p+pIndicator}{:} \PYG{n+nv}{period} \PYG{p+pIndicator}{\PYGZcb{}}
+      \PYG{l+lScalar+lScalarPlain}{evaluation\PYGZus{}periods}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{1}
+      \PYG{l+lScalar+lScalarPlain}{threshold}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{15}
+      \PYG{l+lScalar+lScalarPlain}{alarm\PYGZus{}actions}\PYG{p+pIndicator}{:}
+        \PYG{p+pIndicator}{\PYGZhy{}} \PYG{p+pIndicator}{\PYGZob{}}\PYG{n+nv}{get\PYGZus{}attr}\PYG{p+pIndicator}{:} \PYG{p+pIndicator}{[}\PYG{n+nv}{scale\PYGZus{}down\PYGZus{}policy}\PYG{p+pIndicator}{,} \PYG{n+nv}{alarm\PYGZus{}url}\PYG{p+pIndicator}{]\PYGZcb{}}
+      \PYG{l+lScalar+lScalarPlain}{comparison\PYGZus{}operator}\PYG{p+pIndicator}{:} \PYG{l+lScalar+lScalarPlain}{lt}
+\end{Verbatim}

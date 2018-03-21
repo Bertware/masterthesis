@@ -1,0 +1,18 @@
+\BOOKMARK [0][-]{chapter*.2}{Lijst van figuren}{}% 1
+\BOOKMARK [0][-]{chapter*.3}{Lijst van tabellen}{}% 2
+\BOOKMARK [0][-]{chapter.1}{Inleiding}{}% 3
+\BOOKMARK [1][-]{section.1.1}{Wat is user-perceived performance?}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.2}{Probleemstelling en doel van de masterproef}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Implementatie}{}% 6
+\BOOKMARK [1][-]{section.2.1}{Linked Connections formaat}{chapter.2}% 7
+\BOOKMARK [2][-]{subsection.2.1.1}{Vraag- en antwoordformaat}{section.2.1}% 8
+\BOOKMARK [1][-]{section.2.2}{Connection Scan Algoritme}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.1}{Implementatie en aanpassingen}{section.2.2}% 10
+\BOOKMARK [1][-]{section.2.3}{Vertrekken en aankomsten per station}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.4}{Route van een trein}{chapter.2}% 12
+\BOOKMARK [0][-]{chapter*.6}{Bibliografie}{}% 13
+\BOOKMARK [0][-]{section*.7}{Bijlagen}{}% 14
+\BOOKMARK [1][-]{section.a..1}{Bijlage A - Linked Connections Specificatie}{section*.7}% 15
+\BOOKMARK [1][-]{section.a..2}{Bijlage B - Lc2iRail's installatiehandleiding}{section*.7}% 16
+\BOOKMARK [1][-]{section.a..3}{Bijlage C - Lc2iRail's documentatie}{section*.7}% 17
+\BOOKMARK [1][-]{section.a..4}{Bijlage D - Testresultaten}{section*.7}% 18

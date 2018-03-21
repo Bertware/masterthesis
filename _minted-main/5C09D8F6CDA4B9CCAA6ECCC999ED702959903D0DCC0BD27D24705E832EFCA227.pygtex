@@ -1,0 +1,37 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZob{}}
+	\PYG{n+nt}{\PYGZdq{}@context\PYGZdq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}}
+	 \PYG{n+nt}{\PYGZdq{}xsd\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/2001/XMLSchema\PYGZsh{}\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}lc\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://semweb.mmlab.be/ns/linkedconnections\PYGZsh{}\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}hydra\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://www.w3.org/ns/hydra/core\PYGZsh{}\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}gtfs\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://vocab.gtfs.org/terms\PYGZsh{}\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}Connection\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}lc:Connection\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}...\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}...\PYGZdq{}}
+	\PYG{p}{\PYGZcb{},}
+	\PYG{n+nt}{\PYGZdq{}@id\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}https://graph.irail.be/sncb/connections?departureTime=2018\PYGZhy{}03\PYGZhy{}20T12:30:00.000Z\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}@type\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}hydra:PagedCollection\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}hydra:next\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}https://graph.irail.be/sncb/connections?departureTime=2018\PYGZhy{}03\PYGZhy{}20T12:40:00.000Z\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}hydra:previous\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}https://graph.irail.be/sncb/connections?departureTime=2018\PYGZhy{}03\PYGZhy{}20T12:20:00.000Z\PYGZdq{}}\PYG{p}{,}
+	\PYG{n+nt}{\PYGZdq{}hydra:search\PYGZdq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}}
+		\PYG{n+nt}{\PYGZdq{}...\PYGZdq{}}
+	\PYG{p}{\PYGZcb{},}
+	\PYG{n+nt}{\PYGZdq{}@graph\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}
+		\PYG{p}{\PYGZob{}}
+		\PYG{n+nt}{\PYGZdq{}@id\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://irail.be/connections/8822228/20180320/S11961\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}@type\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Connection\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}departureStop\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://irail.be/stations/NMBS/008822228\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}arrivalStop\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://irail.be/stations/NMBS/008822210\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}departureTime\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}2018\PYGZhy{}03\PYGZhy{}20T12:30:00.000Z\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}departureDelay\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mi}{60}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}arrivalTime\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}2018\PYGZhy{}03\PYGZhy{}20T12:32:00.000Z\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}arrivalDelay\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}direction\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Anvers\PYGZhy{}Central\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}gtfs:trip\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://irail.be/vehicle/S11961/20180320\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}gtfs:route\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}http://irail.be/vehicle/S11961\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}gtfs:pickupType\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}gtfs:Regular\PYGZdq{}}\PYG{p}{,}
+		\PYG{n+nt}{\PYGZdq{}gtfs:dropOffType\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}gtfs:Regular\PYGZdq{}}
+		\PYG{p}{\PYGZcb{},}
+		\PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}...\PYGZdq{}}\PYG{p}{:}\PYG{l+s+s2}{\PYGZdq{}...\PYGZdq{}}\PYG{p}{\PYGZcb{}}
+	\PYG{p}{]}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

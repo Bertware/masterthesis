@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+		\PYG{c+c1}{// Determine T3, the time of arrival when taking the best possible transfer in this station}
+		\PYG{k}{if} \PYG{o}{(}\PYG{n}{S}\PYG{o}{.}\PYG{n+na}{containsKey}\PYG{o}{(}\PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{arrivalStationUri}\PYG{o}{))} \PYG{o}{\PYGZob{}}
+			\PYG{k+kt}{int} \PYG{n}{position} \PYG{o}{=} \PYG{n}{S}\PYG{o}{.}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{arrivalStationUri}\PYG{o}{).}\PYG{n+na}{size}\PYG{o}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{o}{;}
+			\PYG{n}{StationQuadruple} \PYG{n}{quadruple} \PYG{o}{=} \PYG{n}{S}\PYG{o}{.}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{arrivalStationUri}\PYG{o}{).}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{position}\PYG{o}{);}
+		
+			\PYG{k}{while} \PYG{o}{(}
+				\PYG{o}{(}\PYG{n}{quadruple}\PYG{o}{.}\PYG{n+na}{departureTime}\PYG{o}{.}\PYG{n+na}{minusSeconds}\PYG{o}{(}\PYG{n}{transferSeconds}\PYG{o}{).}\PYG{n+na}{getMillis}\PYG{o}{()} \PYG{o}{\PYGZlt{}=} \PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{arrivalTime}\PYG{o}{.}\PYG{n+na}{getMillis}\PYG{o}{()} \PYG{o}{||}
+				\PYG{n}{quadruple}\PYG{o}{.}\PYG{n+na}{transfers} \PYG{o}{\PYGZgt{}=} \PYG{n}{maxTransfers}\PYG{o}{)} \PYG{o}{\PYGZam{}\PYGZam{}}
+				\PYG{n}{position} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}
+			\PYG{o}{)} \PYG{o}{\PYGZob{}}
+				\PYG{n}{position}\PYG{o}{\PYGZhy{}\PYGZhy{};}
+				\PYG{n}{quadruple} \PYG{o}{=} \PYG{n}{S}\PYG{o}{.}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{arrivalStationUri}\PYG{o}{).}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{position}\PYG{o}{);}
+			\PYG{o}{\PYGZcb{}}
+			\PYG{k}{if} \PYG{o}{(}\PYG{n}{quadruple}\PYG{o}{.}\PYG{n+na}{departureTime}\PYG{o}{.}\PYG{n+na}{minusSeconds}\PYG{o}{(}\PYG{n}{transferSeconds}\PYG{o}{).}\PYG{n+na}{isAfter}\PYG{o}{(}\PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{arrivalTime}\PYG{o}{)} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{quadruple}\PYG{o}{.}\PYG{n+na}{transfers} \PYG{o}{\PYGZlt{}=} \PYG{n}{maxTransfers}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+				\PYG{n}{T3\PYGZus{}transferArrivalTime} \PYG{o}{=} \PYG{n}{quadruple}\PYG{o}{.}\PYG{n+na}{arrivalTime}\PYG{o}{.}\PYG{n+na}{plusSeconds}\PYG{o}{(}\PYG{n}{extraTimeInsteadOfTransfer}\PYG{o}{);}
+				\PYG{c+c1}{// Using this transfer will increase the number of transfers with 1}
+				\PYG{n}{T3\PYGZus{}transfers} \PYG{o}{=} \PYG{n}{quadruple}\PYG{o}{.}\PYG{n+na}{transfers} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{o}{;}
+			\PYG{o}{\PYGZcb{}} \PYG{k}{else} \PYG{o}{\PYGZob{}}
+				\PYG{c+c1}{// When there isn\PYGZsq{}t a reachable connection, transferring isn\PYGZsq{}t an option}
+				\PYG{n}{T3\PYGZus{}transferArrivalTime} \PYG{o}{=} \PYG{n}{infinite}\PYG{o}{;}
+				\PYG{n}{T3\PYGZus{}transfers} \PYG{o}{=} \PYG{l+m+mi}{999}\PYG{o}{;}
+			\PYG{o}{\PYGZcb{}}
+		\PYG{o}{\PYGZcb{}} \PYG{k}{else} \PYG{o}{\PYGZob{}}
+			\PYG{c+c1}{// When there isn\PYGZsq{}t a reachable connection, transferring isn\PYGZsq{}t an option}
+			\PYG{n}{T3\PYGZus{}transferArrivalTime} \PYG{o}{=} \PYG{n}{infinite}\PYG{o}{;}
+			\PYG{n}{T3\PYGZus{}transfers} \PYG{o}{=} \PYG{l+m+mi}{999}\PYG{o}{;}
+		\PYG{o}{\PYGZcb{}}
+\end{Verbatim}

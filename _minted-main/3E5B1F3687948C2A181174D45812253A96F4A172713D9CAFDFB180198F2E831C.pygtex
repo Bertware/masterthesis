@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{private} \PYG{n}{StationQuadruple} \PYG{n+nf}{getFirstReachableConnection}\PYG{o}{(}\PYG{n}{StationQuadruple} \PYG{n}{arrivalQuad}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+	\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{StationQuadruple}\PYG{o}{\PYGZgt{}} \PYG{n}{it\PYGZus{}options} \PYG{o}{=} \PYG{n}{S}\PYG{o}{.}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{arrivalQuad}\PYG{o}{.}\PYG{n+na}{arrivalConnection}\PYG{o}{.}\PYG{n+na}{arrivalStationUri}\PYG{o}{);}
+	\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{it\PYGZus{}options}\PYG{o}{.}\PYG{n+na}{size}\PYG{o}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{o}{;}
+		\PYG{k}{while} \PYG{o}{(}\PYG{n}{i} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{it\PYGZus{}options}\PYG{o}{.}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{i}\PYG{o}{).}\PYG{n+na}{arrivalTime}\PYG{o}{.}\PYG{n+na}{getMillis}\PYG{o}{()} \PYG{o}{!=} \PYG{n}{arrivalQuad}\PYG{o}{.}\PYG{n+na}{arrivalTime}\PYG{o}{.}\PYG{n+na}{getMillis}\PYG{o}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{240} \PYG{o}{*} \PYG{l+m+mi}{1000}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+		\PYG{n}{i}\PYG{o}{\PYGZhy{}\PYGZhy{};}
+	\PYG{o}{\PYGZcb{}}
+	\PYG{k}{return} \PYG{n}{it\PYGZus{}options}\PYG{o}{.}\PYG{n+na}{get}\PYG{o}{(}\PYG{n}{i}\PYG{o}{);}
+\PYG{o}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,33 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nx}{method}\PYG{p}{.}\PYG{n+nx}{getPeriodStatsScale} \PYG{o}{=} \PYG{p}{(}\PYG{n+nx}{start}\PYG{p}{,} \PYG{n+nx}{end}\PYG{p}{,} \PYG{n+nx}{callback}\PYG{p}{)} \PYG{p}{=\PYGZgt{}} \PYG{p}{\PYGZob{}}
+  \PYG{k+kd}{var} \PYG{n+nx}{promises} \PYG{o}{=} \PYG{p}{[];}
+  \PYG{n+nx}{MongoClient}\PYG{p}{.}\PYG{n+nx}{connect}\PYG{p}{(}\PYG{n+nx}{url\PYGZus{}monitoring}\PYG{p}{,} \PYG{p}{(}\PYG{n+nx}{err}\PYG{p}{,} \PYG{n+nx}{db}\PYG{p}{)} \PYG{p}{=\PYGZgt{}} \PYG{p}{\PYGZob{}}
+    \PYG{n+nx}{assert}\PYG{p}{.}\PYG{n+nx}{equal}\PYG{p}{(}\PYG{k+kc}{null}\PYG{p}{,} \PYG{n+nx}{err}\PYG{p}{);}
+    \PYG{k+kd}{var} \PYG{n+nx}{complete\PYGZus{}result} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{};}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kd}{var} \PYG{n+nx}{node} \PYG{k}{of} \PYG{n+nx}{appConfig}\PYG{p}{.}\PYG{n+nx}{nodes}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n+nx}{complete\PYGZus{}result}\PYG{p}{[}\PYG{n+nx}{node}\PYG{p}{.}\PYG{n+nx}{server\PYGZus{}name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} CPU\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[];}
+      \PYG{n+nx}{complete\PYGZus{}result}\PYG{p}{[}\PYG{n+nx}{node}\PYG{p}{.}\PYG{n+nx}{server\PYGZus{}name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} Memory\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[];}
+      \PYG{n+nx}{complete\PYGZus{}result}\PYG{p}{[}\PYG{n+nx}{node}\PYG{p}{.}\PYG{n+nx}{server\PYGZus{}name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} Instances\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[];}
+      \PYG{k+kd}{var} \PYG{n+nx}{cursor} \PYG{o}{=} \PYG{n+nx}{db}\PYG{p}{.}\PYG{n+nx}{collection}\PYG{p}{(}\PYG{n+nx}{node}\PYG{p}{.}\PYG{n+nx}{mongo\PYGZus{}table\PYGZus{}name}\PYG{p}{).}\PYG{n+nx}{find}\PYG{p}{(\PYGZob{}} \PYG{l+s+s2}{\PYGZdq{}timestamp\PYGZdq{}}\PYG{o}{:} \PYG{p}{\PYGZob{}} \PYG{n+nx}{\PYGZdl{}gt}\PYG{o}{:} \PYG{k}{new} \PYG{n+nb}{Date}\PYG{p}{(}\PYG{n+nx}{start}\PYG{p}{),} \PYG{n+nx}{\PYGZdl{}lt}\PYG{o}{:} \PYG{k}{new} \PYG{n+nb}{Date}\PYG{p}{(}\PYG{n+nx}{end}\PYG{p}{)} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{});}
+      \PYG{k+kd}{var} \PYG{n+nx}{promise} \PYG{o}{=} \PYG{k}{new} \PYG{n+nb}{Promise}\PYG{p}{((}\PYG{n+nx}{resolve}\PYG{p}{,} \PYG{n+nx}{reject}\PYG{p}{)} \PYG{p}{=\PYGZgt{}} \PYG{p}{\PYGZob{}}
+        \PYG{k+kd}{var} \PYG{n+nx}{node\PYGZus{}name} \PYG{o}{=} \PYG{n+nx}{node}\PYG{p}{.}\PYG{n+nx}{server\PYGZus{}name}\PYG{p}{;}
+        \PYG{n+nx}{cursor}\PYG{p}{.}\PYG{n+nx}{each}\PYG{p}{((}\PYG{n+nx}{err}\PYG{p}{,} \PYG{n+nx}{doc}\PYG{p}{)} \PYG{p}{=\PYGZgt{}} \PYG{p}{\PYGZob{}}
+          \PYG{k}{if} \PYG{p}{(}\PYG{n+nx}{err}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nx}{reject}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Something went wrong with node \PYGZdq{}} \PYG{o}{+} \PYG{n+nx}{node\PYGZus{}name}\PYG{p}{);}
+          \PYG{p}{\PYGZcb{}}
+          \PYG{k}{if} \PYG{p}{(}\PYG{n+nx}{doc} \PYG{o}{!=} \PYG{k+kc}{null}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nx}{complete\PYGZus{}result}\PYG{p}{[}\PYG{n+nx}{node\PYGZus{}name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} CPU\PYGZdq{}}\PYG{p}{].}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{doc}\PYG{p}{.}\PYG{n+nx}{cpu\PYGZus{}usage}\PYG{p}{);}
+            \PYG{n+nx}{complete\PYGZus{}result}\PYG{p}{[}\PYG{n+nx}{node\PYGZus{}name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} Memory\PYGZdq{}}\PYG{p}{].}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{doc}\PYG{p}{.}\PYG{n+nx}{free\PYGZus{}mem}\PYG{p}{);}
+            \PYG{n+nx}{complete\PYGZus{}result}\PYG{p}{[}\PYG{n+nx}{node\PYGZus{}name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} Instances\PYGZdq{}}\PYG{p}{].}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{doc}\PYG{p}{.}\PYG{n+nx}{instances}\PYG{p}{);}
+          \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+            \PYG{n+nx}{resolve}\PYG{p}{(}\PYG{n+nx}{node\PYGZus{}name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} is inserted!\PYGZdq{}}\PYG{p}{);}
+      \PYG{p}{\PYGZcb{}\PYGZcb{});\PYGZcb{});}
+      \PYG{n+nx}{promises}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{promise}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{n+nx}{Q}\PYG{p}{.}\PYG{n+nx}{all}\PYG{p}{(}\PYG{n+nx}{promises}\PYG{p}{).}\PYG{n+nx}{then}\PYG{p}{(()} \PYG{p}{=\PYGZgt{}} \PYG{p}{\PYGZob{}}
+      \PYG{n+nx}{db}\PYG{p}{.}\PYG{n+nx}{close}\PYG{p}{();}
+      \PYG{n+nx}{callback}\PYG{p}{(}\PYG{n+nx}{complete\PYGZus{}result}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}).}\PYG{n+nx}{fail}\PYG{p}{(}\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{});}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

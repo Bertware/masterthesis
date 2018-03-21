@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZdl{} sudo npm install
+\PYGZdl{} sudo npm start \PYG{p}{\PYGZam{}}
+\end{Verbatim}

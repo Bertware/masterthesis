@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+	\PYG{k}{if} \PYG{o}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n+na}{connections}\PYG{o}{.}\PYG{n+na}{length} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+		\PYG{n}{mLinkedConnectionsProvider}\PYG{o}{.}\PYG{n+na}{getLinkedConnectionByUrl}\PYG{o}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n+na}{previous}\PYG{o}{,} \PYG{k}{this}\PYG{o}{,} \PYG{k}{this}\PYG{o}{,} \PYG{k+kc}{null}\PYG{o}{);}
+		\PYG{k}{return}\PYG{o}{;}
+	\PYG{o}{\PYGZcb{}}
+	
+	\PYG{k+kt}{boolean} \PYG{n}{hasPassedDepartureLimit} \PYG{o}{=} \PYG{k+kc}{false}\PYG{o}{;}
+	\PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n+na}{connections}\PYG{o}{.}\PYG{n+na}{length} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{o}{;} \PYG{n}{i} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZhy{}\PYGZhy{})} \PYG{o}{\PYGZob{}}
+		\PYG{n}{LinkedConnection} \PYG{n}{connection} \PYG{o}{=} \PYG{n}{data}\PYG{o}{.}\PYG{n+na}{connections}\PYG{o}{[}\PYG{n}{i}\PYG{o}{];}
+		
+		\PYG{k}{if} \PYG{o}{(}\PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{departureTime}\PYG{o}{.}\PYG{n+na}{isAfter}\PYG{o}{(}\PYG{n}{mArrivalLimit}\PYG{o}{))} \PYG{o}{\PYGZob{}}
+			\PYG{k}{continue}\PYG{o}{;}
+		\PYG{o}{\PYGZcb{}}
+		\PYG{k}{if} \PYG{o}{(}\PYG{n}{connection}\PYG{o}{.}\PYG{n+na}{departureTime}\PYG{o}{.}\PYG{n+na}{isBefore}\PYG{o}{(}\PYG{n}{mDepartureLimit}\PYG{o}{))} \PYG{o}{\PYGZob{}}
+			\PYG{n}{hasPassedDepartureLimit} \PYG{o}{=} \PYG{k+kc}{true}\PYG{o}{;}
+			\PYG{k}{continue}\PYG{o}{;}
+		\PYG{o}{\PYGZcb{}}
+		
+		\PYG{o}{...}
+	\PYG{o}{\PYGZcb{}}
+\end{Verbatim}
