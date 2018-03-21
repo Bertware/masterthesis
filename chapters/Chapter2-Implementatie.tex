@@ -10,16 +10,16 @@ Om een zo eerlijk mogelijke vergelijking te bekomen, zullen we zowel bij de clie
 
 In plaats van een dump van planningsdata of een volledige routeplanner te publiceren, publiceert Linked Connections paren van vertrek en aankomst voor elke treinrit, telkens van een station tot het volgende. Deze paren worden gesorteerd volgens vertrektijd. Hierna wordt deze lijst van paren gesplitst, om pagina's van gelijke grootte of gelijke tijdsduur te bekomen. Deze fragmenten kunnen gepubliceerd worden via HTTP als \foreign{JSON-LD}\footnote{https://json-ld.org/}, waarbij user-agents kunnen kiezen welke pagina's ze opvragen. Links in de gepubliceerde documenten zorgen ervoor dat user-agents steeds weten welke pagina ze als volgende moeten laden \citep{linkedconnections18}.
 
-Om bovenstaande methode in de praktijk om te zetten, wordt gebruik gemaakt van de open source Linked-Connections-Server\footnote{https://github.com/julianrojas87/linked-connections-server/}. Om GTFS om te zetten naar Linked Connections, wordt er achterliggend gebruik gemaakt van de gtfs2lc tool\footnote{https://github.com/linkedconnections/gtfs2lc}.
+Om bovenstaande methode in de praktijk om te zetten, wordt gebruik gemaakt van de open source LC-Server\footnote{https://github.com/julianrojas87/linked-connections-server/}. Om GTFS om te zetten naar Linked Connections, wordt er achterliggend gebruik gemaakt van de gtfs2lc tool\footnote{https://github.com/linkedconnections/gtfs2lc}.
 
-Deze data is publiek toegankelijk via http://graph.irail.be/.
+Deze data zijn publiek toegankelijk via https://graph.irail.be/.
 
 \subsection{Vraag- en antwoordformaat}
-Om een pagina met data op te halen, wordt een verzoek gemaakt naar de API, waarbij de vervoersmaatschappij en het gewenste tijdstip in ISO8601 formaat in de URL opgenomen worden.  Codefragment \ref{code:linkedconnections-response} toont een ingekort resultaat voor de vertrekken bij de NMBS op 20 maart 2018, 12:30. De volledige specificatie\footnote{https://linkedconnections.org/specification/1-0} kan teruggevonden worden in \nameref{appendix:LinkedConnectionsSpec}.
+Om een pagina met data op te halen, wordt een verzoek gemaakt naar de API, waarbij de vervoersmaatschappij en het gewenste tijdstip in ISO8601 formaat in de URL opgenomen worden.  Codefragment \ref{code:linkedconnections-response} toont een ingekort resultaat voor de vertrekken bij de NMBS op 20 maart 2018, 12:30. De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
 
 Verzoek: \inlinecode{https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:30:00.000Z}
 
-In dit codefragment vinden we volgende data terug:
+Een voorbeeld van een LC pagina zien we in fragment \ref{code:2:linkedconnections-response}, met volgende data:
 \begin{enumerate}
 	\item \foreign{@context}: Deze lijst definieert de gebruikte namespaces en velden
 	\item \foreign{hydra:next} en  \foreign{hydra:previous}: Links naar de pagina met respectievelijk de volgende en de voorgaande data
@@ -38,87 +38,89 @@ In dit codefragment vinden we volgende data terug:
 
 \begin{code}
 	\begin{minted}[breaklines,tabsize=2]{json}
-
-{
-	"@context": {
-	 "xsd": "http://www.w3.org/2001/XMLSchema#",
-	"lc": "http://semweb.mmlab.be/ns/linkedconnections#",
-	"hydra": "http://www.w3.org/ns/hydra/core#",
-	"gtfs": "http://vocab.gtfs.org/terms#",
-	"Connection": "lc:Connection",
-	"...": "..."
-	},
-	"@id": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:30:00.000Z",
-	"@type": "hydra:PagedCollection",
-	"hydra:next": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:40:00.000Z",
-	"hydra:previous": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:20:00.000Z",
-	"hydra:search": {
-		"..."
-	},
-	"@graph": [
+		
 		{
-		"@id": "http://irail.be/connections/8822228/20180320/S11961",
-		"@type": "Connection",
-		"departureStop": "http://irail.be/stations/NMBS/008822228",
-		"arrivalStop": "http://irail.be/stations/NMBS/008822210",
-		"departureTime": "2018-03-20T12:30:00.000Z",
-		"departureDelay": 60,
-		"arrivalTime": "2018-03-20T12:32:00.000Z",
-		"arrivalDelay": 0,
-		"direction": "Anvers-Central",
-		"gtfs:trip": "http://irail.be/vehicle/S11961/20180320",
-		"gtfs:route": "http://irail.be/vehicle/S11961",
-		"gtfs:pickupType": "gtfs:Regular",
-		"gtfs:dropOffType": "gtfs:Regular"
-		},
-		{"...":"..."}
-	]
-}
+			"@context": {
+			 "xsd": "http://www.w3.org/2001/XMLSchema#",
+			"lc": "http://semweb.mmlab.be/ns/linkedconnections#",
+			"hydra": "http://www.w3.org/ns/hydra/core#",
+			"gtfs": "http://vocab.gtfs.org/terms#",
+			"Connection": "lc:Connection",
+			"...": "..."
+			},
+			"@id": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:30:00.000Z",
+			"@type": "hydra:PagedCollection",
+			"hydra:next": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:40:00.000Z",
+			"hydra:previous": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:20:00.000Z",
+			"hydra:search": {
+				"..."
+			},
+			"@graph": [
+				{
+				"@id": "http://irail.be/connections/8822228/20180320/S11961",
+				"@type": "Connection",
+				"departureStop": "http://irail.be/stations/NMBS/008822228",
+				"arrivalStop": "http://irail.be/stations/NMBS/008822210",
+				"departureTime": "2018-03-20T12:30:00.000Z",
+				"departureDelay": 60,
+				"arrivalTime": "2018-03-20T12:32:00.000Z",
+				"arrivalDelay": 0,
+				"direction": "Anvers-Central",
+				"gtfs:trip": "http://irail.be/vehicle/S11961/20180320",
+				"gtfs:route": "http://irail.be/vehicle/S11961",
+				"gtfs:pickupType": "gtfs:Regular",
+				"gtfs:dropOffType": "gtfs:Regular"
+				},
+				{"...":"..."}
+			]
+		}
 	\end{minted}
 \caption{Voorbeeld Linked Connections Formaat}
-\label{code:linkedconnections-response}
+\label{code:2:linkedconnections-response}
 \end{code}
 \section{Connection Scan Algoritme}
-Routeplanning wordt vaak opgelost met behulp van (een variant op) het algoritme van Dijkstra \citep{strasser13}. Toepassingen die gebruik maken van Dijkstra vereisen echter een graaf en een \foreign{priority queue}. Naast de impact op prestaties die deze eisen vormen, beperkt een graaf ook de flexibiliteit. De \foreign{open world assumption} stelt dat er steeds andere stopplaatsen wiens bestaan we (nog) niet kennen. Het opstellen van een graaf zou vereisen dat we alle gegevens eerst volledig moeten downloaden, terwijl Linked Connections net goed geschikt is voor streaming.
+Routeplanning wordt vaak opgelost met behulp van (een variant op) het algoritme van Dijkstra ~\citep{strasser13}. Toepassingen die gebruik maken van Dijkstra vereisen echter een graaf en een \foreign{priority queue}. Naast de impact op prestaties die deze eisen vormen, beperkt een graaf ook de flexibiliteit. De \foreign{open world assumption} stelt dat er steeds andere stopplaatsen wiens bestaan we (nog) niet kennen. Het opstellen van een graaf zou vereisen dat we alle gegevens eerst volledig moeten downloaden, terwijl Linked Connections net goed geschikt is voor streaming.
 
 
-Het Connection Scan Algoritme (CSA) werd voor het eerst beschreven door Ben Strasser in 2013\citep{strasser13}. Dit algoritme vereist van een lijst met vertrekken gesorteerd op vertrektijd. Hiermee worden alle routes in een tijdsinterval efficiënt berekend\citep{strasser14,strasser17}. In tegenstelling tot Dijkstra's algoritme is er geen graaf of \foreign{priority queue} benodigd. Waar andere algoritmen ofwel enkel op kleine netwerken performant zijn, ofwel niet altijd de  best mogelijke route vinden, kan CSA de optimale route in grote netwerken toch efficiënt vinden\citep{strasser14}. In de praktijk is het vooral belangrijk om snel rekening te kunnen houden met vertragingen bij vertrek of aankomst\citep{strasser14,strasser17}. CSA berekent oorspronkelijk de snelste route, al is dit duidelijk niet altijd de route die de gebruiker wenst. Zo kan de snelste route nog steeds een station meermaals bezoeken, of kan men van een trein afstappen om later op deze zelfde trein weer op te stappen. Een oplossing hiervoor is om het aantal overstappen te beperken\citep{strasser14}.
+Het Connection Scan Algoritme (CSA) werd voor het eerst beschreven door Ben Strasser in 2013~\citep{strasser13}. Dit algoritme vereist van een lijst met vertrekken gesorteerd op vertrektijd. Hiermee worden alle routes in een tijdsinterval efficiënt berekend\citep{strasser14,strasser17}. In tegenstelling tot Dijkstra's algoritme is er geen graaf of \foreign{priority queue} benodigd. Waar andere algoritmen ofwel enkel op kleine netwerken performant zijn, ofwel niet altijd de  best mogelijke route vinden, kan CSA de optimale route in grote netwerken toch efficiënt vinden~\citep{strasser14}. In de praktijk is het vooral belangrijk om snel rekening te kunnen houden met vertragingen bij vertrek of aankomst\citep{strasser14,strasser17}. CSA berekent oorspronkelijk de snelste route, al is dit duidelijk niet altijd de route die de gebruiker wenst. Zo kan de snelste route nog steeds een station meermaals bezoeken, of kan men van een trein afstappen om later op deze zelfde trein weer op te stappen. Een oplossing hiervoor is om het aantal overstappen te beperken\citep{strasser14}.
 
-Naast de tijd van aankomst, zijn er nog een aantal andere criteria die vaak geoptimaliseerd worden. Het populairste tweede criterium is het aantal overstappen, gevolgd door de prijs \citep{strasser17}. Optimalisatie van de prijs is echter zeer complex vanwege de complexe tariefplannen bij openbaar vervoer\citep{muller06}. Dit zullen we dan ook niet verder behandelen in dit onderzoek. 
+Naast de tijd van aankomst, zijn er nog een aantal andere criteria die vaak geoptimaliseerd worden. Het populairste tweede criterium is het aantal overstappen, gevolgd door de prijs \citep{strasser17}. Optimalisatie van de prijs is echter zeer complex vanwege de complexe tariefplannen bij openbaar vervoer\citep{muller06}. Dit valt buiten de context van deze masterproef.
 
 \subsection{Implementatie en aanpassingen}
-De werking en implementatie van CSA wordt behandeld in \citep{strasser17}. Dit algoritme kan zonder veel wijzigingen geïmplementeerd worden in zowel Java\footnote{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java} als PHP\footnote{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}.
+De werking en implementatie van CSA worden behandeld in~\citep{strasser17}. Dit algoritme kan zonder veel wijzigingen geïmplementeerd worden in zowel Java\footnote{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java} als PHP\footnote{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}.
 
 Wanneer dit algoritme geïmplementeerd wordt merken we echter duidelijke verschillen met de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel Zuid en Centraal tot Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Centraal naar Zuid rijdt.
 Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal overstappen te beperken, en om op een betere manier aan \foreign{journey-extraction} te doen.
 
 De implementatie en evolutie van het CSA algoritme worden uitgelegd aan de hand van code fragmenten in Java. Er wordt verondersteld dat sectie 4.2 van \cite{strasser17} gekend is. De code is asynchroon, waarbij na het laden van de eerste Linked Connections pagina een callback functie opgeroepen wordt om deze pagina te verwerken. Afhankelijk van het resultaat van deze verwerking, wordt er een nieuwe pagina opgevraagd, of wordt het resultaat doorgegeven aan de oproepende code door middel van callbacks.
 
-Allereerst dienen we twee wijzigingen door te voeren aan de gegevensstructuren. De arrays S en T zijn vervangen door een Map, waardoor we onbeperkt nieuwe stations kunnen toevoegen. Dit maakt het algoritme geschikt om te werken rekening houdend met de open-world assumption. Voor een voertuig houden we niet enkel bij wanneer we zouden aankomen, maar ook met hoeveel overstappen (beginnend na het opstappen op deze trein) we zouden aankomen, en waar we moeten afstappen van deze trein. Dit laatste is essentieel om niet enkel de aankomsttijd, maar ook de exacte route met alle overstappen te kunnen weergeven. 
+Allereerst dienen we twee wijzigingen door te voeren aan de gegevensstructuren. De arrays S en T zijn vervangen door een Map, waardoor we onbeperkt nieuwe stations en trips kunnen toevoegen, en deze kunnen opvragen op basis van hun URI. Dit maakt het algoritme geschikt om te werken rekening houdend met de open world assumption. In de datastructuur voor een voertuig (fragment \ref{code:2:trips}) houden we niet enkel bij wanneer we zouden aankomen, maar ook met hoeveel overstappen (beginnend na het opstappen op deze trein) we zouden aankomen, en waar we moeten afstappen van deze trein. Dit laatste is essentieel om niet enkel de aankomsttijd, maar ook de exacte route met alle overstappen te kunnen weergeven. 
 
 \begin{code}
 	\begin{minted}[breaklines,tabsize=2]{java}
 	class TrainTriple {
-	/**
-	* The arrival time at the final destination
-	*/
-	DateTime arrivalTime;
-	
-	/**
-	* The number of transfers until the destination when hopping on to this train
-	*/
-	int transfers;
-	
-	/**
-	* The arrival connection for the next transfer or arrival
-	*/
-	LinkedConnection arrivalConnection;
+		/**
+		* The arrival time at the final destination
+		*/
+		DateTime arrivalTime;
+		
+		/**
+		* The number of transfers until the destination when hopping on to this train
+		*/
+		int transfers;
+		
+		/**
+		* The arrival connection for the next transfer or arrival
+		*/
+		LinkedConnection arrivalConnection;
 	}
 	
 	\end{minted}
+	\caption[CSA: Gegevensstructuur voor trips]{In tegenstelling tot~\cite{strasser17} wordt niet enkel de aankomsttijd, maar ook de afstaphalte en het aantal overstappen bijgehouden per trip.}
+	\label{code:2:trips}
 \end{code}
 
-Ook de paren van vertrek en aankomsttijd per station, zogehete profielen, worden aangepast. Naast de vertrek en aankomsttijd houden we nu ook de connectie bij waarmee we vertrekken in dit station op dit tijdstip, en de connectie waarmee we aankomen in het volgend station waar we moeten over- of afstappen. Ook het aantal overstappen, beginnend met tellen na het opstappen in dit station, wordt bijgehouden.
+Ook de paren van vertrek en aankomsttijd per station, zogenoemde profielen, worden vervangen door een meer uitgebreide gegevensstructuur, zichtbaar in fragment \ref{code:2:stations}. Naast de vertrek en aankomsttijd houden we nu ook de connectie bij waarmee we vertrekken in dit station op dit tijdstip, en de connectie waarmee we aankomen in het volgend station waar we moeten over- of afstappen. Ook het aantal overstappen, beginnend met tellen na het opstappen in dit station, wordt bijgehouden.
 
 \begin{code}
 \begin{minted}[breaklines,tabsize=2]{java}
@@ -149,9 +151,11 @@ Ook de paren van vertrek en aankomsttijd per station, zogehete profielen, worden
 	int transfers;
 }
 	\end{minted}
+		\caption[CSA: Gegevensstructuur voor stopprofielen]{In tegenstelling tot~\cite{strasser17} wordt niet enkel de vertrek- en aankomsttijd, maar ook het aantal overstappen en de afstaphalte van de volgende trein bijgehouden.}
+	\label{code:2:stations}
 \end{code}
 
-Wanneer we de ingeladen connecties willen verwerken, filteren we alle connecties uit de pagina die ofwel te vroeg, ofwel te laat vallen. Ook moeten we een flag instellen wanneer we voorbij de vroegste vertrekdatum zijn. In dit geval zullen we na het overlopen van deze lijst geen nieuwe lijsten meer ophalen.
+Wanneer we de ingeladen connecties willen verwerken, filteren we alle connecties uit de pagina die ofwel te vroeg, ofwel te laat vallen. Zoals te zien in fragment \ref{code:2:csaloop} stellen we een flag in wanneer we voorbij de vroegste vertrekdatum zijn. In dit geval zullen we na het overlopen van deze lijst geen nieuwe lijsten meer ophalen. Door deze methode toe te passen kunnen we nieuwe pagina's inladen wanneer deze nodig zijn, zonder te veel op voorhand in te moeten laden.
 
 \begin{code}
 \begin{minted}[breaklines,tabsize=2]{java}
@@ -175,9 +179,11 @@ Wanneer we de ingeladen connecties willen verwerken, filteren we alle connecties
 		...
 	}
 	\end{minted}
+			\caption[CSA: Overlopen van connecties]{Connecties worden overlopen volgens dalende vertrektijd. Er worden beperkingen gesteld op vertrek- en aankomsttijd.}
+	\label{code:2:csaloop}
 \end{code}
 
-Het bepalen van T1 en T2 spreekt voor zich, en loopt gelijk aan de implementatie uit \cite{strasser17}. In het geval dat er geen aankomst mogelijk is (binnen de beperkte tijd) stellen we zowel de aankomsttijd als het aantal overstappen in op een onrealistisch hoog getal. Dit vereenvoudigt de code aanzienlijk, aangezien er geen rekening gehouden hoeft te worden met het mogelijk leeg zijn van variabelen.
+Het bepalen van T1 en T2 spreekt voor zich, en loopt vrijwel gelijk aan de implementatie uit \cite{strasser17}. In fragment \ref{code:2:csaT1T2} zien we hoe het aantal overstappen wordt bepaald. In het geval dat er geen aankomst mogelijk is (binnen de beperkte tijd) stellen we zowel de aankomsttijd als het aantal overstappen in op een onrealistisch hoog getal. Dit vereenvoudigt de code latere aanzienlijk, aangezien er geen rekening gehouden hoeft te worden met het mogelijk leeg zijn van variabelen.
 \begin{code}
 	\begin{minted}[breaklines,tabsize=2]{java}
 	 	if (Objects.equals(connection.arrivalStationUri, mRoutesRequest.getDestination().getSemanticId())) {
@@ -197,12 +203,14 @@ Het bepalen van T1 en T2 spreekt voor zich, en loopt gelijk aan de implementatie
 			T2_transfers = 999;
 		}	
 		\end{minted}
+					\caption[CSA: Bepalen van aankomsttijden]{Het aantal overstappen wordt bepaald bij het bepalen van minimale aankomsttijden}
+		\label{code:2:csaT1T2}
 \end{code}
 
-Bij de bepaling van T3 maken we de eerste grote afwijking van het oorspronkelijk algoritme. Om te bepalen of een overstap mogelijk is, moeten er reeds profielen voor dit station bekend zijn. Indien dit het geval is, gaan we op zoek naar het profiel waarbij er genoeg tijd is om over te stappen, maar waarbij het aantal overstappen het maximum aantal niet overschrijdt. 
+Bij de bepaling van T3, terug te vinden in fragment \ref{code:2:csaT3}, maken we de eerste grote afwijking van het oorspronkelijk algoritme. Om te bepalen of een overstap mogelijk is, moeten er reeds profielen voor dit station bekend zijn. Indien dit het geval is, gaan we op zoek naar het profiel waarbij er genoeg tijd is om over te stappen, maar waarbij het aantal overstappen het maximum aantal niet overschrijdt. 
 Wanneer we een overstap vinden die aan deze voorwaarden voldoet, verhogen we het aantal overstappen ook met één. Deze aanpak is eenvoudiger dan de array-gebaseerde aanpak omschreven in \cite{strasser17}. Het voordeel van deze aanpak is dat automatisch alle snelste opties worden bijgehouden, zolang hun aantal overstappen onder het maximum blijft. 
 
-In plaats van de door \cite{strasser17} voorgestelde verhoging van de aankomsttijd met één, om zo routes met een gelijke aankomsttijd maar minder overstappen voorkeur te geven, verhogen we hier de aankomsttijd met een vooraf gedefinieerd aantal seconden. Dit aantal geeft aan hoeveel seconden we langer op een trein wensen te zitten, in plaats van over te stappen. Door dit in te stellen op 240, wordt aangegeven dat een route die er tot 4 minuten langer over doet, met een overstap minder, toch de voorkeur krijgt over de snellere route met meer overstappen. Dit is een eerste veld wat door gebruikers ingesteld kan worden om de routes te personaliseren.
+In plaats van de door \cite{strasser17} voorgestelde verhoging van de aankomsttijd met één, om zo routes met een gelijke aankomsttijd maar minder overstappen voorkeur te geven, verhogen we hier de aankomsttijd met een vooraf gedefinieerd aantal seconden. Dit aantal geeft aan hoeveel seconden we langer op een trein wensen te zitten, in plaats van over te stappen. Door dit in te stellen op 240, wordt aangegeven dat een route die er tot 4 minuten langer over doet, met een overstap minder, toch de voorkeur krijgt over de snellere route met meer overstappen. Dit is een eerste veld dat door gebruikers ingesteld kan worden om de routes te personaliseren.
 
 \begin{code}
 	\begin{minted}[breaklines,tabsize=2]{java}
@@ -236,8 +244,10 @@ In plaats van de door \cite{strasser17} voorgestelde verhoging van de aankomstti
 			T3_transfers = 999;
 		}
 		\end{minted}
+						\caption[CSA: Bepalen van aankomsttijden]{Bij een eventuele overstap worden ook extra factoren in rekeningen gebracht.}
+		\label{code:2:csaT3}
 \end{code}
-Bij het bepalen van de vroegste aankomsttijd, wordt nu ook het aantal overstappen dat bij deze aankomsttijd hoort bepaald, en de connectie waar van de trein afgestapt wordt. We geven bij gelijke aankomsttijden de voorkeur aan overstappen: aangezien de vertrekkende voertuigen volgens dalende vertrektijd overlopen worden, geven we dus de voorkeur aan zo vroeg mogelijk overstappen. Dit geeft extra marge binnen de trip.
+Bij het bepalen van de vroegste aankomsttijd (fragment \ref{code:2:csaT3}), wordt nu ook het aantal overstappen dat bij deze aankomsttijd hoort bepaald, en de connectie waar van de trein afgestapt wordt. We geven bij gelijke aankomsttijden de voorkeur aan overstappen: aangezien de vertrekkende voertuigen volgens dalende vertrektijd overlopen worden, geven we dus de voorkeur aan zo vroeg mogelijk overstappen. Dit geeft extra marge binnen de trip.
 \begin{code}
 \begin{minted}[breaklines,tabsize=2]{java}
 DateTime Tmin;
@@ -268,125 +278,123 @@ if (Tmin.isEqual(infinite)) {
 	continue;
 }
 		\end{minted}
+		\caption[CSA: Bepalen van vroegste aankomsttijd]{Bepalen van de vroegste aankomsttijd}
+		\label{code:2:csaMin}
 \end{code}
-Door de extra toevoegingen voor journey extraction en het optimaliseren van de routes, is het bijwerken van de gegevenstructuren aanzienlijk ingewikkelder vergeleken met de originele implementatie. Voor voertuigen houden we niet langer enkel de aankomsttijd, maar ook de afstap halte bij. Hierbij verkiezen we de halte waarlangs we zo snel mogelijk aankomen, maar bij gelijke aankomsttijd wensen we een zo lang mogelijke periode voor de overstap. Wanneer de aankomsttijd gelijk is, onderzoeken we of de nieuwe afstap halte (de connectie die op dit moment onderzocht wordt) meer tijd voor een overstap geeft. Indien dit het geval is, werken we de afstap halte bij.
+Door de extra toevoegingen voor journey extraction en het optimaliseren van de routes, is het bijwerken van de gegevenstructuren aanzienlijk ingewikkelder vergeleken met de originele implementatie. Voor voertuigen houden we niet langer enkel de aankomsttijd, maar ook de afstap halte bij. Hierbij verkiezen we de halte waarlangs we zo snel mogelijk aankomen, maar bij gelijke aankomsttijd wensen we een zo lang mogelijke periode voor de overstap. Wanneer de aankomsttijd gelijk is, onderzoeken we of de nieuwe afstap halte (de connectie die op dit moment onderzocht wordt) meer tijd voor een overstap geeft. Indien dit het geval is, werken we de afstap halte bij. Het bijwerken van een bestaande trip is zichtbaar in fragment \ref{code:2:csaT}.
 \begin{code}
 	\begin{minted}[breaklines,tabsize=2]{java}
-if (T.containsKey(connection.trip)) {
-
-	if (Tmin.isEqual(T.get(connection.trip).arrivalTime) && 
-		T3_transferArrivalTime.isEqual(T2_stayOnTripArrivalTime) &&
-		S.containsKey(T.get(connection.trip).arrivalConnection.arrivalStationUri) &&
-		S.containsKey(connection.arrivalStationUri)
-	) {
-		LinkedConnection currentTrainExit = T.get(connection.trip).arrivalConnection;
+	
+		if (Tmin.isEqual(T.get(connection.trip).arrivalTime) && 
+			T3_transferArrivalTime.isEqual(T2_stayOnTripArrivalTime) &&
+			S.containsKey(T.get(connection.trip).arrivalConnection.arrivalStationUri) &&
+			S.containsKey(connection.arrivalStationUri)
+		) {
+			LinkedConnection currentTrainExit = T.get(connection.trip).arrivalConnection;
+			
+			StationQuadruple quad = new StationQuadruple();
+			quad.departureTime = connection.departureTime;
+			quad.departureConnection = connection;
+			quad.arrivalTime = Tmin;
+			
+			// Current situation
+			quad.arrivalConnection = currentTrainExit;
+			Duration currentTransfer = new Duration(currentTrainExit.arrivalTime, getFirstReachableConnection(quad).departureTime);
+			// New situation
+			quad.arrivalConnection = exitTrainConnection;
+			Duration newTransfer = new Duration(exitTrainConnection.arrivalTime, getFirstReachableConnection(quad).departureTime);
+	
+			if (newTransfer.isLongerThan(currentTransfer)) {
+				TrainTriple triple = new TrainTriple();
+				triple.arrivalTime = Tmin;
+				triple.arrivalConnection = exitTrainConnection;
+				triple.transfers = numberOfTransfers;
+				T.put(connection.trip, triple);
+			}
+		}
 		
-		StationQuadruple quad = new StationQuadruple();
-		quad.departureTime = connection.departureTime;
-		quad.departureConnection = connection;
-		
-		// Current situation
-		quad.arrivalTime = Tmin;
-		quad.arrivalConnection = currentTrainExit;
-		Duration currentTransfer = new Duration(currentTrainExit.arrivalTime, getFirstReachableConnection(quad).departureTime);
-		
-		// New situation
-		quad.arrivalTime = Tmin;
-		quad.arrivalConnection = exitTrainConnection;
-		Duration newTransfer = new Duration(exitTrainConnection.arrivalTime, getFirstReachableConnection(quad).departureTime);
-
-		if (newTransfer.isLongerThan(currentTransfer)) {
+		if (Tmin.isBefore(T.get(connection.trip).arrivalTime)) {
 			TrainTriple triple = new TrainTriple();
 			triple.arrivalTime = Tmin;
 			triple.arrivalConnection = exitTrainConnection;
 			triple.transfers = numberOfTransfers;
 			T.put(connection.trip, triple);
 		}
-	}
-	
-	if (Tmin.isBefore(T.get(connection.trip).arrivalTime)) {
-		TrainTriple triple = new TrainTriple();
-		triple.arrivalTime = Tmin;
-		triple.arrivalConnection = exitTrainConnection;
-		triple.transfers = numberOfTransfers;
-		
-		T.put(connection.trip, triple);
-	}
-} else {
-	TrainTriple triple = new TrainTriple();
-	triple.arrivalTime = Tmin;
-	triple.arrivalConnection = exitTrainConnection;
-	triple.transfers = numberOfTransfers;
-	T.put(connection.trip, triple);
-}
-
-\end{minted}
+	\end{minted}
+	\caption[CSA: Bijwerken T]{Bijwerken van de trips gegevensstructuur.}
+	\label{code:2:csaT}
 \end{code}
 
-De stopprofielen zijn lichtjes aangepast om de efficientie te verhogen. De vroegste vertrekken worden nu achteraan toegevoegd. Door deze aanpassing, en het gegeven dat de vertrektijd van de huidige connectie gelijk of kleiner dan de vertrektijd van alle vorige connecties is, hoeven we nu enkel het laatste profiel in de lijst te evalueren. Als de vertrektijd kleiner of gelijk is, moet de aankomsttijd kleiner zijn. we controleren dus enkel of de aankomsttijd kleiner is, en zo ja, of de vertrektijd kleiner of gelijk is. Afhankelijk van deze laatste controle voegen we een nieuw item toe aan de lijst, of vervangen we het laatste. Aangezien we telkens enkel toevoegen wanneer de aankomsttijd vroeger ligt, zal deze lijst altijd gesorteerd zijn volgens dalende aankomsttijd. Hiermee is bewezen dat deze optimalisatie correct is, en een beter alternatief voor het overlopen van de volledige lijst.L
+Het bijwerken van de stopprofielen, zichtbaar in fragment \ref{code:2:csaS}, is lichtjes aangepast om de efficiëntie te verhogen. De vroegste vertrekken worden nu achteraan toegevoegd. Door deze aanpassing, en het gegeven dat de vertrektijd van de huidige connectie gelijk of kleiner dan de vertrektijd van alle vorige connecties is, hoeven we nu enkel het laatste profiel in de lijst te evalueren. Als de vertrektijd kleiner of gelijk is, moet de aankomsttijd kleiner zijn. we controleren dus enkel of de aankomsttijd kleiner is, en zo ja, of de vertrektijd kleiner of gelijk is. Afhankelijk van deze laatste controle voegen we een nieuw item toe aan de lijst, of vervangen we het laatste. Aangezien we telkens enkel toevoegen wanneer de aankomsttijd vroeger ligt, zal deze lijst altijd gesorteerd zijn volgens dalende aankomsttijd. Hiermee is bewezen dat deze optimalisatie correct is, en een beter alternatief voor het overlopen van de volledige lijst.
 
 \begin{code}
 	\begin{minted}[breaklines,tabsize=2]{java}
-StationQuadruple quad = new StationQuadruple();
-quad.departureTime = connection.departureTime;
-quad.arrivalTime = Tmin;
-
-// Additional data for journey extraction
-quad.departureConnection = connection;
-quad.arrivalConnection = T.get(connection.trip).arrivalConnection;
-quad.transfers = numberOfTransfers;
-
-if (S.containsKey(connection.departureStationUri)) {
-	int numberOfPairs = S.get(connection.departureStationUri).size();
-	StationQuadruple existingQuad = S.get(connection.departureStationUri).get(numberOfPairs - 1);
-	if (quad.arrivalTime.isBefore(existingQuad.arrivalTime)) {
-		if (quad.departureTime.isEqual(existingQuad.departureTime)) {
-			S.get(connection.departureStationUri).remove(numberOfPairs - 1);
-			S.get(connection.departureStationUri).add(numberOfPairs - 1, quad);
+		StationQuadruple quad = new StationQuadruple();
+		quad.departureTime = connection.departureTime;
+		quad.arrivalTime = Tmin;
+		
+		// Additional data for journey extraction
+		quad.departureConnection = connection;
+		quad.arrivalConnection = T.get(connection.trip).arrivalConnection;
+		quad.transfers = numberOfTransfers;
+		
+		if (S.containsKey(connection.departureStationUri)) {
+			int numberOfPairs = S.get(connection.departureStationUri).size();
+			StationQuadruple existingQuad = S.get(connection.departureStationUri).get(numberOfPairs - 1);
+			if (quad.arrivalTime.isBefore(existingQuad.arrivalTime)) {
+				if (quad.departureTime.isEqual(existingQuad.departureTime)) {
+					S.get(connection.departureStationUri).remove(numberOfPairs - 1);
+					S.get(connection.departureStationUri).add(numberOfPairs - 1, quad);
+				} else {
+					S.get(connection.departureStationUri).add(quad);
+				}
+			}
 		} else {
+			S.put(connection.departureStationUri, new ArrayList<StationQuadruple>());
 			S.get(connection.departureStationUri).add(quad);
 		}
-	}
-} else {
-	S.put(connection.departureStationUri, new ArrayList<StationQuadruple>());
-	S.get(connection.departureStationUri).add(quad);
-}
-		\end{minted}
+	\end{minted}
+	\caption[CSA: Bijwerken S]{Bijwerken van de stops gegevensstructuur.}
+	\label{code:2:csaS}
 \end{code}
-De lijst met volledige routes reconstrueren is relatief eenvoudig. Voor elk profiel horend bij de stoplocatie van waar de reiziger vertrekt, volgen we de vertrek- en aankomstconnecties. Om bij elke tussenstop de juiste connectie te vinden waarmee de reis verder zal gezet worden, vergelijken we de aankomsttijd uit het stopprofiel waaruit we vertrokken, met de aankomsttijden uit de stopprofielen van de tussenstop. Wanneer deze gelijk zijn, hebben we het volgende deel van de reis gevonden.
+De lijst met volledige routes reconstrueren (fragment \ref{code:2:csaJourneyExtraction}) is relatief eenvoudig. Voor elk profiel horend bij de stoplocatie van waar de reiziger vertrekt, volgen we de vertrek- en aankomstconnecties. Om bij elke tussenstop de juiste connectie te vinden waarmee de reis verder zal gezet worden, vergelijken we de aankomsttijd uit het stopprofiel waaruit we vertrokken, met de aankomsttijden uit de stopprofielen van de tussenstop (fragment \ref{code:2:csaJourneyExtractionReachable}). Wanneer deze gelijk zijn, hebben we het volgende deel van de reis gevonden.
 \begin{code}
-\begin{minted}[breaklines,tabsize=2]{java}
-// Results? Return data
-Route[] routes = new Route[S.get(mRoutesRequest.getOrigin().getSemanticId()).size()];
-
-int i = 0;
-for (StationQuadruple quad : S.get(mRoutesRequest.getOrigin().getSemanticId())
-) {
-	// it will iterate over all legs
-	StationQuadruple it = quad;
-	List<RouteLeg> legs = new ArrayList<>();
-	
-	while (!Objects.equals(it.arrivalConnection.arrivalStationUri, mRoutesRequest.getDestination().getSemanticId())) {
-		// use it.departureConnection and it.arrivalConnection to construct legs of this journey
-		legs.add(...);
-		it = getFirstReachableConnection(it);
-	}
-	
-	routes[i++] = new Route(legs);
-}
-\end{minted}
+	\begin{minted}[breaklines,tabsize=2]{java}
+		// Results? Return data
+		Route[] routes = new Route[S.get(mRoutesRequest.getOrigin().getSemanticId()).size()];
+		
+		int i = 0;
+		for (StationQuadruple quad : S.get(mRoutesRequest.getOrigin().getSemanticId())
+		) {
+			// it will iterate over all legs
+			StationQuadruple it = quad;
+			List<RouteLeg> legs = new ArrayList<>();
+			
+			while (!Objects.equals(it.arrivalConnection.arrivalStationUri, mRoutesRequest.getDestination().getSemanticId())) {
+				// use it.departureConnection and it.arrivalConnection to construct legs of this journey
+				legs.add(...);
+				it = getFirstReachableConnection(it);
+			}
+			
+			routes[i++] = new Route(legs);
+		}
+	\end{minted}
+	\caption[CSA: Journey extraction]{Journey Extraction door middel van post-processing}
+	\label{code:2:csaJourneyExtraction}
 \end{code}
 \begin{code}
 	\begin{minted}[breaklines,tabsize=2]{java}
-private StationQuadruple getFirstReachableConnection(StationQuadruple arrivalQuad) {
-	List<StationQuadruple> it_options = S.get(arrivalQuad.arrivalConnection.arrivalStationUri);
-	int i = it_options.size() - 1;
-		while (i >= 0 && it_options.get(i).arrivalTime.getMillis() != arrivalQuad.arrivalTime.getMillis() - 240 * 1000) {
-		i--;
-	}
-	return it_options.get(i);
-}
-		\end{minted}
+		private StationQuadruple getFirstReachableConnection(StationQuadruple arrivalQuad) {
+			List<StationQuadruple> it_options = S.get(arrivalQuad.arrivalConnection.arrivalStationUri);
+			int i = it_options.size() - 1;
+				while (i >= 0 && it_options.get(i).arrivalTime.getMillis() != arrivalQuad.arrivalTime.getMillis() - 240 * 1000) {
+				i--;
+			}
+			return it_options.get(i);
+		}
+	\end{minted}
+	\caption[CSA: Journey extraction bij tussenstops]{Vinden van volgende vertrek bij tussenstop}
+	\label{code:2:csaJourneyExtractionReachable}
 \end{code}
 
 \section{Vertrekken en aankomsten per station}

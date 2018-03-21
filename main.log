@@ -1,4 +1,4 @@
-This is LuaTeX, Version 1.07.0 (MiKTeX 2.9.6600 64-bit)  (format=lualatex 2018.3.8)  21 MAR 2018 15:26
+This is LuaTeX, Version 1.07.0 (MiKTeX 2.9.6600 64-bit)  (format=lualatex 2018.3.8)  21 MAR 2018 17:54
  system commands enabled.
 **main.tex
 (./main.tex
@@ -33,7 +33,7 @@ Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font
 '.
 Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'
 .
-luaotfload | main : initialization completed in 0.422 seconds
+luaotfload | main : initialization completed in 0.359 seconds
 Babel <3.18> and hyphenation patterns for 1 language(s) loaded.
 ("C:/Program Files/MiKTeX 2.9/tex/latex/base/book.cls"
 Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
@@ -1444,35 +1444,35 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/lmtt/bx/n on input line 104.
 
 Language dutch already loaded; id is 4
-<voorblad.pdf, id=78, 597.23125pt x 845.1575pt>
+<voorblad.pdf, id=62, 597.23125pt x 845.1575pt>
 File: voorblad.pdf Graphic file (type pdf)
 <use voorblad.pdf>
-Package luatex.def Info: voorblad.pdf  used on input line 111.
+Package luatex.def Info: voorblad.pdf  used on input line 106.
 (luatex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: voorblad.pdf Graphic file (type pdf)
 <use voorblad.pdf>
-Package luatex.def Info: voorblad.pdf  used on input line 111.
+Package luatex.def Info: voorblad.pdf  used on input line 106.
 (luatex.def)             Requested size: 597.22978pt x 845.15544pt.
-<voorblad.pdf, id=81, page=1, 597.23125pt x 845.1575pt>
+<voorblad.pdf, id=65, page=1, 597.23125pt x 845.1575pt>
 File: voorblad.pdf Graphic file (type pdf)
 <use voorblad.pdf, page 1>
-Package luatex.def Info: voorblad.pdf , page1 used on input line 111.
+Package luatex.def Info: voorblad.pdf , page1 used on input line 106.
 (luatex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: voorblad.pdf Graphic file (type pdf)
 <use voorblad.pdf, page 1>
-Package luatex.def Info: voorblad.pdf , page1 used on input line 111.
+Package luatex.def Info: voorblad.pdf , page1 used on input line 106.
 (luatex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: voorblad.pdf Graphic file (type pdf)
 <use voorblad.pdf, page 1>
-Package luatex.def Info: voorblad.pdf , page1 used on input line 111.
+Package luatex.def Info: voorblad.pdf , page1 used on input line 106.
 (luatex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: voorblad.pdf Graphic file (type pdf)
 <use voorblad.pdf, page 1>
-Package luatex.def Info: voorblad.pdf , page1 used on input line 111.
+Package luatex.def Info: voorblad.pdf , page1 used on input line 106.
 (luatex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: voorblad.pdf Graphic file (type pdf)
 <use voorblad.pdf, page 1>
-Package luatex.def Info: voorblad.pdf , page1 used on input line 111.
+Package luatex.def Info: voorblad.pdf , page1 used on input line 106.
 (luatex.def)             Requested size: 597.25711pt x 845.19412pt.
  [1
 
@@ -1485,15 +1485,15 @@ Package luatex.def Info: voorblad.pdf , page1 used on input line 111.
 
 ](load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-cache/generic/fonts/ot
 l/lmroman17-regular.luc)
-LaTeX Font Info:    Try loading font information for T1+pbk on input line 116.
+LaTeX Font Info:    Try loading font information for T1+pbk on input line 111.
 
 ("C:/Program Files/MiKTeX 2.9/tex/latex/psnfss/t1pbk.fd"
 File: t1pbk.fd 2001/06/04 font definitions for T1/pbk.
 )
 LaTeX Font Info:    Font shape `T1/pbk/b/n' in size <20.74> not available
-(Font)              Font shape `T1/pbk/db/n' tried instead on input line 116.
+(Font)              Font shape `T1/pbk/db/n' tried instead on input line 111.
 LaTeX Font Info:    Font shape `T1/pbk/b/n' in size <100> not available
-(Font)              Font shape `T1/pbk/db/n' tried instead on input line 116.
+(Font)              Font shape `T1/pbk/db/n' tried instead on input line 111.
  (./main.toc
 Language dutch already loaded; id is 4(load luc: C:/Users/Bert/AppData/Local/MiK
 TeX/2.9/luatex-cache/generic/fonts/otl/lmroman8-regular.luc)(load luc: C:/Users/
@@ -1505,32 +1505,31 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 5.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 5.
- [5
-
-])
+)
 \tf@toc=\write8
 
 \openout8 = main.toc
-(load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-cache/generic/fonts/otl
-/lmromanslant10-regular.luc) [6] (./main.lof
+ [5
+
+] (./main.lof
 Language dutch already loaded; id is 4)
 \tf@lof=\write9
 
 \openout9 = main.lof
- [7
+ [6
 
 ] (./main.lot
 Language dutch already loaded; id is 4)
 \tf@lot=\write10
 
 \openout10 = main.lot
- [8
+ [7
 
 ] (./main.lol)
 \tf@lol=\write11
 
 \openout11 = main.lol
- [9
+ [8
 
 ]
 \openout2 = chapters/Chapter1-Inleiding-Literatuurstudie.aux
@@ -1546,38 +1545,41 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 10.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 10.
- [10
+ [9
 
 
 ]
-<images/ldfAxis.png, id=171, 440.39531pt x 79.79813pt>
+<images/ldfAxis.png, id=148, 440.39531pt x 79.79813pt>
 File: images/ldfAxis.png Graphic file (type png)
 <use images/ldfAxis.png>
 Package luatex.def Info: images/ldfAxis.png  used on input line 18.
 (luatex.def)             Requested size: 341.43307pt x 61.86845pt.
 (load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-cache/generic/fonts/otl
 /lmroman12-regular.luc)(load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-
-cache/generic/fonts/otl/lmroman12-bold.luc)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [11<./images/ldfAxis.png>] [12] [13]) [14]
+cache/generic/fonts/otl/lmroman12-bold.luc)(load luc: C:/Users/Bert/AppData/Loca
+l/MiKTeX/2.9/luatex-cache/generic/fonts/otl/lmromanslant10-regular.luc) [10] [1
+1<./images/ldfAxis.png>] [12]) [13]
 \openout2 = chapters/Chapter2-Implementatie.aux
- (./chapters/Chapter2-Implementatie.
-tex
+
+(./chapters/Chapter2-Implementatie.tex
 Hoofdstuk 2.
-[15
+[14
 
 
 
 ]
+
+LaTeX Warning: Reference `code:linkedconnections-response' on page 15 undefined 
+on input line 18.
+
+
 \openout3 = main.pyg
- (./_minted-main/default-pyg-prefix.pygstyle)
-(./_minted-main/default.pygstyle)
-(./_minted-main/5C09D8F6CDA4B9CCAA6ECCC999ED702959903D0DCC0BD27D24705E832EFCA22
+(./_minted-main/default-pyg-prefix.pygstyle) (./_minted-main/default.pygstyle)
+(./_minted-main/EB0E8D87602C761B5EA46629D1128C0559903D0DCC0BD27D24705E832EFCA22
 7.pygtex(load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-cache/generic/f
 onts/otl/lmmono10-regular.luc)
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 3.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 4.
 (load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-cache/generic/fonts/otl
 /lmmonolt10-bold.luc)(load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-ca
 che/generic/fonts/otl/lmmono8-regular.luc))
@@ -1585,21 +1587,21 @@ Package hyperref Info: bookmark level for unknown code defaults to 0 on input li
 ne 78.
 
 
-LaTeX Warning: Float too large for page by 31.35158pt on input line 80.
+LaTeX Warning: Float too large for page by 63.99149pt on input line 80.
 
-[16] [17]
+[15] [16]
 Overfull \hbox (344.66786pt too wide) in paragraph at lines 90--90
 [][][]\TU/lmr/m/n/9 htt-ps://git-hub.com/Bertwa-re/linkedconnections-android-cl
 ient/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementat
 ion/linkedconnections/RouteResponseListener.java| 
  []
 
-[18]
+[17]
 \openout3 = main.pyg
 
-(./_minted-main/2779990D031F8ED9BE5F942C3EC9BF7496F4A172713D9CAFDFB180198F2E831
+(./_minted-main/C03B17415E0059325923720E2E8AEC5A96F4A172713D9CAFDFB180198F2E831
 C.pygtex(load luc: C:/Users/Bert/AppData/Local/MiKTeX/2.9/luatex-cache/generic/f
-onts/otl/lmmono10-italic.luc))
+onts/otl/lmmono10-italic.luc)) [18]
 \openout3 = main.pyg
 
 (./_minted-main/FD5387AE05F9C747DA662551D257464B96F4A172713D9CAFDFB180198F2E831
@@ -1611,7 +1613,7 @@ C.pygtex)
 \openout3 = main.pyg
 
 (./_minted-main/8008F537B8B54ACA384785F042E5C35F96F4A172713D9CAFDFB180198F2E831
-C.pygtex) [20] [21]
+C.pygtex) [20]
 \openout3 = main.pyg
 
 (./_minted-main/8E9A28B5E1DB5155A0561808739A675B96F4A172713D9CAFDFB180198F2E831
@@ -1622,28 +1624,28 @@ C.pygtex)
 C.pygtex)
 \openout3 = main.pyg
 
-(./_minted-main/F330C98E98BDE04608FDF43804820BE596F4A172713D9CAFDFB180198F2E831
+(./_minted-main/D9DED3E1ACDF41C169AB1BE130EC4F4B96F4A172713D9CAFDFB180198F2E831
 C.pygtex)
 
-LaTeX Warning: Float too large for page by 200.87099pt on input line 324.
+LaTeX Warning: Float too large for page by 47.67152pt on input line 326.
 
 
-\openout3 = main.pyg
-
-(./_minted-main/F7F957A80E991077093B66F608DD658196F4A172713D9CAFDFB180198F2E831
-C.pygtex)
-\openout3 = main.pyg
-
-(./_minted-main/6BAA9E142B6773B9F3491D206FF1FACC96F4A172713D9CAFDFB180198F2E831
-C.pygtex)
-\openout3 = main.pyg
-
-(./_minted-main/3E5B1F3687948C2A181174D45812253A96F4A172713D9CAFDFB180198F2E831
-C.pygtex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [22]
-[23] [24] [25] [26]) [27] [28]
+ [21]
+[22] [23]
+\openout3 = main.pyg
+
+(./_minted-main/F57B7694A498B567A071B1CA057E838C96F4A172713D9CAFDFB180198F2E831
+C.pygtex)
+\openout3 = main.pyg
+
+(./_minted-main/7DC136497049944A7CA61A509CCB61C096F4A172713D9CAFDFB180198F2E831
+C.pygtex)
+\openout3 = main.pyg
+
+(./_minted-main/43ADA72686F86BB2EA2F20D406D4B9A396F4A172713D9CAFDFB180198F2E831
+C.pygtex)) [24] [25] [26] [27]
 \openout2 = chapters/Bibliografie.aux
  (./chapters/Bibliografie.tex (./main.bbl
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
@@ -1664,160 +1666,70 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `eng'. Using the pattern for
 ** the default language instead.
-** WARNING: IEEEtran.bst: No hyphenation pattern has been
-** loaded for the language `English'. Using the pattern for
-** the default language instead.
-[29
-
-
-
-])) [30]
-\openout2 = chapters/Bijlagen.aux
- (./chapters/Bijlagen.tex [31
-
+[28
 
 
 
 ]
-<LinkedConnectionsTechSpecCleaned.pdf, id=373, 597.55246pt x 845.07718pt>
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf  used on input lin
-e 4.
-(luatex.def)             Requested size: 597.551pt x 845.07512pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf  used on input lin
-e 4.
-(luatex.def)             Requested size: 597.551pt x 845.07512pt.
-<LinkedConnectionsTechSpecCleaned.pdf, id=376, page=1, 597.55246pt x 845.07718pt
->
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 1>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page1 used on in
-put line 4.
-(luatex.def)             Requested size: 597.551pt x 845.07512pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 1>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page1 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
- [32]
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 1>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page1 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 1>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page1 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 1>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page1 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
- [33<./LinkedConnectionsTechSpecCleaned.pdf>]
-<LinkedConnectionsTechSpecCleaned.pdf, id=399, page=2, 597.55246pt x 845.07718pt
->
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 2>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page2 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 2>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page2 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 2>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page2 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
- [34<./LinkedConnectionsTechSpecCleaned.pdf>]
-<LinkedConnectionsTechSpecCleaned.pdf, id=410, page=3, 597.55246pt x 845.07718pt
->
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 3>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page3 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 3>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page3 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 3>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page3 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
- [35<./LinkedConnectionsTechSpecCleaned.pdf>]
-<LinkedConnectionsTechSpecCleaned.pdf, id=419, page=4, 597.55246pt x 845.07718pt
->
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 4>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page4 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 4>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page4 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
-File: LinkedConnectionsTechSpecCleaned.pdf Graphic file (type pdf)
-<use LinkedConnectionsTechSpecCleaned.pdf, page 4>
-Package luatex.def Info: LinkedConnectionsTechSpecCleaned.pdf , page4 used on in
-put line 4.
-(luatex.def)             Requested size: 597.57834pt x 845.1138pt.
- [36<./LinkedConnectionsTechSpecCleaned.pdf>]) [37]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 135.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 135.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `English'. Using the pattern for
+** the default language instead.
+)) [29]
+\openout2 = chapters/Bijlagen.aux
+ (./chapters/Bijlagen.tex [30
 
-(./main.aux
+
+
+
+])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 130.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 130.
+ (./main.aux
 Language dutch already loaded; id is 4 (./chapters/Dankwoord.aux)
 (./chapters/Chapter1-Inleiding-Literatuurstudie.aux)
 (./chapters/Chapter2-Implementatie.aux) (./chapters/Bibliografie.aux)
 (./chapters/Bijlagen.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 135.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 135.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 130.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 130.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 727A27201E1897542D1997632ACC4CCE;1278.
+(rerunfilecheck)             Checksum: ACC036E7D3E844D1D70DA23446815CC8;929.
+
+
+LaTeX Warning: There were undefined references.
+
 )
 
 Here is how much of LuaTeX's memory you used:
- 33146 strings out of 494445
+ 33070 strings out of 494445
  125171,953878 words of node,token memory allocated
- 1204 words of node memory still in use:
-   9 hlist, 2 vlist, 1 rule, 7 disc, 2 local_par, 23 glue, 2 penalty, 38 glyph, 
-26 attribute, 71 glue_spec, 26 attribute_list, 2 write, 6 pdf_action, 2 pdf_colo
+ 1238 words of node memory still in use:
+   9 hlist, 2 vlist, 1 rule, 7 disc, 2 local_par, 27 glue, 2 penalty, 38 glyph, 
+29 attribute, 71 glue_spec, 29 attribute_list, 2 write, 5 pdf_action, 2 pdf_colo
 rstack nodes
-   avail lists: 1:3,2:6191,3:444,4:1454,5:596,6:158,7:10952,8:361,9:1218,10:25,1
-1:496
- 35643 multiletter control sequences out of 65536+200000
+   avail lists: 1:3,2:4441,3:340,4:958,5:414,6:120,7:7417,8:275,9:953,10:31,11:5
+27
+ 35633 multiletter control sequences out of 65536+200000
  62 fonts using 9213703 bytes
- 55i,18n,79p,1668b,663s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,18n,79p,1678b,663s stack positions out of 5000i,500n,10000p,200000b,50000s
 <c:/program files/miktex 2.9/fonts/opentype/public/lm/lmmono10-italic.otf><c:/pr
 ogram files/miktex 2.9/fonts/opentype/public/lm/lmmonolt10-bold.otf><c:/program 
 files/miktex 2.9/fonts/opentype/public/lm/lmmono10-regular.otf><c:/program files
 /miktex 2.9/fonts/opentype/public/lm/lmroman10-italic.otf><c:/program files/mikt
 ex 2.9/fonts/opentype/public/lm/lmroman12-bold.otf><c:/program files/miktex 2.9/
-fonts/opentype/public/lm/lmroman6-regular.otf><c:/program files/miktex 2.9/fonts
-/opentype/public/lm/lmroman8-regular.otf>{C:/Program Files/MiKTeX 2.9/fonts/enc/
-dvips/base/8r.enc}<c:/program files/miktex 2.9/fonts/opentype/public/lm/lmroman9
--regular.otf><c:/program files/miktex 2.9/fonts/opentype/public/lm/lmromanslant9
--regular.otf><c:/program files/miktex 2.9/fonts/opentype/public/lm/lmromanslant1
-0-regular.otf><c:/program files/miktex 2.9/fonts/opentype/public/lm/lmroman10-re
+fonts/opentype/public/lm/lmromanslant10-regular.otf><c:/program files/miktex 2.9
+/fonts/opentype/public/lm/lmroman6-regular.otf><c:/program files/miktex 2.9/font
+s/opentype/public/lm/lmroman8-regular.otf>{C:/Program Files/MiKTeX 2.9/fonts/enc
+/dvips/base/8r.enc}<c:/program files/miktex 2.9/fonts/opentype/public/lm/lmroman
+9-regular.otf><c:/program files/miktex 2.9/fonts/opentype/public/lm/lmromanslant
+9-regular.otf><c:/program files/miktex 2.9/fonts/opentype/public/lm/lmroman10-re
 gular.otf><c:/program files/miktex 2.9/fonts/opentype/public/lm/lmroman17-regula
 r.otf><c:/program files/miktex 2.9/fonts/opentype/public/lm/lmroman10-bold.otf><
 C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program
  Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiK
 TeX 2.9/fonts/type1/urw/bookman/ubkd8a.pfb>
-Output written on main.pdf (37 pages, 1038655 bytes).
+Output written on main.pdf (30 pages, 217717 bytes).
 
-PDF statistics: 525 PDF objects out of 1000 (max. 8388607)
- 101 named destinations out of 1000 (max. 131072)
- 160 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 478 PDF objects out of 1000 (max. 8388607)
+ 103 named destinations out of 1000 (max. 131072)
+ 128 words of extra memory for PDF output out of 10000 (max. 100000000)
 

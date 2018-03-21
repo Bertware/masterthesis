@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+	\PYG{k+kd}{class} \PYG{n+nc}{TrainTriple} \PYG{o}{\PYGZob{}}
+		\PYG{c+cm}{/**}
+\PYG{c+cm}{		* The arrival time at the final destination}
+\PYG{c+cm}{		*/}
+		\PYG{n}{DateTime} \PYG{n}{arrivalTime}\PYG{o}{;}
+		
+		\PYG{c+cm}{/**}
+\PYG{c+cm}{		* The number of transfers until the destination when hopping on to this train}
+\PYG{c+cm}{		*/}
+		\PYG{k+kt}{int} \PYG{n}{transfers}\PYG{o}{;}
+		
+		\PYG{c+cm}{/**}
+\PYG{c+cm}{		* The arrival connection for the next transfer or arrival}
+\PYG{c+cm}{		*/}
+		\PYG{n}{LinkedConnection} \PYG{n}{arrivalConnection}\PYG{o}{;}
+	\PYG{o}{\PYGZcb{}}
+	
+\end{Verbatim}

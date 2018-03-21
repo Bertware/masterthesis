@@ -23,7 +23,7 @@
 
 \bibitem{programmableweb14}
 \BIBentryALTinterwordspacing
-M.~Boyd. (2014) How smart cities are using apis: Public transport apis.
+M.~Boyd. (2014) How smart cities are using {APIs}: Public transport {APIs}.
   [Online]. Available:
   \url{https://www.programmableweb.com/news/how-smart-cities-are-using-apis-public-transport-apis/2014/05/22}
 \BIBentrySTDinterwordspacing
@@ -62,7 +62,7 @@ R.~T. Fielding and R.~N. Taylor, ``Principled design of the modern web
 \bibitem{digimeter17}
 \BIBentryALTinterwordspacing
 B.~Vanhaelewyn and L.~D. Marez, ``Imec.digimeter 2017.'' [Online]. Available:
-  \url{www.imec.be/digimeter}
+  \url{https://www.imec.be/digimeter}
 \BIBentrySTDinterwordspacing
 
 \bibitem{ammelrooy17}
@@ -83,15 +83,9 @@ P.~Colpaert, ``\BIBforeignlanguage{eng}{Publishing transport data for maximum
 \BIBentryALTinterwordspacing
 J.~A. Rojas~Melendez, D.~Chaves, P.~Colpaert, R.~Verborgh, and E.~Mannens,
   ``\BIBforeignlanguage{eng}{Providing reliable access to real-time and
-  historic public transport data using linked v-connections},'' vol. 1931,
-  2017, pp. 1--4. [Online]. Available:
+  historic public transport data using linked connections},'' vol. 1931, 2017,
+  pp. 1--4. [Online]. Available:
   \url{https://biblio.ugent.be/publication/8540883/file/8540885.pdf}
-\BIBentrySTDinterwordspacing
-
-\bibitem{linkedconnections18}
-\BIBentryALTinterwordspacing
-P.~Colpaert. (2018) \BIBforeignlanguage{English}{Linked connections: What is
-  it?} [Online]. Available: \url{http://linkedconnections.org/#what}
 \BIBentrySTDinterwordspacing
 
 \bibitem{strasser13}
@@ -105,21 +99,30 @@ J.~Dibbelt, T.~Pajor, B.~Strasser, and D.~Wagner, ``Intriguingly simple and
 \BIBentrySTDinterwordspacing
 
 \bibitem{strasser14}
-B.~Strasser and D.~Wagner, ``Connection scan accelerated,'' in \emph{2014
+\BIBentryALTinterwordspacing
+B.~Strasser and D.~Wagner, ``{Connection Scan Accelerated},'' in \emph{2014
   Proceedings of the Sixteenth Workshop on Algorithm Engineering and
-  Experiments (ALENEX)}, 2014, pp. 125--137.
+  Experiments (ALENEX)}, 2014, pp. 125--137. [Online]. Available:
+  \url{https://epubs.siam.org/doi/pdf/10.1137/1.9781611973198.12}
+\BIBentrySTDinterwordspacing
 
 \bibitem{strasser17}
 \BIBentryALTinterwordspacing
-J.~Dibbelt, T.~Pajor, B.~Strasser, and D.~Wagner, ``Connection scan
-  algorithm,'' \emph{CoRR}, vol. abs/1703.05997, 2017. [Online]. Available:
+J.~Dibbelt, T.~Pajor, B.~Strasser, and D.~Wagner, ``{Connection Scan
+  Algorithm},'' \emph{CoRR}, vol. abs/1703.05997, 2017. [Online]. Available:
   \url{http://arxiv.org/abs/1703.05997}
+\BIBentrySTDinterwordspacing
+
+\bibitem{linkedconnections18}
+\BIBentryALTinterwordspacing
+P.~Colpaert. (2018) \BIBforeignlanguage{English}{Linked connections: What is
+  it?} [Online]. Available: \url{https://linkedconnections.org/#what}
 \BIBentrySTDinterwordspacing
 
 \bibitem{muller06}
 M.~M{\"u}ller-Hannemann and M.~Schnee, ``Paying less for train connections with
-  motis,'' in \emph{OASIcs-OpenAccess Series in Informatics}, vol.~2.\hskip 1em
-  plus 0.5em minus 0.4em\relax Schloss Dagstuhl-Leibniz-Zentrum f{\"u}r
+  {MOTIS},'' in \emph{OASIcs-OpenAccess Series in Informatics}, vol.~2.\hskip
+  1em plus 0.5em minus 0.4em\relax Schloss Dagstuhl-Leibniz-Zentrum f{\"u}r
   Informatik, 2006.
 
 \end{thebibliography}
