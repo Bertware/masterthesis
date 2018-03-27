@@ -4,11 +4,11 @@
 \end{savequote}
 
 \chapter{Implementatie}
-Om een zo eerlijk mogelijke vergelijking te bekomen, zullen we zowel bij de client-side API als de server-side API dezelfde algorithmes toepassen. Gezien de jonge leeftijd van het Linked Connections framework zijn er nog geen algoritmes beschikbaar om deze data te verwerken. We zullen de ontwikkeling van deze algoritmen bespreken, met speciale aandacht voor het routeplanning algoritme vanwege de hogere complexiteit en de uitgebreide mogelijkheden.
+Om een zo eerlijk mogelijke vergelijking te bekomen, zullen we zowel bij de client-side API als de server-side API dezelfde algoritmes toepassen. Gezien de jonge leeftijd van het Linked Connections framework zijn er nog geen algoritmes beschikbaar om deze data te verwerken. We zullen de ontwikkeling van deze algoritmen bespreken, met speciale aandacht voor het routeplanning algoritme vanwege de hogere complexiteit en de uitgebreide mogelijkheden.
 
 \section{Linked Connections formaat}
 
-In plaats van een dump van planningsdata of een volledige routeplanner te publiceren, publiceert Linked Connections paren van vertrek en aankomst voor elke treinrit, telkens van een station tot het volgende. Deze paren worden gesorteerd volgens vertrektijd. Hierna wordt deze lijst van paren gesplitst, om pagina's van gelijke grootte of gelijke tijdsduur te bekomen. Deze fragmenten kunnen gepubliceerd worden via HTTP als \foreign{JSON-LD}\footnote{https://json-ld.org/}, waarbij user-agents kunnen kiezen welke pagina's ze opvragen. Links in de gepubliceerde documenten zorgen ervoor dat user-agents steeds weten welke pagina ze als volgende moeten laden \citep{linkedconnections18}.
+In plaats van een dump van planningsdata of een volledige routeplanner te publiceren, publiceert Linked Connections zogenoemde connecties. Een connectie is het kleinste ondeelbaar stuk van een treinrit, en beschrijft het vertrek in een station en de aankomst in het volgence station op de route. Deze connecties worden gesorteerd volgens vertrektijd. Hierna wordt deze lijst gesplitst, om pagina's van gelijke grootte of gelijke tijdsduur te bekomen. Deze fragmenten kunnen gepubliceerd worden via HTTP als \foreign{JSON-LD}\footnote{https://json-ld.org/}, waarbij user-agents kunnen kiezen welke pagina's ze opvragen. Links in de gepubliceerde documenten zorgen ervoor dat user-agents steeds weten welke pagina ze als volgende moeten laden \citep{linkedconnections18}.
 
 Om bovenstaande methode in de praktijk om te zetten, wordt gebruik gemaakt van de open source LC-Server\footnote{https://github.com/julianrojas87/linked-connections-server/}. Om GTFS om te zetten naar Linked Connections, wordt er achterliggend gebruik gemaakt van de gtfs2lc tool\footnote{https://github.com/linkedconnections/gtfs2lc}.
 
@@ -87,9 +87,9 @@ Het Connection Scan Algoritme (CSA) werd voor het eerst beschreven door Ben Stra
 Naast de tijd van aankomst, zijn er nog een aantal andere criteria die vaak geoptimaliseerd worden. Het populairste tweede criterium is het aantal overstappen, gevolgd door de prijs \citep{strasser17}. Optimalisatie van de prijs is echter zeer complex vanwege de complexe tariefplannen bij openbaar vervoer\citep{muller06}. Dit valt buiten de context van deze masterproef.
 
 \subsection{Implementatie en aanpassingen}
-De werking en implementatie van CSA worden behandeld in~\citep{strasser17}. Dit algoritme kan zonder veel wijzigingen geïmplementeerd worden in zowel Java\footnote{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java} als PHP\footnote{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}.
+De werking en implementatie van CSA worden behandeld in~\citep{strasser17}. Dit algoritme kan zonder veel wijzigingen geïmplementeerd worden in zowel Java\footnote{\url{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java}} als PHP\footnote{\url{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}}.
 
-Wanneer dit algoritme geïmplementeerd wordt merken we echter duidelijke verschillen met de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel Zuid en Centraal tot Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Centraal naar Zuid rijdt.
+Wanneer dit algoritme geïmplementeerd wordt merken we echter duidelijke verschillen met de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel-Zuid en Brussel-Centraal tot Brussel-Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Brussel-Centraal naar Brussel-Zuid rijdt.
 Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal overstappen te beperken, en om op een betere manier aan \foreign{journey-extraction} te doen.
 
 De implementatie en evolutie van het CSA algoritme worden uitgelegd aan de hand van code fragmenten in Java. Er wordt verondersteld dat sectie 4.2 van \cite{strasser17} gekend is. De code is asynchroon, waarbij na het laden van de eerste Linked Connections pagina een callback functie opgeroepen wordt om deze pagina te verwerken. Afhankelijk van het resultaat van deze verwerking, wordt er een nieuwe pagina opgevraagd, of wordt het resultaat doorgegeven aan de oproepende code door middel van callbacks.
@@ -398,5 +398,39 @@ De lijst met volledige routes reconstrueren (fragment \ref{code:2:csaJourneyExtr
 \end{code}
 
 \section{Vertrekken en aankomsten per station}
+Om de zogenoemde \foreign{liveboards} te berekenen, gebruiken we een eenvoudig algorithme. We overlopen alle pagina's, en houden enkel de stops bij die betrekking hebben op het gezochte station. Hiervoor gebruiken we twee lijsten voor respectievelijk de vertrekkende en aankomende connecties. We blijven pagina's overlopen tot de stopvoorwaarde is bereikt. Deze verschilt afhankelijk van de locatie waar we het algoritme implementeren:
+\begin{itemize}
+	\item Op een webserver blijven we extra pagina's van de schijf laden tot het gewenst aantal resultaten is bereikt, of het gewenste tijdsinterval overlopen is.
+	\item Bij een lokale implementatie stoppen we zodra we de pagina hebben afgewerkt waarin de eerste stop beschreven wordt. We maken gebruik van incrementele resultaten, waarbij telkens zo snel mogelijk een klein resultaat wordt berekend. Hierdoor krijgt de gebruiker (in theorie) sneller resultaten te zien.
+\end{itemize}
 
-\section{Route van een trein}
+Wanneer de stopvoorwaarde is bereikt, splitsen we de lijsten in drie soorten stops:
+\begin{itemize}
+	\item Vertrekhalte:  dit zijn de stops van voertuigen die deze stopplaats als begin van hun traject hebben en dus geen informatie over een aankomst bevatten
+	\item Eindhalte: dit zijn de stops van voertuigen die deze stopplaats als laatste op hun traject hebben en dus niet meer vertrekken
+	\item Stops: dit zijn de stops van voertuigen die een tussenstop maken
+\end{itemize}
+
+Om te bepalen tot welke categorie een connectie behoort, dienen we voor elke aankomende connectie in het station te bepalen of er een vertrekkende connectie mee overeenkomt. De connecties die vertrekken vanuit het station, en waarmee geen aankomst overeenkomt, zijn dan de vertrekhaltes. Als we \emph{m} nemen voor het aantal aankomende, en \emph{n} voor het aantal vertrekkende voertuigen, zou dit algoritme een efficiëntie hebben van $O(mn)$. We kunnen hier echter gebruik maken van de chronologische volgorde van alle connecties: een vertrekkende connectie zal altijd na een eventuele aankomst volgen. We houden bij elk ontdekte aankomst dus bij hoeveel vertrekken er al ontdekt zijn. Vervolgens zullen we enkel de vertrekken na elke aankomst overlopen.
+
+Intuïtief is duidelijk dat deze aanpak efficiënter is. Dit kan ook bewezen worden: aankomsten en vertrekken zijn ongeveer gelijk gespreid. Bij een stijgende index i in de lijst met aankomende connecties, zal ook de index j stijgen vanaf waar de lijst met vertrekken doorzocht worden. In de praktijk zijn i en j ongeveer gelijk aan elkaar: het verschil is bij een normale spreiding van de aankomsten en vertrekken verwaarloosbaar. De benodigde tijd voor het bepalen van de types is nu 
+\[
+\Sigma^{i=m}_{i=0}(n-j) = m(n-i) = \frac{m*n}{2}=O(mn)
+\]
+
+% TODO: feiten over gemiddeld aantal stops per trein, gemiddeld aantal stops, vertrek-en eindhaltes per station. grafiek?
+
+Terwijl de asymptotische efficiëntie gelijk blijft, zien we wel dat de verborgen constante gehalveerd wordt. Terwijl deze verbetering geen merkbaar verschil in uitvoeringsduur oplevert bij enkele honderden connecties, kan dit wel voor betere prestaties zorgen op grote schaal, zoals wanneer data in een groot tijdsinterval verwerkt worden. 
+Nu zijn stations niet oneindig groot, en hebben treinen in de meeste gevallen meer dan 10 haltes. De meeste stops zullen dus geen begin of einde van de rit voorstellen, en een trein moet tijdig vertrekken om plaats te maken voor de volgende trein in het station. We kunnen dus veronderstellen dat het vertrek kort op de aankomst volgt: dit is in de meeste gevallen zo. Zodra we het bijhorend vertrek gevonden hebben, kunnen we stoppen met de lijst te doorzoeken. Nu moeten we slechts k connecties overlopen tot bijhorend vertrek gevonden is, met k element van N en k ongeveer gelijk aan het aantal perrons in het station.
+$m(n-i)$ wordt nu $m(k)$, wat asymptotisch gezien gelijk is aan $O(m)$.
+
+\section{Route van een voertuig}
+
+De route van een voertuig af te leiden uit Linked Connections data is relatief eenvoudig. Zowel de stops van een trein, als de connecties, zijn chronologisch geordend. We overlopen dus alle connecties, waarbij we telkens de laatst gebruikte connectie $p$ en de huidige connectie $c$ in variabelen bijhouden. 
+\begin{itemize}
+	\item Wanneer we de eerste connectie ontdekken die betrekking heeft op deze trein, is dit de vertrekhalte. We verwerken deze data en voegen dit toe aan de lijst met stops. We kopiëren $c$ naar $p$.
+	\item Wanneer $p$ een connectie bevat, en $c$ de hierop volgende connectie bevat, beschikken we over alle informatie om de tussenstop tussen $p$ en $c$ toe te voegen aan de lijst met stops.
+	\item Wanneer alle connecties overlopen zijn, was $c$ de laatste connectie van dit trein. Deze connectie duidt dus de eindhalte aan. We voegen deze toe aan de lijst met stops, en geven een antwoord terug aan de oproepende code.
+\end{itemize}
+
+Het bepalen van de route van een trein legt een eerste mogelijk pijnpunt bloot: hiervoor moeten alle connecties voor een volledige dag opgehaald worden. Er is immers geen enkele manier om te bepalen wanneer een trein vertrekt, of wat de eindhalte is. Hierdoor is er een relatief lange laadtijd om alle fragmenten op te halen, wat enigszins beperkt kan worden door deze asynchroon te laden. Het effect hiervan op de gebruikerservaring zullen we later onderzoeken. 
