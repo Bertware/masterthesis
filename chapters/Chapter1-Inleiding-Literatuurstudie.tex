@@ -5,10 +5,11 @@
 
 \chapter{Inleiding}
 \label{chap:intro}
-Openbaar vervoer is ook een essentiële dienst in elke stad\citep{programmableweb14}. Om vlot van dit openbaar vervoer gebruik te maken, zijn er tientallen websites en apps (user-agents) die gebruikers informatie verstrekken over vertrekken, aankomsten, ritten, routes en vertragingen. Voorbeelden hiervan in België zijn iRail.be, HyperRail en Railer, en CityMapper, TheTransitApp, Here WeGo en Google maps wereldwijd. Op dit moment zijn al deze user-agents echter toegewezen op het gebruik van data dumps of specifieke APIs om informatie met betrekking tot openbaar vervoer te publiceren, of een variant ervan. 
+Openbaar vervoer is een essentiële dienst in elke stad\citep{programmableweb14}. Om vlot van dit openbaar vervoer gebruik te maken, zijn er tientallen websites en apps (user-agents) die gebruikers informatie verstrekken over vertrekken, aankomsten, ritten, routes en vertragingen. Voorbeelden hiervan in België zijn iRail.be, HyperRail en Railer, en CityMapper, TheTransitApp, Here WeGo en Google maps wereldwijd. Op dit moment zijn al deze user-agents echter toegewezen op het gebruik van data dumps of specifieke APIs om informatie met betrekking tot openbaar vervoer te publiceren, of een variant ervan. 
 
 Enerzijds zijn er volledige data dumps, in de vorm van General Transit Feed Specification (GTFS)\footnote{https://developers.google.com/transit/gtfs/} en General Transit Feed Specification Realtime (GTFS-RT)\footnote{https://developers.google.com/transit/gtfs-realtime/}. GTFS bestanden bevatten informatie over alle voertuigen van een dienstverlener, over een relatief grote tijdspanne, typisch enkele maanden tot een jaar. GTFS-RT bestanden bevatten realtime informatie over ritten in de komende dag. Om al deze data compact op te slaan en te versturen, worden deze opgeslagen in de vorm van regels. Deze regels omschrijven wanneer welk voertuig welke rit maakt. Om op basis van deze regels vragen te beantwoorden, dient deze set abstracte regels omgevormd te worden naar een gepast model waarin ritten en stopplaatsen opgevraagd kunnen worden, en routes berekend kunnen worden. Hiervoor zijn, afhankelijk van welke informatie gewenst is, zware berekeningen vereist, die afhankelijk van de grootte van het GTFS bestand vijf à tien minuten kunnen duren op een moderne computer. Gebruikers kunnen geen 10 minuten wachten tot de data getransformeerd zijn, waardoor deze optie niet beschikbaar is op mobiele toestellen. Verder is dit formaat een mogelijke technologische restrictie op de vervoersdata: enkel gevorderde ontwikkelaars kunnen hiervan gebruik maken. Open data is slechts open als deze (onder andere) beschikbaar zijn in een begrijpbaar formaat~\citep{okfn18}. GTFS is dus vooral geschikt om vervoersdata te delen met grote bedrijven, en in mindere mate voor individuele ontwikkelaars die vervoers data eenvoudig willen visualiseren (digital signage, routeplanner applicaties, websites, ...).
 
+% TODO: source + license or redraw for consistent style
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\textwidth]{GTFS_class_diagram.png}
@@ -19,6 +20,7 @@ Enerzijds zijn er volledige data dumps, in de vorm van General Transit Feed Spec
  
 Anderzijds zijn er traditionele Remote Procedure Call (RPC) zoals iRail\footnote{https://irail.be}, die beschikken over verschillende endpoints die specifieke vragen kunnen beantwoorden. Achterliggend kunnen zware berekeningen uitvoeren of grote databases raadplegen zonder dat de gebruiker hier nadeel van ondervindt. Deze antwoorden zijn rechtstreeks bruikbaar voor de client toepassing, maar bieden enkel een antwoord op één specifieke vraag. Een andere vraag, al dan niet door dezelfde client, vereist een nieuwe request naar de server, en zal een ander antwoord tot gevolg hebben. Elk verzoek naar de server vraagt relatief veel processortijd langs de serverkant. Een continue internetverbinding is dus vereist, en server-side is een potentieel grote en dure infrastructuur nodig om aan alle vragen te voldoen. Een ander belangrijk nadeel bij deze techniek is dat deze data moeilijk te combineren zijn met andere datasets. Een route plannen die gebruik maakt van meerdere openbaar vervoer aanbieders is enkel mogelijk als iemand een API aanbiedt die achterliggend door meerdere datasets zoekt. Simpelweg twee API's combineren is niet mogelijk.
 
+% TODO: source + license or redraw for consistent style
 \begin{figure}
 	\centering
 	\includegraphics[width=0.80\textwidth]{RPC_API.jpg}
@@ -28,6 +30,7 @@ Anderzijds zijn er traditionele Remote Procedure Call (RPC) zoals iRail\footnote
 
 Deze twee methodes zijn elkaars tegengestelde. Ontwikkelaars moeten kiezen voor data die compact maar complex, en slechts indirect bruikbaar is, of voor een vraag-antwoord systeem wat voor elke nieuwe vraag een nieuw verzoek naar een server moet maken. Aan de IDLab onderzoeksgroep aan UGent is onderzoek gedaan naar Linked Connections (LC)\footnote{https://linkedconnections.org}, een nieuw formaat dat een nieuw evenwicht tracht te vinden. Alle vertrekken van alle voertuigen worden in één chronologische lijst verzameld, waarbij de lijst kan opgevraagd worden volgens vaste tijdsintervallen met een grootteorde van enkele minuten. Hierdoor hoeft de server enkel deze lijst in fragmenten aan te bieden, waarbij alle clients dezelfde informatie krijgen. De clients dienen zelf nog berekeningen te maken, maar deze zijn relatief eenvoudig vergeleken met de berekeningen die nodig zijn om een GTFS feed te verwerken. Data in het Linked Connections formaat kunnen eenvoudig toegankelijk gemaakt worden via een open-source serverapplicatie\footnote{https://github.com/julianrojas87/linked-connections-server/}.
 
+% TODO: betere kwaliteit, zie phd Pieter
 \begin{figure}
 	\centering
 		\includegraphics[width=0.80\textwidth]{ldfAxis.png}
@@ -59,7 +62,7 @@ Linked Connections werd ontwikkeld met de bedoeling een evenwicht te vinden tuss
 
 Terwijl de cost-efficiency van Linked Connections reeds is aangetoond, waarbij Linked Connections hetzelfde aantal verzoeken kan beantwoorden met slechts 25\% van de rekencapacteit\citep{colpaert17,Melendez17}, is er nog geen onderzoek gebeurt naar de user-perceived performance van een user-agent wanneer deze gebruik maakt van Linked Connections, vergeleken met wanneer deze zelfde user-agent gebruik maakt van een traditionele RPC API. 
 
-In deze studie richten we ons specifiek op routeplanning gebruik makend van mobiele toestellen. Deze toestellen hebben minder processorkracht en geheugen vergeleken met traditionele computers, maar ook bandbreedte en beschikbaarheid van internet zijn vaak beperkt. In het slechtste geval is er geen netwerkverbinding, waarbij enkel een cache beschikbaar is. Verder zullen we ons specifiek richten op het verschil tussen een RPC REST API gebaseerd op Linked Connections~\citep{colpaert17} en de originele Linked Connections webserver. Als user-agent zullen we een fork van de Android HyperRail\footnote{https://hyperrail.be} applicatie gebruiken, gemodificeerd om de genoemde API's te gebruiken. Door deze testopstelling zijn de oorspronkelijke data, de server hardware, de user-agent en de client hardware gelijk bij elke vergelijking. Enkel het formaat voor serverinteracties en transport van data zal verschillen.
+In deze studie richten we ons specifiek op routeplanning gebruik makend van mobiele toestellen. Deze toestellen hebben minder processorkracht en geheugen vergeleken met traditionele computers, maar ook bandbreedte en beschikbaarheid van internet zijn vaak beperkt. In het slechtste geval is er geen netwerkverbinding, waarbij enkel een cache beschikbaar is. Verder zullen we ons specifiek richten op het verschil tussen een RPC API gebaseerd op Linked Connections~\citep{colpaert17} en de originele Linked Connections webserver. Als user-agent zullen we een fork van de Android HyperRail\footnote{https://hyperrail.be} applicatie gebruiken, gemodificeerd om de genoemde API's te gebruiken. Door deze testopstelling zijn de oorspronkelijke data, de server hardware, de user-agent en de client hardware gelijk bij elke vergelijking. Enkel het formaat voor serverinteracties en transport van data zal verschillen.
 
 Om routes te berekenen zullen we gebruik maken van het Connection Scan Algorithm (CSA)~\citep{strasser13,strasser14,strasser17}. Dit algoritme vereist een op vertrektijd gesorteerde lijst van vertrekken. Dit is de exacte definitie van de LinkedConnections knowledge graph, waardoor dit algoritme zonder al te veel modificaties toegepast kan worden. Fragmenten kunnen hierbij geladen worden op het moment dat ze nodig zijn. We zullen dezelfde implementatie gebruiken zowel bij de client-side API als bij de server-side API om zo correct mogelijke resultaten te behalen. 
 
@@ -72,8 +75,9 @@ Deze masterproef zal gebruik maken van data afkomstig van de NMBS om routeplanni
 
 \section{Onderzoeksvraag}
  
+ \paragraph{Onderzoeksvraag} Verbetert de user experience en user perceived perforance van een applicatie voor openbaar vervoer wanneer gebruik gemaakt wordt van Linked Connections in plaats van traditionele RPC API's?
+ 
  \paragraph{Hypothese 1} De gebruiker ervaart de mogelijkheid voor offline zoekopdrachten als een meerwaarde.
  
  \paragraph{Hypothese 2} De gebruiker ervaart de mogelijkheid om voorkeuren voor routes in te stellen (overstaptijd, toegankelijkheid, ...) als een meerwaarde.
  
- \paragraph{Onderzoeksvraag} Verbetert de user experience en user perceived perforance van een applicatie voor openbaar vervoer wanneer gebruik gemaakt wordt van Linked Connections in plaats van traditionele RPC API's?

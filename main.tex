@@ -41,6 +41,8 @@
 \usepackage{minted}                                    % for modern code highlighting
 \newenvironment{code}{\captionsetup{type=listing}}{}   % To get multiline code fragments working: https://tex.stackexchange.com/a/53540/72273
 
+\AtBeginEnvironment{minted}{\fontsize{10}{10}\selectfont}
+
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
 \usepackage{url}

@@ -18,16 +18,16 @@ Om bovenstaande methode in de praktijk om te zetten, wordt gebruik gemaakt van d
 Deze data zijn publiek toegankelijk via https://graph.irail.be/.
 
 \subsection{Vraag- en antwoordformaat}
-Om een pagina met data op te halen, wordt een verzoek gemaakt naar de API, waarbij de vervoersmaatschappij en het gewenste tijdstip in ISO8601 formaat in de URL opgenomen worden.  Codefragment \ref{code:linkedconnections-response} toont een ingekort resultaat voor de vertrekken bij de NMBS op 20 maart 2018, 12:30. De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
+Om een pagina met data op te halen, wordt een verzoek gemaakt naar de API, waarbij de vervoersmaatschappij en het gewenste tijdstip in ISO8601 formaat in de URL opgenomen worden.  Codefragmenten \ref{code:2:linkedconnections-response-context} en \ref{code:2:linkedconnections-response-graph} tonen een ingekort resultaat voor de vertrekken bij de NMBS op 20 maart 2018, 12:30. De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
 
 Verzoek: \inlinecode{https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:30:00.000Z}
 
-Een voorbeeld van een LC pagina zien we in fragment \ref{code:2:linkedconnections-response}, met volgende data:
+Een voorbeeld van een LC pagina zien we in fragmenten \ref{code:2:linkedconnections-response-context} en \ref{code:2:linkedconnections-response-graph}, met volgende data:
 \begin{enumerate}
-	\item \foreign{@context}: Deze lijst definieert de gebruikte namespaces en velden
+	\item \foreign{@context}: Deze lijst, zichtbaar in fragment \ref{code:2:linkedconnections-response-context}, definieert de gebruikte namespaces en velden
 	\item \foreign{hydra:next} en  \foreign{hydra:previous}: Links naar de pagina met respectievelijk de volgende en de voorgaande data
 	\item \foreign{hydra:search}: Informatie over de huidige pagina
-	\item \foreign{@graph}: Deze lijst bevat de eigenlijke data. Elk vertrek bevat de volgende informatie:
+	\item \foreign{@graph}: Deze lijst, zichtbaar in fragment\ref{code:2:linkedconnections-response-graph},  bevat de eigenlijke data. Elk vertrek bevat de volgende informatie:
 	\begin{enumerate}
 			\item \foreign{departureStop}: De URI welke het station van vertrek uniek identificeert.
 			\item \foreign{arrivalStop}: De URI welke het station van aankomst uniek identificeert.	\item departureTime, arrivalTime: De geplande tijden, respectievelijk bij vertrek en aankomst.
@@ -39,10 +39,8 @@ Een voorbeeld van een LC pagina zien we in fragment \ref{code:2:linkedconnection
 	\end{enumerate}
 \end{enumerate}
 
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{json}
-		
-		{
 			"@context": {
 			 "xsd": "http://www.w3.org/2001/XMLSchema#",
 			"lc": "http://semweb.mmlab.be/ns/linkedconnections#",
@@ -57,7 +55,13 @@ Een voorbeeld van een LC pagina zien we in fragment \ref{code:2:linkedconnection
 			"hydra:previous": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:20:00.000Z",
 			"hydra:search": {
 				"..."
-			},
+			}
+		\end{minted}
+	\caption{Voorbeeld Linked Connections Formaat: context}
+	\label{code:2:linkedconnections-response-context}
+\end{code}
+\begin{code}[h]
+	\begin{minted}[breaklines,tabsize=2]{json}
 			"@graph": [
 				{
 				"@id": "http://irail.be/connections/8822228/20180320/S11961",
@@ -78,14 +82,14 @@ Een voorbeeld van een LC pagina zien we in fragment \ref{code:2:linkedconnection
 			]
 		}
 	\end{minted}
-\caption{Voorbeeld Linked Connections Formaat}
-\label{code:2:linkedconnections-response}
+\caption{Voorbeeld Linked Connections Formaat: graph}
+\label{code:2:linkedconnections-response-graph}
 \end{code}
 \section{Algoritmes}
 \label{sec:algoritmes}
 \subsection{Connection Scan Algoritme}
 \label{sec:csa}
-Routeplanning wordt vaak opgelost met behulp van (een variant op) het algoritme van Dijkstra ~\citep{strasser13,hanneman07,}. Toepassingen die gebruik maken van Dijkstra vereisen echter een graaf en een \foreign{priority queue}. Naast de impact op prestaties die deze eisen vormen, beperkt een graaf ook de flexibiliteit. De \foreign{open world assumption} stelt dat er steeds andere stopplaatsen wiens bestaan we (nog) niet kennen. Het opstellen van een graaf zou vereisen dat we alle gegevens eerst volledig moeten downloaden, terwijl Linked Connections net goed geschikt is voor streaming. 
+Routeplanning wordt vaak opgelost met behulp van (een variant op) het algoritme van Dijkstra ~\citep{strasser13,hannemann07,hannemann08}. Toepassingen die gebruik maken van Dijkstra vereisen echter een graaf en een \foreign{priority queue}. Naast de impact op prestaties die deze eisen vormen, beperkt een graaf ook de flexibiliteit. De \foreign{open world assumption} stelt dat er steeds andere stopplaatsen wiens bestaan we (nog) niet kennen. Het opstellen van een graaf zou vereisen dat we alle gegevens eerst volledig moeten downloaden, terwijl Linked Connections net goed geschikt is voor streaming. 
 
 Gezien het Belgische spoortnetwerk relatief klein is in vergelijking met andere landen, is CSA ruim snel genoeg. In de praktijk blijkt de standaard implementatie van CSA snel genoeg voor realtime opzoekingen, ook voor grote spoornetwerken zoals het Duitse net\citep{strasser14}. Wanneer Linked Connections op grote schaal toegepast wordt, kan ook de performantie van CSA nog verder verbeterd worden door het implementeren van Connection Scan Accelerated\citep{strasser14,strasser17}. Een andere optie is het toepassen van heuristieken. Deze verbeteren wel de responstijd, maar zorgen er in sommige gevallen voor dat een optimale route niet gevonden wordt~\citep{hannemann07}. 
 
@@ -102,7 +106,7 @@ De implementatie en evolutie van het CSA algoritme worden uitgelegd aan de hand 
 
 Allereerst dienen we twee wijzigingen door te voeren aan de gegevensstructuren. De arrays S en T, waarin respectievelijk zogenoemde stopprofielen en aankomsttijden bijgehouden werden, zijn vervangen door een Map, waardoor we onbeperkt nieuwe stations en trips kunnen toevoegen, en deze kunnen opvragen op basis van hun URI. Dit maakt het algoritme geschikt om te werken rekening houdend met de open world assumption. In de datastructuur voor een voertuig (fragment \ref{code:2:trips}) houden we niet enkel bij wanneer we zouden aankomen, maar ook met hoeveel overstappen (beginnend na het opstappen op deze trein) we zouden aankomen, en waar we moeten afstappen van deze trein. Dit laatste is essentieel om niet enkel de aankomsttijd, maar ook de exacte route met alle overstappen te kunnen weergeven. 
 
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 	class TrainTriple {
 		/**
@@ -128,7 +132,7 @@ Allereerst dienen we twee wijzigingen door te voeren aan de gegevensstructuren. 
 
 Ook de paren van vertrek en aankomsttijd per station, zogenoemde profielen, worden vervangen door een meer uitgebreide gegevensstructuur, zichtbaar in fragment \ref{code:2:stations}. Naast de vertrek en aankomsttijd houden we nu ook de connectie bij waarmee we vertrekken in dit station op dit tijdstip, en de connectie waarmee we aankomen in het volgend station waar we moeten over- of afstappen. Ook het aantal overstappen, beginnend met tellen na het opstappen in dit station, wordt bijgehouden.
 
-\begin{code}
+\begin{code}[h]
 \begin{minted}[breaklines,tabsize=2]{java}
   class StationQuintuple {
 	/**
@@ -163,7 +167,7 @@ Ook de paren van vertrek en aankomsttijd per station, zogenoemde profielen, word
 
 Wanneer we de ingeladen connecties willen verwerken, filteren we alle connecties uit de pagina die ofwel te vroeg, ofwel te laat vallen. Zoals te zien in fragment \ref{code:2:csaloop} stellen we een \foreign{flag} in wanneer we voorbij de vroegste vertrekdatum zijn. In dit geval zullen we na het overlopen van deze lijst geen nieuwe lijsten meer ophalen. Door deze methode toe te passen kunnen we nieuwe pagina's inladen wanneer deze nodig zijn, zonder te veel op voorhand in te moeten laden.
 
-\begin{code}
+\begin{code}[h]
 \begin{minted}[breaklines,tabsize=2]{java}
 	if (data.connections.length == 0) {
 		mLinkedConnectionsProvider.getLinkedConnectionByUrl(data.previous, this, this, null);
@@ -190,7 +194,7 @@ Wanneer we de ingeladen connecties willen verwerken, filteren we alle connecties
 \end{code}
 
 Het bepalen van de aankomsttijd bij wandelen, T1, en de aankomsttijd bij het gezeten blijven in de trein, T2, loopt vrijwel gelijk aan de implementatie uit \cite{strasser17}. Wandelen van een station naar het eindstation wordt niet ondersteund in onze implementatie. Dit implementeren is relatief eenvoudig door het gebruiken van inter-stop foothpaths~\citep{strasser17,hannemann08}, maar deze data is op dit moment niet beschikbaar, en het verzamelen, opschonen en valideren van deze data valt buiten de context van deze masterproef. In fragment~\ref{code:2:csaT1T2} zien we hoe het aantal overstappen wordt bepaald. In het geval dat er geen aankomst mogelijk is (binnen de beperkte tijd) stellen we zowel de aankomsttijd als het aantal overstappen in op een onrealistisch hoog getal. Dit vereenvoudigt de code latere aanzienlijk, aangezien er geen rekening gehouden hoeft te worden met het mogelijk leeg zijn van variabelen.
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 	 	if (Objects.equals(connection.arrivalStationUri, mRoutesRequest.getDestination().getSemanticId())) {
 			T1_walkingArrivalTime = connection.arrivalTime;
@@ -219,7 +223,7 @@ Wanneer we een overstap vinden die aan deze voorwaarden voldoet, verhogen we het
 
 In plaats van de door~\cite{strasser17} voorgestelde verhoging van de aankomsttijd met één, om zo routes met een gelijke aankomsttijd maar minder overstappen voorkeur te geven, verhogen we hier de aankomsttijd met een vooraf gedefinieerd aantal seconden. Dit aantal geeft aan hoeveel seconden we langer op een trein wensen te zitten, in plaats van over te stappen. Door dit in te stellen op 240, wordt aangegeven dat een route die er tot 4 minuten langer over doet, met een overstap minder, toch de voorkeur krijgt over de snellere route met meer overstappen. Dit is een eerste veld dat door gebruikers ingesteld kan worden om de routes te personaliseren.
 
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 		// Determine T3, the time of arrival when taking the best possible transfer in this station
 		if (S.containsKey(connection.arrivalStationUri)) {
@@ -255,7 +259,7 @@ In plaats van de door~\cite{strasser17} voorgestelde verhoging van de aankomstti
 		\label{code:2:csaT3}
 \end{code}
 Bij het bepalen van de vroegste aankomsttijd (fragment \ref{code:2:csaT3}), wordt nu ook het aantal overstappen dat bij deze aankomsttijd hoort bepaald, en de connectie waar van de trein afgestapt wordt. We geven bij gelijke aankomsttijden de voorkeur aan overstappen: aangezien de vertrekkende voertuigen volgens dalende vertrektijd overlopen worden, geven we dus de voorkeur aan zo vroeg mogelijk overstappen. Dit geeft extra marge binnen de trip.
-\begin{code}
+\begin{code}[h]
 \begin{minted}[breaklines,tabsize=2]{java}
 DateTime Tmin;
 LinkedConnection exitTrainConnection;
@@ -289,7 +293,7 @@ if (Tmin.isEqual(infinite)) {
 		\label{code:2:csaMin}
 \end{code}
 Door de extra toevoegingen voor journey extraction en het optimaliseren van de routes, is het bijwerken van de gegevenstructuren aanzienlijk ingewikkelder vergeleken met de originele implementatie. Voor voertuigen houden we niet langer enkel de aankomsttijd, maar ook de afstap halte bij. Hierbij verkiezen we de halte waarlangs we zo snel mogelijk aankomen, maar bij gelijke aankomsttijd wensen we een zo lang mogelijke periode voor de overstap. Wanneer de aankomsttijd gelijk is, onderzoeken we of de nieuwe afstap halte (de connectie die op dit moment onderzocht wordt) meer tijd voor een overstap geeft. Indien dit het geval is, werken we de afstap halte bij. Het bijwerken van een bestaande trip is zichtbaar in fragment \ref{code:2:csaT}.
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 	
 		if (Tmin.isEqual(T.get(connection.trip).arrivalTime) && 
@@ -334,7 +338,7 @@ Door de extra toevoegingen voor journey extraction en het optimaliseren van de r
 
 Het bijwerken van de stopprofielen, zichtbaar in fragment \ref{code:2:csaS}, is lichtjes aangepast om de efficiëntie te verhogen. De vroegste vertrekken worden nu achteraan toegevoegd. Door deze aanpassing, en het gegeven dat de vertrektijd van de huidige connectie gelijk of kleiner dan de vertrektijd van alle vorige connecties is, hoeven we nu enkel het laatste profiel in de lijst te evalueren. Als de vertrektijd kleiner of gelijk is, moet de aankomsttijd kleiner zijn. we controleren dus enkel of de aankomsttijd kleiner is, en zo ja, of de vertrektijd kleiner of gelijk is. Afhankelijk van deze laatste controle voegen we een nieuw item toe aan de lijst, of vervangen we het laatste. Aangezien we telkens enkel toevoegen wanneer de aankomsttijd vroeger ligt, zal deze lijst altijd gesorteerd zijn volgens dalende aankomsttijd. Hiermee is bewezen dat deze optimalisatie correct is, en een beter alternatief voor het overlopen van de volledige lijst.
 
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 		StationQuintuple quint = new StationQuintuple();
 		quint.departureTime = connection.departureTime;
@@ -365,7 +369,7 @@ Het bijwerken van de stopprofielen, zichtbaar in fragment \ref{code:2:csaS}, is 
 	\label{code:2:csaS}
 \end{code}
 De lijst met volledige routes reconstrueren (fragment \ref{code:2:csaJourneyExtraction}) is relatief eenvoudig. Voor elk profiel horend bij de stoplocatie van waar de reiziger vertrekt, volgen we de vertrek- en aankomstconnecties. Om bij elke tussenstop de juiste connectie te vinden waarmee de reis verder zal gezet worden, vergelijken we de aankomsttijd uit het stopprofiel waaruit we vertrokken, met de aankomsttijden uit de stopprofielen van de tussenstop (fragment \ref{code:2:csaJourneyExtractionReachable}). Wanneer deze gelijk zijn, hebben we het volgende deel van de reis gevonden.
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 		// Results? Return data
 		Route[] routes = new Route[S.get(mRoutesRequest.getOrigin().getSemanticId()).size()];
@@ -389,7 +393,7 @@ De lijst met volledige routes reconstrueren (fragment \ref{code:2:csaJourneyExtr
 	\caption[CSA: Journey extraction]{Journey Extraction door middel van post-processing}
 	\label{code:2:csaJourneyExtraction}
 \end{code}
-\begin{code}
+\begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 		private StationQuintuple getFirstReachableConnection(StationQuintuple arrivalquint) {
 			List<StationQuintuple> it_options = S.get(arrivalquint.arrivalConnection.arrivalStationUri);
@@ -459,54 +463,47 @@ Gezien de huidige storingen op het vervoersnet (nog) niet beschikbaar zijn in Li
 
 Het laden van voorgaande of volgende resultaten is een belangrijke methode. De applicatie zal alle resultaten voorstellen in een lijst die verlengt wordt zodra de gebruiker het einde bereikt, zogenaamd \foreign{infinite scrolling}. Deze functie maakt ook de implementatie van incrementele resultaten op een eenvoudige wijze mogelijk. Hiervoor zal de implementatie die de algoritmes lokaal toepast telkens stoppen bij de pagina waarin zich het eerste resultaat bevindt. Deze methode brengt zowel voor- als nadelen: de gebruiker ziet sneller resultaat, maar gelijktijdig laden van meerdere pagina's tegelijk is niet mogelijk, aangezien telkens de eerste resultaten worden weergegeven. Alle volgende resultaten worden geladen door de functie die een bestaand resultaat uitbreidt, waardoor de pagina's chronologisch één voor één geladen worden. Een mogelijke oplossing bestaat eruit om telkens een aantal pagina's te \foreign{prefetchen}, zodat deze reeds gecached zijn voor de verzoeken die er kort op volgen.
 
-De tijd die nodig is om data over een bepaald bereik te downloaden is lineair met de grootte van dit bereik. Dit is duidelijk zichtbaar in grafiek \ref{fig:asyncdataretrieval}. De laadtijd is lineair, waardoor de data sneller verzameld is als deze in één functieaanroep gedownload wordt, dan wanneer hier vertraging tussen zit.
+We verwachten dat de tijd die nodig is om data over een bepaald bereik te downloaden lineair is met de grootte van dit bereik. Dit wordt bevestigd wanneer we dit meten en plotten in grafiek \ref{fig:asyncdataretrieval}. De laadtijd is lineair, waardoor de data sneller verzameld is als deze in één functieaanroep gedownload wordt, dan wanneer hier vertraging tussen zit.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1.00\textwidth]{asyncdataretrieval.PNG}
-	\caption[Laadtijd asynchroon laden Linked Connections]{Tijd die nodig is om data over een bepaald bereik te laden door middel van Linked Connections bij asynchrone verzoeken. Wifi 802.11g, Google Nexus 5 (gesimuleerd). Gemiddelde van 24 verzoeken. De laadtijd is lineair, en ongeveer 40ms per seconde aan data.}
+	\caption[Laadtijd asynchroon laden Linked Connections]{Tijd die nodig is om Linked Connection pagina's over een bepaald bereik te laden. Wifi 802.11g, Google Nexus 5 (gesimuleerd), 4 gelijktijdige verbindingen. Gemiddelde van 24 verzoeken. De laadtijd is lineair, en ongeveer 40ms per seconde aan data.}
 	\label{fig:asyncdataretrieval}
 \end{figure}
 
-De implementatie die waarbij algoritmes op de server toepast worden, zal steeds een bepaald aantal resultaten proberen laden, om zo de overhead van meerdere requests te proberen beperken. Hierbij moet er getracht worden om een evenwicht te vinden tussen een lange wachttijd, en het te vaak moeten opvragen van volgende resultaten, wat ook telkens een overhead met zich meebrengt. De tijd die nodig is om een aantal routes te berekenen, is gevisiualiseerd in grafiek \ref{fig:responsetimeperresultsroute}. We zien dat deze tijd ongeveer lineair toeneemt, met een sterke knik op sommige plaatsen. Deze knik kunnen we verklaren aan het overlopen van pagina's met weinig (relevante) connecties, zoals 's nachts wanneer geen treinen rijden, en daluren. Voor de langste en ook meest complexe route treed deze knik op vanaf 9 resultaten. Te veel resultaten laden kan zeer kostelijk zijn wanneer hierbij door daluren gezocht moet worden, en dus zullen we steeds slechts een beperkt aantal resultaten terugsturen. We verkiezen hier de overhead van enkele extra requests boven de kostprijs van het onnodig veel resultaten laden.
+\subsection{Bepalen van de parameters voor server-side implementatie}
 
-\begin{figure}
+De implementatie die waarbij algoritmes op de server toepast worden, zal steeds een bepaald aantal resultaten proberen laden, om zo de overhead van meerdere requests te proberen beperken. Hierbij moet er getracht worden om een evenwicht te vinden tussen een lange wachttijd, en het te vaak moeten opvragen van volgende resultaten, wat ook telkens een overhead met zich meebrengt.
+
+Terwijl we in grafiek \ref{fig:asyncdataretrieval} duidelijk kunnen zien dat de tijd nodig om data in een bepaald interval te laden lineair is met de grootte van dat interval, is de tijd nodig om routes te berekenen of een aantal stops te bepalen niet lineair, ondanks dat deze achterliggend uit Linked Connections afgeleid worden.
+
+ De tijd die nodig is om een aantal routes te berekenen, is gevisualiseerd in grafiek \ref{fig:responsetimeperresultsroute}. We zien dat deze tijd weliswaar ongeveer lineair toeneemt, maar sterke knikken vertoont op sommige plaatsen. Deze knikken kunnen we verklaren aan het overlopen van pagina's met weinig (relevante) connecties, zoals 's nachts wanneer geen treinen rijden, en daluren. Dit blijkt een groot nadeel te zijn van het ontwerp van Linked Connections: pagina's met weinig stops verspillen relatief veel tijd terwijl ze amper bijdragen aan het eindresultaat. 
+ Voor de langste en ook meest complexe route treed deze knik op vanaf 9 resultaten. Te veel resultaten laden kan zeer kostelijk zijn wanneer hierbij door daluren gezocht moet worden, en dus zullen we steeds slechts een beperkt aantal resultaten terugsturen. We verkiezen hier de overhead van enkele extra requests boven de kostprijs van het onnodig veel resultaten laden.
+
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1.00\textwidth]{ResponsetimePerResultsRoute.PNG}
 	\caption[Laadtijd routes in functie van aantal resultaten]{De tijd die nodig is om routes te laden, met aankomst om 18u, in functie van het gewenste aantal resultaten. We zien een knik wanneer Linked Connections voor de nacht opgehaald worden, terwijl deze relatief weinig data bevatten.}
 	\label{fig:responsetimeperresultsroute}
 \end{figure}
 
-Liveboards doorzoeken we op basis van een interval, gezien gebruikers steeds informatie willen over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet weten de hoeveelste trein ze zoeken. Ook voor Liveboards, die de vertrekken en aankomsten per station weergeven, zetten we het aantal resultaten uit in functie van het doorzocht interval (grafiek \ref{fig:stopsperintervalliveboards}), en de laadtijd in milliseconden in functie van het doorzochte interval (grafiek \ref{fig:responsetimeperintervalliveboards}). In deze grafieken zien we dat initiëel de responstijd sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen we opnieuw wijten aan daluren, in dit geval zien we een vlak segment tussen 47400 en 58200 seconden. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. Het gemiddeld aantal stops per station in functie van het doorzochte interval is zoals verwacht lineair. Wanneer we echter in detail gaan kijken naar de exacte waarden, zoals in grafiek~\ref{fig:stopsperintervaldetail}, zien we dat er momenten zijn waar het aantal resultaten snel stijgt, zoals piekuren, en momenten waarop er amper een stijging waarneembaar is, zoals nachten. Deze fluctuaties zullen een effect hebben op beide implementaties. Mogelijk zou dit ervoor kunnen zorgen dat de gebruikerservaring voor zoekopdrachten in de spits beter is dan voor zoekopdrachten 's nachts, ons verder onderzoek zal dit moeten uitwijzen.
+Liveboards bouwen we op voor een bepaald interval, gezien gebruikers steeds informatie willen over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet weten de hoeveelste trein ze zoeken. Ook voor liveboards onderzoeken we nu hoe lang het duurt om een liveboard op te bouwen voor een gegeven tijdsinterval (grafiek~\ref{fig:responsetimeperintervalliveboards}). In deze grafieken zien we dat initiëel de responstijd sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen we opnieuw wijten aan daluren, in dit geval zien we een vlak segment tussen 47400 en 58200 seconden. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. Wanneer we in detail gaan kijken naar het aantal stops per interval van 30 minuten, zichtbaar in grafiek~\ref{fig:stopsperintervaldetail}, zien we duidelijk dat er een aantal uitschieters zijn rond de piekuren en 's middags, en momenten waarop er aanzienlijk minder treinen vertrekken, zoals in daluren en 's nachts. Deze fluctuaties zullen een effect hebben op zowel de server-side als client-side implementaties. Mogelijk zou dit ervoor kunnen zorgen dat de gebruikerservaring voor zoekopdrachten in de spits beter is dan voor zoekopdrachten 's nachts, ons verder onderzoek zal dit moeten uitwijzen.
 
-Hoewel grafiek  \ref{fig:responsetimeperintervalliveboards} weinig interessant kan lijken, wordt deze interessant wanneer hij gecombineerd wordt met grafiek \ref{fig:stopsperintervalliveboards}: hiermee bekomen we grafiek \ref{fig:responsetimeperresultsliveboards}, waarin we de laadtijd in functie van het aantal resultaten zien. We kunnen zo'n 20 resultaten berekenen in 300 milliseconden, wat zeer goed lijkt. Na een 40-tal resultaten vlakt de curve af, gelijkaardig aan de afvlakking in grafiek \ref{fig:responsetimeperintervalliveboards}. Hierdoor blijft de responstijd ook voor een groot aantal resultaten beperkt, hoewel een dergelijke hoge responstijd een negatieve impact op de gebruikerservaring zou kunnen veroorzaken. Tevens kunnen in de meeste gevallen niet meer dan 50 resultaten weergegeven worden op een scherm wegens plaatsgebrek: we kunnen het laden van verdere resultaten dus beter overlaten aan een implementatie van incremental results.
+Om te besluiten welk interval de server-side implementatie zal overlopen, plotten we de responstijd in functie van het overlopen interval. Dit zien we in grafiek~\ref{fig:responsetimeperintervalliveboards}. Na een sterke stijging in het eerste anderhalf uur, wordt de curve minder stijl. Hierdoor blijft de stijging van de responstijd ook voor een groot interval beperkt, hoewel deze hoog blijft, en een dergelijke hoge responstijd een negatieve impact op de gebruikerservaring zou kunnen veroorzaken. Tevens kunnen in de meeste gevallen niet meer dan 30 resultaten worden weergegeven. Uit grafiek~\ref{fig:stopsperintervaldetail} blijkt dat een zoekopdracht welke een uur doorloopt in de meeste gevallen ongeveer een uur aan data oplevert. Dit zou genoeg moeten zijn om de meeste toepassingen in een minimaal aantal requests van data te voorzien, en kan volgens grafiek~\ref{fig:responsetimeperintervalliveboards} in ongeveer 400 milliseconden per request geladen worden.
 
 Op basis van deze cijfers zullen we de lc2irail applicatie instellen om telkens 8 routes, en 60 minuten van vertrekken en aankomsten weer te geven.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\textwidth]{ResponsetimePerIntervalLiveboards.PNG}
 	\caption[Laadtijd liveboards in functie van het overlopen interval]{De tijd die nodig is om liveboards te laden over een bepaald interval.}
 	\label{fig:responsetimeperintervalliveboards}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\textwidth]{StopsPerIntervalLiveboards.PNG}
-	\caption[Het gemiddeld aantal voertuigen die stoppen per interval in een station]{Het gemiddeld aantal voertuigen die in een station stoppen, per interval.}
-	\label{fig:stopsperintervalliveboards}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{StopsPerIntervalGhentStPieters.PNG}
-	\caption[Het aantal voertuigen dat stopt in Gent-St-Pieters]{Het aantal voertuigen dat stopt in een station, in functie van het doorzochte interval, met verschillende uren waarop de zoekopdracht start. Gemiddelde lijn uit grafiek \ref{fig:stopsperintervalliveboards} ter illustratie.}
+	\includegraphics[width=0.9\textwidth]{StopsPerIntervalGhentStPietersBar.PNG}
+	\caption[Het aantal voertuigen dat stopt in Gent-St-Pieters]{Het aantal voertuigen dat stopt in Gent Sint Pieters op een werkdag.}
 	\label{fig:stopsperintervaldetail}
 \end{figure}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{ResponsetimePerResultsLiveboardGentStPieters.PNG}
-	\caption[Laadtijd liveboards in functie van het aantal resultaten]{De tijd die nodig is om liveboards te laden in functie van het aantal resultaten.}
-	\label{fig:responsetimeperresultsliveboards}
-\end{figure}
-
