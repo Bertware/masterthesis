@@ -1,6 +1,19 @@
+% !TeX spellcheck = nl_NL
 \begin{savequote}[0.55\linewidth]
 	``Inspirational quote''
 	\qauthor{\textasciitilde Source}
 \end{savequote}
 
 \chapter{Onderzoek}
+Gezien Linked Connections nog enkele belangrijke gegevens mist, zoals of een stop al dan niet afgeschaft is, en aan welk perron het voertuig zal aankomen of vertrekken, kunnen we dit systeem nog niet op grote schaal testen. In plaats hiervan zullen we beide implementaties testen in een gesloten omgeving om de objectieve verschillen te meten. Ook zullen we user-tests uitvoeren met gebruikers, waarbij gebruikers gevraagd wordt om hun gebruikelijke opzoekingen te doen, per implementatie hun mening te geven, en vervolgens te bevragen welke variant hun voorkeur geniet.
+
+Om te voorkomen dat de keuze van het geteste station of route de objectieve metingen vertekent, zullen we de opzoekingen van echte gebruikers gebruiken. Hiervoor gebruiken we de log data van api.irail.be, die publiek beschikbaar is\footnote{https://gtfs.irail.be/logs}. Door deze queries opnieuw af te spelen op de applicaties kunnen we een zo goed mogelijk beeld krijgen van de werkelijke prestaties.
+
+Objectief zullen we proberen om volgende gegevens vast te leggen
+\begin{itemize}
+	\item de tijd om alle data van de server te halen
+	\item de tijd tussen zoekopdracht en weergave van het eerste resultaat
+	\item de tijd tussen zoekopdracht en weergave van het volledig resultaat
+	\item het processorgebruik van het toestel
+	\item het batterijgebruik van het toestel
+\end{itemize}

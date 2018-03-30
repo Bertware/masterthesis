@@ -1,3 +1,4 @@
+% !TeX spellcheck = nl_NL
 \begin{savequote}[0.55\linewidth]
 	``Inspirational quote''
 	\qauthor{\textasciitilde Source}
@@ -476,7 +477,7 @@ De implementatie die waarbij algoritmes op de server toepast worden, zal steeds 
 	\label{fig:responsetimeperresultsroute}
 \end{figure}
 
-Liveboards doorzoeken we op basis van een interval, gezien gebruikers steeds informatie willen over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet weten de hoeveelste trein ze zoeken. Ook voor Liveboards, die de vertrekken en aankomsten per station weergeven, zetten we het aantal resultaten uit in functie van het doorzocht interval (grafiek \ref{fig:stopsperintervalliveboards}), en de laadtijd in milliseconden in functie van het doorzochte interval (grafiek \ref{fig:responsetimeperintervalliveboards}). In deze grafieken zien we dat initiëel de responstijd sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen we opnieuw wijten aan daluren, in dit geval zien we een vlak segment tussen 47400 en 58200 seconden. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. Het gemiddeld aantal stops per station in functie van het doorzochte interval is zoals verwacht lineair.
+Liveboards doorzoeken we op basis van een interval, gezien gebruikers steeds informatie willen over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet weten de hoeveelste trein ze zoeken. Ook voor Liveboards, die de vertrekken en aankomsten per station weergeven, zetten we het aantal resultaten uit in functie van het doorzocht interval (grafiek \ref{fig:stopsperintervalliveboards}), en de laadtijd in milliseconden in functie van het doorzochte interval (grafiek \ref{fig:responsetimeperintervalliveboards}). In deze grafieken zien we dat initiëel de responstijd sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen we opnieuw wijten aan daluren, in dit geval zien we een vlak segment tussen 47400 en 58200 seconden. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. Het gemiddeld aantal stops per station in functie van het doorzochte interval is zoals verwacht lineair. Wanneer we echter in detail gaan kijken naar de exacte waarden, zoals in grafiek~\ref{fig:stopsperintervaldetail}, zien we dat er momenten zijn waar het aantal resultaten snel stijgt, zoals piekuren, en momenten waarop er amper een stijging waarneembaar is, zoals nachten. Deze fluctuaties zullen een effect hebben op beide implementaties. Mogelijk zou dit ervoor kunnen zorgen dat de gebruikerservaring voor zoekopdrachten in de spits beter is dan voor zoekopdrachten 's nachts, ons verder onderzoek zal dit moeten uitwijzen.
 
 Hoewel grafiek  \ref{fig:responsetimeperintervalliveboards} weinig interessant kan lijken, wordt deze interessant wanneer hij gecombineerd wordt met grafiek \ref{fig:stopsperintervalliveboards}: hiermee bekomen we grafiek \ref{fig:responsetimeperresultsliveboards}, waarin we de laadtijd in functie van het aantal resultaten zien. We kunnen zo'n 20 resultaten berekenen in 300 milliseconden, wat zeer goed lijkt. Na een 40-tal resultaten vlakt de curve af, gelijkaardig aan de afvlakking in grafiek \ref{fig:responsetimeperintervalliveboards}. Hierdoor blijft de responstijd ook voor een groot aantal resultaten beperkt, hoewel een dergelijke hoge responstijd een negatieve impact op de gebruikerservaring zou kunnen veroorzaken. Tevens kunnen in de meeste gevallen niet meer dan 50 resultaten weergegeven worden op een scherm wegens plaatsgebrek: we kunnen het laden van verdere resultaten dus beter overlaten aan een implementatie van incremental results.
 
@@ -494,6 +495,12 @@ Op basis van deze cijfers zullen we de lc2irail applicatie instellen om telkens 
 	\includegraphics[width=0.9\textwidth]{StopsPerIntervalLiveboards.PNG}
 	\caption[Het gemiddeld aantal voertuigen die stoppen per interval in een station]{Het gemiddeld aantal voertuigen die in een station stoppen, per interval.}
 	\label{fig:stopsperintervalliveboards}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{StopsPerIntervalGhentStPieters.PNG}
+	\caption[Het aantal voertuigen dat stopt in Gent-St-Pieters]{Het aantal voertuigen dat stopt in een station, in functie van het doorzochte interval, met verschillende uren waarop de zoekopdracht start. Gemiddelde lijn uit grafiek \ref{fig:stopsperintervalliveboards} ter illustratie.}
+	\label{fig:stopsperintervaldetail}
 \end{figure}
 
 \begin{figure}
