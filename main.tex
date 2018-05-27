@@ -37,8 +37,20 @@
 \usepackage{subcaption}
 \usepackage[toc,page]{appendix}
 \usepackage[section]{placeins}
+\makeatletter
+\AtBeginDocument{%
+	\expandafter\renewcommand\expandafter\subsection\expandafter{%
+		\expandafter\@fb@secFB\subsection
+	}%
+}
+\makeatother
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
 
-\usepackage{minted}                                    % for modern code highlighting
+\usepackage[chapter]{minted}                           % for modern code highlighting
 \newenvironment{code}{\captionsetup{type=listing}}{}   % To get multiline code fragments working: https://tex.stackexchange.com/a/53540/72273
 
 \AtBeginEnvironment{minted}{\fontsize{10}{10}\selectfont}
@@ -119,6 +131,9 @@
 %
 % Include the main chapters of the thesis below
 %
+
+% https://twitter.com/Stwaf/status/989531577947492358
+
 \include{chapters/Chapter1-Inleiding-Literatuurstudie}
 \include{chapters/Chapter2-Implementatie}
 \include{chapters/Chapter3-Onderzoek}

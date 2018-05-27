@@ -12,7 +12,7 @@ Enerzijds zijn er volledige data dumps, in de vorm van General Transit Feed Spec
 % TODO: source + license or redraw for consistent style
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\textwidth]{GTFS_class_diagram.png}
+	\includegraphics[width=0.5\textwidth]{images/GTFS_scheme.pdf}
 		\caption[GTFS structuur]{De bestandsstructuur van GTFS data.}
 	\label{fig:ldfAxis}
 \end{figure}
@@ -23,24 +23,23 @@ Anderzijds zijn er traditionele Remote Procedure Call (RPC) zoals iRail\footnote
 % TODO: source + license or redraw for consistent style
 \begin{figure}
 	\centering
-	\includegraphics[width=0.80\textwidth]{RPC_API.jpg}
+	\includegraphics[width=0.80\textwidth]{rpc_api.pdf}
 	\caption[RPC structuur]{De werkwijze van een RPC API.}
 	\label{fig:ldfAxis}
 \end{figure}
 
 Deze twee methodes zijn elkaars tegengestelde. Ontwikkelaars moeten kiezen voor data die compact maar complex, en slechts indirect bruikbaar is, of voor een vraag-antwoord systeem wat voor elke nieuwe vraag een nieuw verzoek naar een server moet maken. Aan de IDLab onderzoeksgroep aan UGent is onderzoek gedaan naar Linked Connections (LC)\footnote{https://linkedconnections.org}, een nieuw formaat dat een nieuw evenwicht tracht te vinden. Alle vertrekken van alle voertuigen worden in één chronologische lijst verzameld, waarbij de lijst kan opgevraagd worden volgens vaste tijdsintervallen met een grootteorde van enkele minuten. Hierdoor hoeft de server enkel deze lijst in fragmenten aan te bieden, waarbij alle clients dezelfde informatie krijgen. De clients dienen zelf nog berekeningen te maken, maar deze zijn relatief eenvoudig vergeleken met de berekeningen die nodig zijn om een GTFS feed te verwerken. Data in het Linked Connections formaat kunnen eenvoudig toegankelijk gemaakt worden via een open-source serverapplicatie\footnote{https://github.com/julianrojas87/linked-connections-server/}.
 
-% TODO: betere kwaliteit, zie phd Pieter
 \begin{figure}
 	\centering
-		\includegraphics[width=0.80\textwidth]{ldfAxis.png}
+		\includegraphics[width=1.0\textwidth]{ldf_axis.pdf}
 	\caption[Routeplanning HTTP interfaces op de LDF as]{De Linked Data Fragments as illustreert dat alle HTTP interfaces data fragmenten aanbieden, maar verschillen in hoe specifiek de aangeboden data is, en dus de moeilijkheid om deze aan te maken~\citep{verborgh14}. In deze figuur is de as toegepast op HTTP interfaces voor routeplanning~\citep{colpaert15}.}
 	\label{fig:ldfAxis}
 \end{figure}
 
 \section{Wat is user-perceived performance?}
 \label{sec:what_is_user_perceived_performance}
-Elke interface voor het ophalen van data heeft specifieke eigenschappen zoals latency, performance, cache hergebruik,~...~\citep{verborgh16}. Wanneer we verschillende technieken vergelijken door dezelfde user-agent, kunnen we de impact van de verschillende achterliggende technieken op de eindgebruiker onderzoeken. Hiervoor definiëren we de user-perceived performance. De user-perceived performance is de performance zoals de gebruiker deze ervaart, welke niet strikt gelijk hoeft te zijn aan de performance van technische component. De user-perceived latency werd gedefinieerd in 2000 door Roy T. Fielding gedefinieerd als de tijd tussen het selecteren van een link en het renderen van een bruikbaar resultaat~\citep{fielding99}. Latency treedt op op verschillende punten: 
+Elke interface voor het ophalen van data heeft specifieke eigenschappen zoals latency, performance, cache hergebruik,~...~\citep{verborgh16}. Wanneer we verschillende technieken vergelijken door dezelfde user-agent, kunnen we de impact van de verschillende achterliggende technieken op de eindgebruiker onderzoeken. Hiervoor definiëren we de user-perceived performance. De user-perceived performance is de performance zoals de gebruiker deze ervaart, welke niet strikt gelijk hoeft te zijn aan de werkelijke performance van technische component. De user-perceived latency werd gedefinieerd in 2000 door Roy T. Fielding gedefinieerd als de tijd tussen het selecteren van een link en het renderen van een bruikbaar resultaat~\citep{fielding99}. Latency treedt op op verschillende punten: 
 \begin{enumerate}
 	\item de tijd die de client nodig heeft om actie te ondernemen 
 	\item de tijd die nodig is voor voorbereidende acties
@@ -51,7 +50,9 @@ Elke interface voor het ophalen van data heeft specifieke eigenschappen zoals la
 \end{enumerate}
 Terwijl enkel stappen 3, 4 en 5 rechtstreeks afhankelijk zijn van het netwerk, kunnen al deze stappen beïnvloed worden door de gebruikte techniek \citep{fielding99}.
 
-Ondertussen zijn we geëvolueerd naar een wereld waarin data vaak mobiel geconsumeerd worden: 78\% van de Vlamingen beschikt over een smartphone, 80,5\% beschikt over een laptop. Slechts 41,8\% beschikt over een desktop-computer~\citep{digimeter17}. Hierbij zijn er ook andere aspecten die meespelen in de user experience: batterijgebruik en offline toegang tot data vormen een aanzienlijke factor in de user experience. Een applicatie presteert beter wanneer deze dezelfde data kan weergeven met aanzienlijk minder energieverbruik, of wanneer deze consistent goed presteert, ook wanneer netwerk slecht of niet beschikbaar is. Hoewel de user-perceived performance nog steeds gedomineerd wordt door de tijd tussen het selecteren van een link en het renderen van een bruikbaar resultaat, dienen we dus ook deze andere aspecten in rekening te brengen. Mobiele gebruikers hebben ook nog steeds angst om te veel data te verbruiken~\citep{ammelrooy17}.
+Wanneer we ons niet enkel op de prestaties richten, maar ook op de manier waarop de gebruiker omgaat met de technologie, komen we bij de gebruikerservaring, of User Experience (UX) terecht. User Experience is een brede term, die oorspronkelijk gebruikt werd voor het ontwerp en gebruik van interfaces, waardoor het een synoniem vormde voor interacties en bruikbaarheid~\citep{avila11}. Een ander gebruik van de term focust op de niet-instrumentele norden en ervaringen in een complexere zin~\citep{avila11}. In beide gevallen is UX een centraal belang in Human-Computer Interfaces (HCI)~\citep{NíChonchúir2008}. In deze masterproef zullen we de  user experience steeds in deze bredere zin beschouwen. 
+
+Ondertussen zijn we geëvolueerd naar een wereld waarin data vaak mobiel geconsumeerd worden: 78\% van de Vlamingen beschikt over een smartphone, 80,5\% beschikt over een laptop. Slechts 41,8\% beschikt over een desktop-computer~\citep{digimeter17}. Bij deze mobiele toestellen zijn er ook andere aspecten die meespelen in de user experience: batterijgebruik en offline toegang tot data vormen een aanzienlijke factor in de user experience~\citep{ickin12}. Een applicatie presteert beter wanneer deze dezelfde data kan weergeven met aanzienlijk minder energieverbruik, of wanneer deze consistent goed presteert, ook wanneer netwerk slecht of niet beschikbaar is. Hoewel de user-perceived performance een groot belang heeft in de user experience van een applicatie, dienen we dus ook deze andere aspecten in rekening te brengen. Mobiele gebruikers hebben ook nog steeds angst om te veel data te verbruiken~\citep{ammelrooy17}.
 
 % TODO: zal dit zo blijven of is er een trend ivm angst over datalimiet?
 
@@ -77,7 +78,14 @@ Deze masterproef zal gebruik maken van data afkomstig van de NMBS om routeplanni
  
  \paragraph{Onderzoeksvraag} Verbetert de user experience en user perceived perforance van een applicatie voor openbaar vervoer wanneer gebruik gemaakt wordt van Linked Connections in plaats van traditionele RPC API's?
  
+Tijdens treinreizen valt bij veel mensen de mobiele netwerkverbinding regelmatig weg. Dit wordt ook gestaafd door de resultaten van de enquete die in het kader van dit onderzoek werd uitgevoerd, terug te vinden in hoofdstuk \ref{chap:resultaten}. We vermoeden dat de gebruiker hierdoor gehinderd wordt bij het online opzoeken van informatie, en liefst op elk moment van zijn treinreis over reisinformatie wilt kunnen beschikken, ongeacht de kwaliteit van het mobiele netwerk.
  \paragraph{Hypothese 1} De gebruiker ervaart de mogelijkheid voor offline zoekopdrachten als een meerwaarde.
  
+Uit gesprekken met meerdere treinreizigers blijkt dat een aantal reizeigers snellere routes kent dan de routes die applicaties op basis van officiële data voorstellen. Zo kan een lange overstap worden voorkomen door zich te haasten bij het overstappen. We vermoeden dat gebruikers het handig vinden om deze routes ook in hun routeplanning applicatie kunnen terug te vinden. We vermoeden ook dat minder mobiele gebruikers graag beperkingen zouden kunnen stellen aan de route, om bijvoorbeeld niet over te stappen in stations zonder verhoogde perrons.
  \paragraph{Hypothese 2} De gebruiker ervaart de mogelijkheid om voorkeuren voor routes in te stellen (overstaptijd, toegankelijkheid, ...) als een meerwaarde.
  
+ Zoals eerder vermeld hebben mobiele gebruikers ook nog steeds angst om te veel data te verbruiken~\citep{ammelrooy17}. We vermoeden dat dit ook nog steeds zo is, maar dit geen zorg is van gebruikers wanneer ze applicaties voor openbaar vervoer gebruiken.
+ \paragraph{Hypothese 3} De gebruiker heeft angst om te veel mobiele data te verbruiken, maar let hier niet op bij het gebruik van routeplanning-apps
+ 
+ Hoewel privacy een \foreign{hot topic} is, vermoeden we dat de modale treinreiziger geen belang hecht aan zijn of haar privacy bij het gebruik van routeplanning applicaties. We vermoeden dat de gebruiker extra privacy als positief ervaart, maar zijn keuze voor een routeplanning applicatie hier niet door laat beïnvloeden.
+ \paragraph{Hypothese 4} De gebruiker ervaart extra privacy bij het opzoeken van routes niet als een noemenswaardige meerwaarde

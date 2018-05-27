@@ -1,7 +1,7 @@
 % !TeX spellcheck = nl_NL
 \begin{savequote}[0.55\linewidth]
-	``Inspirational quote''
-	\qauthor{\textasciitilde Source}
+	``Optimization before measurement is the root of all evil''
+	\qauthor{\textasciitilde D. Knuth}
 \end{savequote}
 
 \chapter{Implementatie}
@@ -409,7 +409,7 @@ De lijst met volledige routes reconstrueren (fragment \ref{code:2:csaJourneyExtr
 \end{code}
 
 \subsection{Vertrekken en aankomsten per station}
-Om de zogenoemde \foreign{liveboards} te berekenen, gebruiken we een eenvoudig algorithme. We overlopen alle pagina's, en houden enkel de stops bij die betrekking hebben op het gezochte station. Hiervoor gebruiken we twee lijsten voor respectievelijk de vertrekkende en aankomende connecties. We blijven pagina's overlopen tot de stopvoorwaarde is bereikt. Deze verschilt afhankelijk van de locatie waar we het algoritme implementeren:
+Om de zogenoemde \foreign{liveboards} te berekenen, gebruiken we een eenvoudig algoritme. We overlopen alle pagina's, en houden enkel de stops bij die betrekking hebben op het gezochte station. Hiervoor gebruiken we twee lijsten voor respectievelijk de vertrekkende en aankomende connecties. We blijven pagina's overlopen tot de stopvoorwaarde is bereikt. Deze verschilt afhankelijk van de locatie waar we het algoritme implementeren:
 \begin{itemize}
 	\item Op een webserver blijven we extra pagina's van de schijf laden tot het gewenst aantal resultaten is bereikt, of het gewenste tijdsinterval overlopen is.
 	\item Bij een lokale implementatie stoppen we zodra we de pagina hebben afgewerkt waarin de eerste stop beschreven wordt. We maken gebruik van incrementele resultaten, waarbij telkens zo snel mogelijk een klein resultaat wordt berekend. Hierdoor krijgt de gebruiker (in theorie) sneller resultaten te zien.
@@ -422,18 +422,11 @@ Wanneer de stopvoorwaarde is bereikt, splitsen we de lijsten in drie soorten sto
 	\item Stops: dit zijn de stops van voertuigen die een tussenstop maken
 \end{itemize}
 
-Om te bepalen tot welke categorie een connectie behoort, dienen we voor elke aankomende connectie in het station te bepalen of er een vertrekkende connectie mee overeenkomt. De connecties die vertrekken vanuit het station, en waarmee geen aankomst overeenkomt, zijn dan de vertrekhaltes. Als we \emph{m} nemen voor het aantal aankomende, en \emph{n} voor het aantal vertrekkende voertuigen, zou dit algoritme een efficiëntie hebben van $O(mn)$. We kunnen hier echter gebruik maken van de chronologische volgorde van alle connecties: een vertrekkende connectie zal altijd na een eventuele aankomst volgen. We houden bij elk ontdekte aankomst dus bij hoeveel vertrekken er al ontdekt zijn. Vervolgens zullen we enkel de vertrekken na elke aankomst overlopen.
+Om te bepalen tot welke categorie een connectie behoort, dienen we voor elke aankomende connectie in het station te bepalen of er een vertrekkende connectie mee overeenkomt. Komt er een vertrekkende connectie mee overeen, is er sprake van een tussenstop. Komt er geen vertrek mee overeen, is dit een eindhalte. De connecties die vertrekken vanuit het station, en waarmee geen aankomst overeenkomt, zijn dan de vertrekhaltes. 
 
-Intuïtief is duidelijk dat deze aanpak efficiënter is. Dit kan ook bewezen worden: aankomsten en vertrekken zijn ongeveer gelijk gespreid. Bij een stijgende index i in de lijst met aankomende connecties, zal ook de index j stijgen vanaf waar de lijst met vertrekken doorzocht worden. In de praktijk zijn i en j ongeveer gelijk aan elkaar: het verschil is bij een normale spreiding van de aankomsten en vertrekken verwaarloosbaar. De benodigde tijd voor het bepalen van de types is nu 
-\[
-\Sigma^{i=m}_{i=0}(n-j) = m(n-i) = \frac{m*n}{2}=O(mn)
-\]
+Bij de implementatie hiervan zorgen we ervoor dat we voor elk vertrek alle aankomsten volgens dalende aankomsttijd overlopen: we verwachten in de meeste gevallen een tussenstop (en dus geen vertrek), en in het geval van een tussenstop zal de aankomst slechts enkele minuten eerder zijn. Door de aankomsten volgens dalende aankomsttijd te overlopen zullen we dus sneller de bijhorende aankomende connectie ontdekken, indien deze bestaat.
 
-% TODO: feiten over gemiddeld aantal stops per trein, gemiddeld aantal stops, vertrek-en eindhaltes per station. grafiek?
-
-Terwijl de asymptotische efficiëntie gelijk blijft, zien we wel dat de verborgen constante gehalveerd wordt. Terwijl deze verbetering geen merkbaar verschil in uitvoeringsduur oplevert bij enkele honderden connecties, kan dit wel voor betere prestaties zorgen op grote schaal, zoals wanneer data in een groot tijdsinterval verwerkt worden. 
-Nu zijn stations niet oneindig groot, en hebben treinen in de meeste gevallen meer dan 10 haltes. De meeste stops zullen dus geen begin of einde van de rit voorstellen, en een trein moet tijdig vertrekken om plaats te maken voor de volgende trein in het station. We kunnen dus veronderstellen dat het vertrek kort op de aankomst volgt: dit is in de meeste gevallen zo. Zodra we het bijhorend vertrek gevonden hebben, kunnen we stoppen met de lijst te doorzoeken. Nu moeten we slechts k connecties overlopen tot bijhorend vertrek gevonden is, met k element van N en k ongeveer gelijk aan het aantal perrons in het station.
-$m(n-i)$ wordt nu $m(k)$, wat asymptotisch gezien gelijk is aan $O(m)$.
+Het is duidelijk dat dit algoritme slechts éénmaal de lijst met connecties overloopt. Hieruit volgt dat de efficientie $O(n)$ is.
 
 \subsection{Route van een voertuig}
 
@@ -446,8 +439,9 @@ De route van een voertuig af te leiden uit Linked Connections data is relatief e
 
 Het bepalen van de route van een trein legt een eerste mogelijk pijnpunt bloot: hiervoor moeten alle connecties voor een volledige dag opgehaald worden. Er is immers geen enkele manier om te bepalen wanneer een trein vertrekt, of wat de eindhalte is. Hierdoor is er een relatief lange laadtijd om alle fragmenten op te halen, wat enigszins beperkt kan worden door deze asynchroon te laden. Het effect hiervan op de gebruikerservaring zullen we later onderzoeken. 
 
+Het is duidelijk dat dit algoritme slechts éénmaal de lijst met connecties overloopt. Hieruit volgt dat de efficientie $O(n)$ is.
 \section {Implementatie in HyperRail}
-De in sectie~\ref{sec:algoritmes} besproken algoritmes zijn zowel server-side in PHP, als client-side in de HyperRail applicatie geïmplementeerd. Door het gebruik van dezelfde algoritmes sluiten we uit dat een verschil in dataverwerking een verschil in gebruikerservaring kan veroorzaken. Om ook beïnvloeding door hardware uit te sluiten, wordt lc2irail uitgevoerd op dezelfde server als graph.irail.be, waardoor beide processen dezelfde bronnen, belasting en netwerkverbinding delen.
+De in sectie~\ref{sec:algoritmes} besproken algoritmes zijn zowel server-side in PHP, als client-side in de HyperRail applicatie geïmplementeerd. Door het gebruik van dezelfde algoritmes sluiten we uit dat een verschil in dataverwerking een verschil in gebruikerservaring kan veroorzaken. Om ook beïnvloeding door hardware uit te sluiten, wordt lc2irail uitgevoerd op dezelfde server als graph.irail.be, waardoor beide processen dezelfde bronnen en belasting delen.
 
 Om beide varianten te implementeren in de Android applicatie wordt voor elke variant een klasse aangemaakt die de interface \emph{IrailDataProvider}\footnote{\url{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/contracts/IrailDataProvider.java}} implementeert. Deze interface stelt de nodige data ter beschikking van de applicatie. De volgende data worden vereist van klassen die deze interface implementeren:
 
@@ -459,44 +453,51 @@ Om beide varianten te implementeren in de Android applicatie wordt voor elke var
 	\item De huidige storingen op het netwerk
 \end{itemize}
 
-Gezien de huidige storingen op het vervoersnet (nog) niet beschikbaar zijn in Linked Connections, zullen we voor deze functionaliteit telkens terugvallen op de reeds bestaande implementaties op basis van api.irail.be.
+Gezien de huidige storingen op het vervoersnet (nog) niet beschikbaar zijn in Linked Connections, zullen we voor deze functionaliteit telkens terugvallen op de reeds bestaande implementaties op basis van api.irail.be\footnote{\url{https://docs.irail.be/}}.
 
-Het laden van voorgaande of volgende resultaten is een belangrijke methode. De applicatie zal alle resultaten voorstellen in een lijst die verlengt wordt zodra de gebruiker het einde bereikt, zogenaamd \foreign{infinite scrolling}. Deze functie maakt ook de implementatie van incrementele resultaten op een eenvoudige wijze mogelijk. Hiervoor zal de implementatie die de algoritmes lokaal toepast telkens stoppen bij de pagina waarin zich het eerste resultaat bevindt. Deze methode brengt zowel voor- als nadelen: de gebruiker ziet sneller resultaat, maar gelijktijdig laden van meerdere pagina's tegelijk is niet mogelijk, aangezien telkens de eerste resultaten worden weergegeven. Alle volgende resultaten worden geladen door de functie die een bestaand resultaat uitbreidt, waardoor de pagina's chronologisch één voor één geladen worden. Een mogelijke oplossing bestaat eruit om telkens een aantal pagina's te \foreign{prefetchen}, zodat deze reeds gecached zijn voor de verzoeken die er kort op volgen.
-
-We verwachten dat de tijd die nodig is om data over een bepaald bereik te downloaden lineair is met de grootte van dit bereik. Dit wordt bevestigd wanneer we dit meten en plotten in grafiek \ref{fig:asyncdataretrieval}. De laadtijd is lineair, waardoor de data sneller verzameld is als deze in één functieaanroep gedownload wordt, dan wanneer hier vertraging tussen zit.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.00\textwidth]{asyncdataretrieval.PNG}
-	\caption[Laadtijd asynchroon laden Linked Connections]{Tijd die nodig is om Linked Connection pagina's over een bepaald bereik te laden. Wifi 802.11g, Google Nexus 5 (gesimuleerd), 4 gelijktijdige verbindingen. Gemiddelde van 24 verzoeken. De laadtijd is lineair, en ongeveer 40ms per seconde aan data.}
-	\label{fig:asyncdataretrieval}
-\end{figure}
+Het laden van voorgaande of volgende resultaten is een belangrijke methode. De applicatie zal alle resultaten voorstellen in een lijst die verlengt wordt zodra de gebruiker het einde bereikt, zogenaamd \foreign{infinite scrolling}. Deze functie maakt ook de implementatie van incrementele resultaten op een eenvoudige wijze mogelijk. Hiervoor zal de implementatie die de algoritmes lokaal toepast telkens stoppen bij de pagina waarin zich het eerste resultaat bevindt. Een mogelijke manier om dit verder te versnellen bestaat eruit om telkens een aantal pagina's te \foreign{prefetchen}, zodat deze reeds gecached zijn voor de verzoeken die er kort op volgen.
 
 \subsection{Bepalen van de parameters voor server-side implementatie}
 
-De implementatie die waarbij algoritmes op de server toepast worden, zal steeds een bepaald aantal resultaten proberen laden, om zo de overhead van meerdere requests te proberen beperken. Hierbij moet er getracht worden om een evenwicht te vinden tussen een lange wachttijd, en het te vaak moeten opvragen van volgende resultaten, wat ook telkens een overhead met zich meebrengt.
+De implementatie die waarbij algoritmes op de server toepast worden, zal steeds een bepaald aantal resultaten proberen laden, om zo de overhead die HTTP requests met zich mee brengen te beperken. Hierbij moet er getracht worden om een evenwicht te vinden tussen een lange wachttijd, en het te vaak moeten opvragen van volgende resultaten, wat ook telkens een overhead met zich meebrengt.
 
-Terwijl we in grafiek \ref{fig:asyncdataretrieval} duidelijk kunnen zien dat de tijd nodig om data in een bepaald interval te laden lineair is met de grootte van dat interval, is de tijd nodig om routes te berekenen of een aantal stops te bepalen niet lineair, ondanks dat deze achterliggend uit Linked Connections afgeleid worden.
+Tijdens het schrijven van deze masterproef werd ook Linked Connections nog verder ontwikkeld. Zo werd er afgestapt van het principe om pagina's van constante tijdsintervallen te gebruiken, en overgestapt naar pagina's van constante grootte. Pagina's die constante tijdsintervallen beschrijven hebben een aantal nadelen, zoals het feit dat pagina's 's nachts bijna leeg zijn (of de pagina's zelfs niet bestaan). De ongelijke grootte van de pagina's zorgt er ook voor dat de tijd nodig om een interval te doorlopen niet lineair is. Wanneer pagina's van constante grootte gebruikt worden, vallen deze nadelen weg: elke pagina bevat ongeveer evenveel resultaten. Het verschil tussen deze twee varianten is duidelijk zichtbaar in grafieken \ref{fig:responsetimeperresultsrouteBruSouth} en \ref{fig:responsetimeperresultsrouteKiewit}. 
 
- De tijd die nodig is om een aantal routes te berekenen, is gevisualiseerd in grafiek \ref{fig:responsetimeperresultsroute}. We zien dat deze tijd weliswaar ongeveer lineair toeneemt, maar sterke knikken vertoont op sommige plaatsen. Deze knikken kunnen we verklaren aan het overlopen van pagina's met weinig (relevante) connecties, zoals 's nachts wanneer geen treinen rijden, en daluren. Dit blijkt een groot nadeel te zijn van het ontwerp van Linked Connections: pagina's met weinig stops verspillen relatief veel tijd terwijl ze amper bijdragen aan het eindresultaat. 
- Voor de langste en ook meest complexe route treed deze knik op vanaf 9 resultaten. Te veel resultaten laden kan zeer kostelijk zijn wanneer hierbij door daluren gezocht moet worden, en dus zullen we steeds slechts een beperkt aantal resultaten terugsturen. We verkiezen hier de overhead van enkele extra requests boven de kostprijs van het onnodig veel resultaten laden.
+ We zien dat deze tijd telkens ongeveer lineair toeneemt, maar zeker de variant op basis van constante tijdsintervallen sterke knikken vertoont op sommige plaatsen. Deze knikken kunnen we verklaren aan het overlopen van pagina's met weinig connecties, zoals 's nachts wanneer geen treinen rijden, en daluren. Sommige knikken die we in beide grafieken zien, worden veroorzaakt door pagina's met weinig relevante connecties. Dit is duidelijk merkbaar wanneer beide grafieken vergeleken worden: Tussen Gent en Brussel Zuid (een belangrijke treinverbinding) zijn er geen knikken wanneer gebruik gemaakt wordt van pagina's met een constante grootte, terwijl deze er wel zijn wanneer een route naar een klein station gepland wordt. Deze verschillen zijn zichtbaar in grafiek \ref{fig:responsetimeperresultsroute}. Om te voorkomen dat gebruikers te lang moeten wachten op een resultaat wanneer een route naar een klein station gepland wordt, zal de server implementatie steeds 8 resultaten weergeven.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1.00\textwidth]{ResponsetimePerResultsRoute.PNG}
+	\includegraphics[width=1.00\textwidth]{images/Laadtijd_routes_Gent-St-Pieters_Brussel-Zuid.eps}
+
+	\caption[Laadtijd routes tussen Gent en Brussel in functie van aantal resultaten]{De tijd die nodig is om routes te laden, met aankomst om 18u, in functie van het gewenste aantal resultaten.}
+\label{fig:responsetimeperresultsrouteBruSouth}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.00\textwidth]{images/Laadtijd_routes_Gent-St-Pieters_Kiewit.eps}	\caption[Laadtijd van routes tussen Gent en Kiewit in functie van aantal resultaten]{De tijd die nodig is om routes te laden, met aankomst om 18u, in functie van het gewenste aantal resultaten.}
+	\label{fig:responsetimeperresultsrouteKiewit}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.00\textwidth]{images/Laadtijd_routes.eps}
 	\caption[Laadtijd routes in functie van aantal resultaten]{De tijd die nodig is om routes te laden, met aankomst om 18u, in functie van het gewenste aantal resultaten. We zien een knik wanneer Linked Connections voor de nacht opgehaald worden, terwijl deze relatief weinig data bevatten.}
 	\label{fig:responsetimeperresultsroute}
 \end{figure}
 
-Liveboards bouwen we op voor een bepaald interval, gezien gebruikers steeds informatie willen over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet weten de hoeveelste trein ze zoeken. Ook voor liveboards onderzoeken we nu hoe lang het duurt om een liveboard op te bouwen voor een gegeven tijdsinterval (grafiek~\ref{fig:responsetimeperintervalliveboards}). In deze grafieken zien we dat initiëel de responstijd sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen we opnieuw wijten aan daluren, in dit geval zien we een vlak segment tussen 47400 en 58200 seconden. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. Wanneer we in detail gaan kijken naar het aantal stops per interval van 30 minuten, zichtbaar in grafiek~\ref{fig:stopsperintervaldetail}, zien we duidelijk dat er een aantal uitschieters zijn rond de piekuren en 's middags, en momenten waarop er aanzienlijk minder treinen vertrekken, zoals in daluren en 's nachts. Deze fluctuaties zullen een effect hebben op zowel de server-side als client-side implementaties. Mogelijk zou dit ervoor kunnen zorgen dat de gebruikerservaring voor zoekopdrachten in de spits beter is dan voor zoekopdrachten 's nachts, ons verder onderzoek zal dit moeten uitwijzen.
 
-Om te besluiten welk interval de server-side implementatie zal overlopen, plotten we de responstijd in functie van het overlopen interval. Dit zien we in grafiek~\ref{fig:responsetimeperintervalliveboards}. Na een sterke stijging in het eerste anderhalf uur, wordt de curve minder stijl. Hierdoor blijft de stijging van de responstijd ook voor een groot interval beperkt, hoewel deze hoog blijft, en een dergelijke hoge responstijd een negatieve impact op de gebruikerservaring zou kunnen veroorzaken. Tevens kunnen in de meeste gevallen niet meer dan 30 resultaten worden weergegeven. Uit grafiek~\ref{fig:stopsperintervaldetail} blijkt dat een zoekopdracht welke een uur doorloopt in de meeste gevallen ongeveer een uur aan data oplevert. Dit zou genoeg moeten zijn om de meeste toepassingen in een minimaal aantal requests van data te voorzien, en kan volgens grafiek~\ref{fig:responsetimeperintervalliveboards} in ongeveer 400 milliseconden per request geladen worden.
+Liveboards, die informatie geven over vertrekkende en aankomende treinen in een station, bouwen we op voor een bepaald interval. Gebruikers steeds informatie willen over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet weten de hoeveelste trein ze zoeken. Ook voor liveboards onderzoeken we nu hoe lang het duurt om een deze op te bouwen voor een gegeven tijdsinterval.
 
-Op basis van deze cijfers zullen we de lc2irail applicatie instellen om telkens 8 routes, en 60 minuten van vertrekken en aankomsten weer te geven.
+In grafiek~\ref{fig:responsetimeperintervalliveboards} zien we de tijd die benodigd is om een liveboard te genereren over een bepaald interval. In deze grafieken zien we dat bij pagina's van constante tijdintervallen de responstijd initiëel sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen we opnieuw wijten aan daluren, in dit geval zien we een vlak segment tussen 800 en 960 minuten. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. Wanneer we in detail gaan kijken naar het aantal stops per interval van 30 minuten, zichtbaar in grafiek~\ref{fig:stopsperintervaldetail}, zien we duidelijk dat er een aantal uitschieters zijn rond de piekuren en 's middags, en momenten waarop er aanzienlijk minder treinen vertrekken, zoals in daluren en 's nachts. Deze fluctuaties zullen een effect hebben op zowel de server-side als client-side implementaties. Mogelijk zou dit ervoor kunnen zorgen dat de gebruikerservaring voor zoekopdrachten in de spits beter is dan voor zoekopdrachten 's nachts.
+
+Wanneer we echter kijken naar de laadtijd bij pagina's van constante grootte, verloopt deze curve bijna lineair. De curve bevat geen vlakke segmenten meer, gezien alle pagina's aanwezig zijn. De toenemende laadtijd op momenten dat er geen treinen rijden is te wijten aan de implementatie: elke geladen pagina wordt volledig verwerkt. Bij gebruik van pagina's met een constante grootte zullen deze implementaties 's nachts dus resultaten geven die verder in de toekomst liggen, in plaats van geen resultaten. Wanneer gebruik gemaakt wordt van caching zien we dat de responstijd verder drastisch verlaagt. Het is deze variant die in productie gebruikt zal worden. 
+
+Het is belangrijk om op te merken dat de metingen voor bovenstaande grafieken steeds gemaakt zijn op een lokale server, gebruik makend van krachtige hardware. Op zwakkere hardware zal de responstijd lineair hoger liggen. De lc2irail applicatie wordt ingesteld om telkens 8 routes, en 60 minuten van vertrekken en aankomsten weer te geven. Hierdoor krijgt de gebruiker telkens genoeg resultaten, en wordt onnodig werk en tijdsverspilling vermeden.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\textwidth]{ResponsetimePerIntervalLiveboards.PNG}
+	\includegraphics[width=1.0\textwidth]{images/Laadtijd_vertrekken.eps}
 	\caption[Laadtijd liveboards in functie van het overlopen interval]{De tijd die nodig is om liveboards te laden over een bepaald interval.}
 	\label{fig:responsetimeperintervalliveboards}
 \end{figure}
@@ -507,3 +508,32 @@ Op basis van deze cijfers zullen we de lc2irail applicatie instellen om telkens 
 	\caption[Het aantal voertuigen dat stopt in Gent-St-Pieters]{Het aantal voertuigen dat stopt in Gent Sint Pieters op een werkdag.}
 	\label{fig:stopsperintervaldetail}
 \end{figure}
+
+\subsection{Caching}
+Een van de grootste voordelen die bij Linked Connections hoort is de hoge mate waarin data gecached en hergebruikt kan worden. Om data te cachen zullen we een SQLite database bijhouden op de interne opslag van het toestel.
+
+Door gebruik te maken van een opslag op het toestel blijven alle opgeslagen pagina's behouden wanneer de applicatie afgesloten en herstart wordt. Hierdoor is de applicatie ook na het afsluiten nog te gebruiken voor offline opzoekingen. Verder laat de keuze voor SQLite ook toe om eenvoudig te zoeken naar de pagina die informatie bevat voor een bepaald tijdstip. Een voorbeeld hiervan is te zien in fragment \ref{code:2:LCCache}.
+
+\begin{code}[h]
+	\begin{minted}[breaklines,tabsize=2]{java}
+    db.query(TABLE, new String[]{"url", "data", "datetime"}, "url<=? AND next>?", new String[]{url,url}, null, null, "url DESC");
+	\end{minted}
+	\caption[Zoeken van pagina's in offline cache]{SQLite query om juiste pagina in cache te zoeken}
+	\label{code:2:LCCache}
+\end{code}
+
+Deze cache wordt gecontroleerd alvorens een verzoek te maken. Indien geen internet beschikbaar is of de gecachte data minder dan 60 seconden oud is wordt deze hergebruikt. Deze maximale ouderdom kan ook uit de HTTP headers van de serverantwoorden onttrokken worden. De HTTP antwoord headers zijn echter niet onmiddelijk toegankelijk in de gebruikte bibliotheek, en om de ontwikkeltijd te verkorten, werd deze in het kader van deze masterproef echter hardgecodeerd.
+
+\section{Optimalisatie verwerking op een mobiel toestel}
+Bij de implementatie van Linked Connections in Android is vooral aandacht besteed aan de algoritmes. Efficiënte algoritmes zijn immers belangrijk voor het snel beantwoorden van de zoekopdracht door de gebruiker. Linked Connections parsen van JSON naar objecten wordt gedaan aan de hand van de standaard JSON parser in Android, org.json. Alle connecties van een pagina worden volledig geparsed, alvorens de pagina verwerkt wordt door algoritmes. Tijdens user testing wordt het echter al snel duidelijk dat hoewel de app goed presteert op enkele testtoestellen en een emulator, er ook verschillende gebruikers zijn bij wie de app enorm slecht presteert. Analyse van het CPU gebruik door de applicatie duidt al snel aan dat er veel tijd besteed wordt aan het parsen van JSON, en ook specifiek aan het parsen van datums\footnote{Analyse van het CPU gebruik is niet precies, maar geeft een indicatie welke methodes het meeste tijd nodig hebben. Deze beperking wordt later verder toegelicht.}. Hierdoor duren opzoekingen, zowel online als offline, langer dan nodig. Het effect van de trage JSON parser wordt uitvergroot op tragere toestellen, waarbij het opzoeken van voertuigen enkele seconden langer kan duren vergeleken met een sneller toestel, ook als beide toestellen alle gegevens reeds in cache hebben. Als oplossing wordt in eerste instantie het parsen van datums versneld: het tijdsformaat wordt expliciet gedefinieerd in een statische variabele, zodanig dat parsen hier optimaal verloopt. Ten tweede worden niet meer alle connecties volledig geparsed: de ongeparsede JSON wordt opgeslagen in het LinkedConnection object, en velden worden slechts geladen wanneer nodig. Dit wilt zeggen dat in het geval van liveboards enkel de vertrektijd en het vertrek- en eindstation van elke connectie geladen worden, in plaats van alle velden. Pas wanneer een connectie relevant wordt en andere velden nodig zijn, worden deze uit de JSON data geladen.
+Deze aanpassingen zorgen voor een kleine verbeteringen, maar hebben geen al te grote impact: het laden van een voertuig gaat van gemiddeld 4500ms naar 3900ms op een HTC 10. Dit blijft enorm veel vanuit het standpunt van een gebruiker.
+Wanneer we echter kijken naar een vergelijking tussen JSON parsers, blijkt al snel dat de standaard \foreign{org.json} parser bij de traagste parsers voor Java hoort\footnote{\url{https://github.com/fabienrenaud/java-json-benchmark}}. Dit is duidelijk te zien in figuur \ref{fig:jsonparsersdeserialize}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{jsondeserialization.png}
+	\caption[Prestaties van JSON parsers]{Prestaties van verschillende JSON parsers bij deserialiseren. \textcopyright 2016 Fabien Renaud}
+	\label{fig:jsonparsersdeserialize}
+\end{figure}
+
+Als oplossing is gekozen om de LoganSquare parser te gebruiken. LoganSquare is niet de snelste, maar wel aanzienlijk sneller dan \foreign{org.json} en relatief eenvoudig te implementeren. Deze parser is gebaseerd op Jackson, waardoor het grootste voordeel van Jackson gedeeld wordt: achterliggend wordt gebruik gemaakt van streaming, waardoor minder \foreign{garbage} veroorzaakt wordt. Hierdoor is minder \foreign{garbage collection} nodig, waardoor de code minder vaak gepauzeerd hoeft te worden en dus sneller resultaten geeft. De verschillen in performantie tussen de parsers worden besproken in hoofdstuk 4. Binnen de beperkte tijd die beschikbaar was voor het schrijven van deze masterproef was er onvoldoende tijd om \foreign{DSLJson} te implementeren. Afgaand op figuur \ref{fig:jsonparsersdeserialize} zou hier echter wel nog prestatiewinst geboekt kunnen worden.

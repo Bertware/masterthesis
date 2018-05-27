@@ -1,6 +1,27 @@
+% !TeX spellcheck = nl_NL
 \begin{savequote}[0.55\linewidth]
 	``Inspirational quote''
 	\qauthor{\textasciitilde Source}
 \end{savequote}
 
 \chapter{Interpretatie}
+\label{chap:interpretatie}
+
+We zullen nu de resultaten, besproken in hoofdstuk \ref{chap:resultaten}, proberen interpreteren om een antwoord te vinden op welk transportformaat het best geschikt is voor routeplanning API's, om de beste gebruikerservaring te bekomen. Het is onmiddellijk duidelijk dat het moeilijk wordt hier een eenduidig antwoord op te vinden.
+
+Voor liveboards blijkt dat, afhankelijk van het gebruikte toestel Linked Connections concurrentieel is op vlak van snelheid. Dit wordt ook duidelijk gereflecteerd in de ervaren snelheid, die door een groot deel van de gebruikers als "redelijk snel" of beter aangeduid wordt. Toch blijkt dat de ervaren snelheid onderdoet voor die van een RPC API.
+
+Bij routes en voertuigen wordt de achterstand van Linked Connections tegenover RPC steeds groter. Gebruikers zijn het ook absoluut niet met elkaar eens over de ervaren snelheid, terwijl voor LC2Irail vrijwel alle gebruikers voor (ongeveer) dezelfde snelheid ervoeren. 
+
+Hieruit trekken we de conclusie dat Linked Connections enorm afhankelijk is van het gebruikte toestel,  waarbij toestellen met meer processorkracht en/of werkgeheugen een duidelijk voordeel hebben ten opzichte van toestellen die over mindere specificaties beschikken.
+
+Verder blijkt ook dat het moeilijk is om een oorzaak van dit snelheidsverschil aan te duiden. Testpersonen die achtereenvolgens een implementatie op basis van de \foreign{org.json} parser en de \foreign{LoganSquare} voorgeschoteld kregen, gaven allemaal aan dat de \foreign{LoganSquare} parser betere prestaties boodt, zowel op budget- als high-end smartphones. Hierbij werd telkens gemeten hoe lang het duurde om een Linked Connections pagina van JSON om te vormen tot een object. Dit is het enige verschil tussen beide implementaties, maar toch blijkt hier dat het 50e percentiel voor de uitvoeringstijd van deze code verdubbelde bij gebruik van de \foreign{LoganSquare} parser: in plaats van 100 zijn nu 200 milliseconden nodig.
+
+Dit is volledig tegenstrijdig aan de gebruikerservaringen, en zijn dan ook moeilijk te vatten. Echter is er een zeer belangrijke "externe" invloed op de uitvoeringstijd, namelijk de \foreign{Java Virtual Machine} die de applicatie uitvoert. Deze JVM pauzeert de applicatie voor \foreign{garbage collection} wanneer er te veel \foreign{garbage} is - objecten die ooit gebruikt werden, maar waar nu geen enkele verwijzing meer naar bestaat. Tijdens deze \foreign{garbage collection} worden alle ongebruikte objecten verwijderd om geheugen vrij te maken. Hierbij komt het voordeel van de \foreign{LoganSquare} parser naar boven: ondanks dat het parsen op zich langer duurt, wordt aanzienlijk minder \foreign{garbage} gecreëerd, en is het aanzienlijk minder vaak nodig om de applicatie te pauzeren voor \foreign{garbage collection}.
+
+Hierbij komt ook nog dat toestellen die over minder processorkracht beschikken, ook vaak over minder geheugen beschikken. Hierbij kunnen fabrikanten kiezen om de \foreign{garbage collection} agressiever in te stellen, wat leid tot efficienter geheugengebruik ten koste van prestaties. %TODO: citation needed
+Elke garbage collection zal door de beperktere processorkracht ook meer tijd vereisen, waardoor de applicatie niet alleen meer, maar ook langer gepauzeerd wordt. Hierdoor weegt Linked Connections extra zwaar door op trage toestellen: niet alleen kosten de algoritmes meer tijd, maar ook parsen van JSON kost meer tijd. Tragere modems kunnen er verder nog voor zorgen dat ook het netwerk verkeer trager gaat. Al deze factoren maken dat Linked Connections enorm afhankelijk is van het gebruikte toestel en de gebruikte programmeertaal, terwijl een RPC API zoals LC2Irail slechts weinig data over het netwerk verzend, een klein antwoord heeft wat niet tot \foreign{garbage collection} leidt, en geen verdere algoritmes of verwerking vereist aan de client side. 
+
+Het zou onterecht zijn om Linked Connections definitief als "slechter" te bestempelen. Wel kunnen we zeggen dat er zeer veel aandacht aan de exacte implementatie besteed moet worden, waarbij ontwikkelaars diepgaande kennis over hun omgeving moeten beschikken. Een ontwikkelaar die geen kennis heeft van de principes van \foreign{garbage collection}, zal sneller problemen ervaren bij de performantie van Linked Connections dan bij het implementeren van een RPC API.
+
+Opvallend is ook dat de meerderheid van de gebruikers, ondanks aan te geven dat ze LC2Irail sneller ervaren, toch aangeeft liefst Linked Connections te gebruiken wanneer ook offline toegang meespeelt. Dit wilt zeggen dat gebruikers Linked Connections snel genoeg ervaren om een algemene betere gebruikerservaring te bieden vergeleken met RPC API's.
