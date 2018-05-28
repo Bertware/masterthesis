@@ -276,20 +276,35 @@ Wanneer we nu de resultaten van de user-testing bekijken, zien we zoals verwacht
 	\label{fig:vehiclesUx}
 \end{figure}
 
-Personen die de lokale implementatie op basis van LoganSquare testten, beoordeelden de laadtijd iets beter vergeleken met de groep die de implementatie op basis van de \foreign{org.json} parser testte. Ondanks dat de testgroep onvoldoende groot was om een veralgemening te kunnen maken, kunnen we wel stellen dat er een grote kans is dat verbeteringen in de implementatie de snelheid verder omlaag kunnen brengen, en zo de gebruikerservaring kunnen verbeteren. Gezien bij het berekenen van voertuigen het meeste data nodig is, is hier de impact van implementatiedetails het grootst.
+Personen die de lokale implementatie op basis van \foreign{LoganSquare} testten, beoordeelden de laadtijd iets beter vergeleken met de groep die de implementatie op basis van de \foreign{org.json} parser testte. Ondanks dat de testgroep onvoldoende groot was om een veralgemening te kunnen maken, kunnen we wel stellen dat er een grote kans is dat verbeteringen in de implementatie de snelheid verder omlaag kunnen brengen, en zo de gebruikerservaring kunnen verbeteren. Gezien bij het berekenen van voertuigen het meeste data nodig is, is hier de impact van implementatiedetails het grootst.
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{alluvial_user_choice_vehicles.eps}
+	\caption[Door gebruikers gekozen implementatie voor voertuigen]{Verbanden tussen de door gebruikers gekozen implementaties voor voertuigen. }
+	\label{fig:alluvialUserChoicesVehicles}
+\end{figure}
 
-Wanneer de gebruiker gevraagd werd te kiezen, koos slechts één gebruiker voor de lokale implementatie in dit onderdeel. Vijf gebruikers hadden geen specifieke voorkeur voor een specifieke implementatie, ook al beoordeelden vier van hen de lokale implementatie als trager.
-Hieruit concluderen we dat gebruikers de laadtijd van voertuigdata acceptabel vinden wanneer deze onder 1 seconde blijft. Een seconde langer laden, wat het geval is bij de lokale implementatie, wordt door de meeste personen niet meer als snel ervaren.
+Wanneer de gebruiker gevraagd werd te kiezen, koos slechts één gebruiker voor de lokale implementatie in dit onderdeel. Vijf gebruikers hadden geen specifieke voorkeur voor een specifieke implementatie, ook al beoordeelden vier van hen Linked Connections als trager. In figuur \ref{fig:alluvialUserChoicesVehicles} is duidelijk te zien hoe de ervaringen van elke gebruiker waren. Zo zien we dat de ervaring voor gebruikers nooit verbeterd, en veel gebruikers een groot verschil ervaren tussen de snelheid van beide implementaties. Veel gebruikers die Linked Connections als redelijk of zeer snel ervaren, ervoeren LC2Irail nog steeds als sneller, waardoor ze wanneer ze moesten kiezen niet voor Linked Connections kozen.
+
+Uit de combinatie van metingen en ervaringen concluderen we dat gebruikers de laadtijd van voertuigdata acceptabel vinden wanneer deze onder 1 seconde blijft. Een seconde langer laden, wat vaak geval is bij Linked Connections, wordt door de meeste personen niet meer als snel ervaren. Gebruikers zullen in dit geval de voorkeur geven aan een snellere applicatie.
 
 
 \section{Keuze van de gebruiker}
 
 Voor alle soorten informatie (liveboards, routes, en voertuigen) lijkt Linked Connections een slechtere gebruikerservaring dan LC2Irail, in termen van laadtijd. Hierbij dienen we op te merken dat dit verschil bij liveboards slechts zeer beperkt is, en het laden nog steeds als snel werd ervaren. Voor routes bestempelden enkele personen Linked Connections als traag, maar blijft het verschil beperkt. Bij voertuigen blijkt echter dat Linked Connections door drie kwart van de gebruikers als trager werd ervaren, waarbij Linked Connections niet enkel relatief slechter scoort, maar ook in absolute termen slechts door een minderheid van de gebruikers als snel wordt ervaren. 
 
-Dit zien we ook terug in de antwoorden wanneer gebruikers gevraagd werd te kiezen tussen beide implementaties. Voor vertrekken zijn er vier gebruikers die beide implementaties even snel vinden, terwijl van de overige 13 slechts vijf kiezen voor Linked Connections. Bij routes en voertuigen scoort Linked Connections zoals verwacht slechter: er zijn respectievelijk slechts twee en een gebruiker die voor Linked Connections kiezen zijn. Hierbij zijn er respectievelijk twee en vijf gebruikers die geen verschil tussen de implementaties merkten.
+Dit zien we ook terug in de antwoorden wanneer gebruikers gevraagd werd te kiezen tussen beide implementaties. Voor vertrekken zijn er vier gebruikers die beide implementaties even snel vinden, terwijl van de overige 13 slechts vijf kiezen voor Linked Connections. Bij routes en voertuigen scoort Linked Connections zoals verwacht slechter: er zijn respectievelijk slechts twee en een gebruiker die voor Linked Connections kiezen zijn. Hierbij zijn er respectievelijk twee en vijf gebruikers die geen verschil tussen de implementaties merkten. De keuzes van gebruikers werden uitgezet in figuur \ref{fig:alluvialUserChoices}. In dit diagram zien we zowel hoeveel gebruikers voor elke implementatie kozen, maar ook hoe de keuze van gebruiker evolueert. Zo zien we dat naarmate de relatieve prestaties van LC ten opzichte van LC2Irail dalen, personen die eerder voor Linked Connections kozen overstappen op LC2Irail.
 
-Terwijl de meerderheid van de gebruikers steeds voor LC2Irail koos, kantelt deze balans echter volledig om wanneer gebruikers worden gevraagd om met alle aspecten rekening te houden: zodra ook  offline gebruik meespeelt, kiezen nog maar vijf gebruikers voor LC2Irail. Twee gebruikers zijn onbeslist, de andere tien gebruikers kiezen voor Linked Connections. Hieruit blijkt duidelijk dat gebruikers enige snelheid willen opgeven in ruil voor offline opzoekingen. Zeven gebruikers laten weten dat ze een hybride systeem ideaal zou zijn, waarbij de snelheid van LC2Irail gecombineerd wordt met Linked Connections als offline alternatief. Wanneer deze gebruikers alsnog verplicht werden te kiezen, waren hun keuzes gelijk verdeeld, afhankelijk van de persoonlijke nood om offline te kunnen opzoeken.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{alluvial_user_choice.eps}
+	\caption[Door gebruikers gekozen implementatie]{Verbanden tussen de door gebruikers gekozen implementaties voor alle soorten informatie, alsook de resulterende keuze waarbij ook offline toegang in rekening werd gebracht. }
+	\label{fig:alluvialUserChoices}
+\end{figure}
+
+Terwijl de meerderheid van de gebruikers steeds voor LC2Irail koos, kantelt deze balans echter volledig om wanneer gebruikers worden gevraagd om met alle aspecten rekening te houden. Dit is duidelijk zichtbaar aan de rechterkant van figuur \ref{fig:alluvialUserChoices}. Hieruit blijkt duidelijk dat gebruikers enige snelheid willen opgeven in ruil voor offline opzoekingen. Zeven gebruikers laten weten dat ze een hybride systeem ideaal zou zijn, waarbij de snelheid van LC2Irail gecombineerd wordt met Linked Connections als offline alternatief. Wanneer deze gebruikers alsnog verplicht werden te kiezen, waren hun keuzes gelijk verdeeld, afhankelijk van de persoonlijke nood om offline te kunnen opzoeken.
 
 \section{Beperkingen}
 \subsection{Kleine steekproef voor user testing}
