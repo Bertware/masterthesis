@@ -20,27 +20,27 @@ De HTC 10 is een \foreign{flagship} smartphone, uitgebracht in maart 2016. Deze 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.80\textwidth]{Optimalisaties_liveboards.eps}
-		\caption[Gemeten laadtijd liveboards]{De gemeten laadtijd voor liveboards gebruikmakend van een HTC 10 voor 262 opzoekingen gebaseerd op de iRail logs. }
+		\caption[Gemeten laadtijd liveboards]{De gemiddelde gemeten laadtijd voor liveboards gebruikmakend van een HTC 10 voor 262 opzoekingen gebaseerd op de iRail logs. }
 	\label{fig:liveboardlabtest}
 \end{figure}
-\begin{table}[h]
-	\begin{tabular}{| c | c | c | c | c | c |}
-		\hline
-		Variant & parser & cache & minimaal (ms) & gemiddelde (ms) & maximaal (ms)\\
-		\hline
-		LC op toestel & org.json & nee & 302 &  595 &  3471 \\
-		LC op toestel & org.json & ja & 409 &  516  &  3599 \\
-		LC op toestel & LoganSquare & nee & 392 & 597 & 2027 \\
-		LC op toestel & LoganSquare & ja  & 166 & 313 & 3428 \\
-		
-		LC op server &&&  232 & 397 &  1421\\
-		\hline
-	\end{tabular}
-	\caption[Gemeten laadtijd liveboards]{De gemeten laadtijd voor het eerste resultaat liveboards gebruikmakend van een HTC 10 voor 262 opzoekingen gebaseerd op de iRail logs. }
-	\label{tab:liveboardlabtest}
-\end{table}
+%\begin{table}[h]
+%	\begin{tabular}{| c | c | c | c | c | c |}
+%		\hline
+%		Variant & parser & cache & minimaal (ms) & gemiddelde (ms) & maximaal (ms)\\
+%		\hline
+%		LC op toestel & org.json & nee & 302 &  595 &  3471 \\
+%		LC op toestel & org.json & ja & 409 &  516  &  3599 \\
+%		LC op toestel & LoganSquare & nee & 392 & 597 & 2027 \\
+%		LC op toestel & LoganSquare & ja  & 166 & 313 & 3428 \\
+%		
+%		LC op server &&&  232 & 397 &  1421\\
+%		\hline
+%	\end{tabular}
+%	\caption[Gemeten laadtijd liveboards]{De gemeten laadtijd voor het eerste resultaat liveboards gebruikmakend van een HTC 10 voor 262 opzoekingen gebaseerd op de iRail logs. }
+%	\label{tab:liveboardlabtest}
+%\end{table}
 
-In tabel \ref{tab:liveboardlabtest} en grafiek \ref{fig:liveboardlabtest} zijn de resultaten zichtbaar van een benchmark waarbij 262 stations opgezocht werden, ongeveer 5\% van de opzoekingen door gebruikers op 2 mei 2018. Telkens is de minimale, gemiddelde en maximale responstijd gemeten. Dit zowel gebruikmakend van de standaard JSON parser (\foreign{org.json}) en gebruikmakend van de \foreign{LoganSquare} parser. Ook werd de test herhaald met cache in- en uitgeschakeld, om zo het effect hiervan te meten. Tot slot werd dezelfde test herhaald gebruikmakend van data afkomstig van de LC2Irail web applicatie om een vergelijking tussen de twee methodes te kunnen maken. Deze cijfers geven slechts een indicatie van de snelheid - een volledige en diepgaande statistische analyse van de performantieverschillen tussen verschillende implementatiedetails van dezelfde techniek valt wegens tijdsgebrek buiten het bereik van deze masterproef.
+In grafiek \ref{fig:liveboardlabtest} zijn de gemiddelde resultaten zichtbaar van een benchmark waarbij 262 stations opgezocht werden, ongeveer 5\% van de opzoekingen door gebruikers op 2 mei 2018. Telkens is de minimale, gemiddelde en maximale responstijd gemeten. Dit zowel gebruikmakend van de standaard (\foreign{org.json}) JSON parser en gebruikmakend van de \foreign{LoganSquare} parser. Ook werd de test herhaald met cache in- en uitgeschakeld, om zo het effect hiervan te meten. Tot slot werd dezelfde test herhaald gebruikmakend van data afkomstig van de LC2Irail web applicatie om een vergelijking tussen de twee methodes te kunnen maken. Deze cijfers geven slechts een indicatie van de snelheid - een volledige en diepgaande statistische analyse van de performantieverschillen tussen verschillende implementatiedetails van dezelfde techniek valt wegens tijdsgebrek buiten het bereik van deze masterproef.
 
 In deze cijfers is invloed van de cache wel duidelijk merkbaar. We zien wel een duidelijk verschil tussen de parsers: terwijl bij gebruik van de \foreign{LoganSquare} parser de gemiddelde laadtijd bijna halveert, terwijl het effect van de cache bij het gebruik van de \foreign{org.json} parser veel kleiner is. Wanneer de cache uitgeschakeld is is het verschil tussen de parsers verwaarloosbaar. Dit is te verklaren door het feit dat voor het tonen van vertrekken of aankomsten relatief weinig data nodig is: in de meeste gevallen volstaat een enkele Linked Connections pagina.
 
@@ -106,13 +106,20 @@ Zoals we in figuren \ref{fig:liveboardsBoxplot1} en \ref{fig:liveboardsBoxplot10
 	\label{fig:liveboardsUx}
 \end{figure}
 
-Hoewel 12 van de 17 testpersonen aangeeft licht tot extreem tevreden te zijn met de laadsnelheid, geven slechts 2 personen aan dat de lijst met vertrekken sneller laadt bij de lokale implementatie van Linked Connections. Nog eens 3 personen geven aan beide implementaties even snel te ervaren.
+Hoewel 12 van de 17 testpersonen Linked Connections als redelijk tot extreem snel ervaart, zijn er slechts twee personen die Linked Connections sneller ervaren dan LC2Irail. De ervaringen en uiteindelijk keus op basis van snelheid is zichtbaar in figuur \ref{fig:alluvialUserChoicesLiveboards}. Het is duidelijk zichtbaar dat de ervaringen voor Linked Connections veel gemengder zijn dan de ervaringen voor LC2Irail. Er zijn zowel mensen die Linked Connections sneller, even snel of trager ervaren. 
 
-Wanneer we gaan kijken naar de verschillen tussen de JSON parsers, blijkt dat beide parsers ongeveer even goed presteren in de ogen van de gebruikers. Respectievelijk 5 op 7 en 7 op 10 gebruikers zijn neutraal of tevreden, en bij beide varianten is er telkens een gebruiker neutraal. Deze vergelijking is echter slechts een indicatie, en is door te kleine steekproeven ongeschikt om te veralgemenen naar een grotere populatie.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{alluvial_user_choice_departures.eps}
+	\caption[Door gebruikers gekozen implementatie voor liveboards]{Verbanden tussen de door gebruikers gekozen implementaties voor liveboards. }
+	\label{fig:alluvialUserChoicesLiveboards}
+\end{figure}
 
-Wanneer we kijken naar de gemeten prestatieverschillen tussen beide JSON parsers tijdens de usertests, zien we een duidelijk verschil, waarbij het 90e percentiel van de laadtijd onder de LoganSquare parser lager ligt dan de mediane laadtijd van de org.json parser. Dit verschil lijkt echter geen invloed te hebben op de ervaringen van gebruikers, vermoedelijk omdat men beide reeds als performant genoeg ervaart.
+Alle testpersonen werden expliciet gevraagd welke implementatie ze als sneller ervoeren. Hierbij waren de antwoorden verdeeld: acht personen kozen de eerste variant, vier personen hadden geen mening, en vijf personen kozen de tweede variant.
 
-Tot slot werden alle testpersonen ook expliciet gevraagd welke implementatie ze als sneller ervaarden. Hierbij waren de antwoorden verdeeld: acht personen kozen de eerste variant, vier personen hadden geen mening, en vijf personen kozen de tweede variant. Hierbij valt op dat bij de eerste lokale implementatie, 
+Wanneer we gaan kijken naar de verschillen tussen de JSON parsers, blijkt dat beide parsers ongeveer even goed presteren in de ogen van de testers. Respectievelijk 5 op 7 en 7 op 10 testers zijn neutraal of tevreden, en bij beide varianten is er telkens een tester neutraal. Deze vergelijking is echter slechts een indicatie, en is door te kleine steekproeven ongeschikt om te veralgemenen naar een grotere populatie.
+
+Wanneer we tot slot kijken naar de gemeten prestatieverschillen tussen beide JSON parsers tijdens de usertests, zien we een duidelijk verschil, waarbij het 90e percentiel van de laadtijd onder de LoganSquare parser lager ligt dan de mediane laadtijd van de org.json parser. Dit verschil lijkt echter geen invloed te hebben op de ervaringen van gebruikers, vermoedelijk omdat men beide reeds als performant genoeg ervaart.
 
 \section{Routes}
 
@@ -120,27 +127,27 @@ Tot slot werden alle testpersonen ook expliciet gevraagd welke implementatie ze 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.80\textwidth]{Optimalisaties_routes.eps}
-	\caption[Gemeten laadtijd routes]{De gemeten laadtijd voor routes gebruikmakend van een HTC 10 voor 779 opzoekingen gebaseerd op de iRail logs.}
+	\caption[Gemeten laadtijd routes]{De gemiddelde gemeten laadtijd voor routes gebruikmakend van een HTC 10 voor 779 opzoekingen gebaseerd op de iRail logs.}
 	\label{fig:routelabtest}
 \end{figure}
-\begin{table}[h]
-	\begin{tabular}{| c | c | c | c | c | c |}
-		\hline
-		Variant & parser & cache & minimaal (ms) & gemiddelde (ms) & maximaal (ms)\\
-		\hline
-		LC op toestel & org.json & nee & 401 & 3539 & 8531\\
-		LC op toestel & org.json & ja & 221 & 2172 & 6960 \\
-		LC op toestel & LoganSquare & nee &  386 & 3374 & 7554 \\
-		LC op toestel & LoganSquare & ja  & 233 & 1973 & 7640 \\
-		
-		LC op server &&&  27 & 1126 & 3374\\
-		\hline
-	\end{tabular}
-	\caption[Gemeten laadtijd routes]{De gemeten laadtijd voor routes gebruikmakend van een HTC 10 voor 779 opzoekingen gebaseerd op de iRail logs.}
-	\label{tab:routelabtest}
-\end{table}
+%\begin{table}[h]
+%	\begin{tabular}{| c | c | c | c | c | c |}
+%		\hline
+%		Variant & parser & cache & minimaal (ms) & gemiddelde (ms) & maximaal (ms)\\
+%		\hline
+%		LC op toestel & org.json & nee & 401 & 3539 & 8531\\
+%		LC op toestel & org.json & ja & 221 & 2172 & 6960 \\
+%		LC op toestel & LoganSquare & nee &  386 & 3374 & 7554 \\
+%		LC op toestel & LoganSquare & ja  & 233 & 1973 & 7640 \\
+%		
+%		LC op server &&&  27 & 1126 & 3374\\
+%		\hline
+%	\end{tabular}
+%	\caption[Gemeten laadtijd routes]{De gemeten laadtijd voor routes gebruikmakend van een HTC 10 voor 779 opzoekingen gebaseerd op de iRail logs.}
+%	\label{tab:routelabtest}
+%\end{table}
 
-In tabel \ref{tab:routelabtest} en grafiek \ref{fig:routelabtest} zijn de resultaten zichtbaar van een benchmark waarbij 779 routes opgezocht werden, ongeveer 5\% van de opzoekingen door gebruikers op 2 mei 2018. Telkens is de minimale, gemiddelde en maximale responstijd gemeten. Dit zowel gebruikmakend van de standaard JSON parser (\foreign{org.json}) en gebruikmakend van de \foreign{LoganSquare} parser. Ook werd de test herhaald met cache in- en uitgeschakeld, om zo het effect hiervan te meten. Tot slot werd dezelfde test herhaald gebruikmakend van data afkomstig van de LC2Irail web applicatie om een vergelijking tussen de twee methodes te kunnen maken. Deze cijfers geven slechts een indicatie van de snelheid - een volledige en diepgaande statistische analyse van de performantieverschillen tussen verschillende implementatiedetails van dezelfde techniek valt wegens tijdsgebrek buiten het bereik van deze masterproef.
+In grafiek \ref{fig:routelabtest} zijn de gemiddelde resultaten zichtbaar van een benchmark waarbij 779 routes opgezocht werden, ongeveer 5\% van de opzoekingen door gebruikers op 2 mei 2018. Telkens is de minimale, gemiddelde en maximale responstijd gemeten. Dit zowel gebruikmakend van de standaard JSON parser (\foreign{org.json}) en gebruikmakend van de \foreign{LoganSquare} parser. Ook werd de test herhaald met cache in- en uitgeschakeld, om zo het effect hiervan te meten. Tot slot werd dezelfde test herhaald gebruikmakend van data afkomstig van de LC2Irail web applicatie om een vergelijking tussen de twee methodes te kunnen maken. Deze cijfers geven slechts een indicatie van de snelheid - een volledige en diepgaande statistische analyse van de performantieverschillen tussen verschillende implementatiedetails van dezelfde techniek valt wegens tijdsgebrek buiten het bereik van deze masterproef.
 
 Net zoals bij liveboards is ook hier de invloed van de cache duidelijk merkbaar. Vergeleken met dezelfde analyse voor Liveboards (figuur \ref{fig:liveboardlabtest}), zien we hier een minder groot verschil tussen de parsers: er moeten grote hoeveelheden data verwerkt worden, en het algoritme om de data te verwerken is het zwaarst van de drie endpoints.
 
@@ -195,16 +202,26 @@ Wanneer we nu specifiek naar de verdelingen kijken, gevisualiseerd door middel v
 
 Op vlak van gebruikerservaring verwachten we dat gebruikers net zoals bij Liveboards de implementatie op basis van LC2Irail consistenter zullen beoordelen, en dat snelheid voor beide implementaties ongeveer gelijk ervaren wordt.
 
-Wanneer we nu de resultaten van user testing vergelijken met de verwachtingen, blijken deze verwachtingen grotendeels in vervulling te gaan. In figuur \ref{fig:routesUx} is te zien dat de prestaties van LC2Irail iets consistenter beoordeeld worden, en LC2Irail tevens een betere beoordeling krijgt dan Linked Connections. 
-
-Wanneer we voor routes beide JSON parsers vergelijken, zien we dat voor de LoganSquare parser de proefpersonen een meer uitgesproken mening hadden: er waren zowel meer tevreden als ontevreden personen, terwijl bij de \foreign{org.json} parser veel mensen neutraal waren. Dit gaat echter in tegen een praktijktest waarbij enkele gebruikers achtereenvolgens een versie gebruikmakend van de \foreign{org.json} en \foreign{LoganSquare} parser voorgeschoteld kregen, gaven deze telkens aan de versie op basis van \foreign{LoganSquare} sneller te ervaren, zowel op goedkope als dure smartphones. Hieruit besluiten we dat de gebruikerstests, opgedeeld per parser, te kleine steekproeven zijn om een algemene conclusie te vormen over de invloed van de parsers.
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.80\textwidth]{boxplot_routes_ux.eps}
 	\caption[Ervaren snelheid van routes]{De ervaren snelheid op een schaal 1-7 van routes voor LC2Irail en Linked Connections, gebaseerd op 17 user tests.}
 	\label{fig:routesUx}
 \end{figure}
+
+Wanneer we nu de resultaten van user testing vergelijken met de verwachtingen, blijken deze verwachtingen grotendeels in vervulling te gaan. In figuur \ref{fig:routesUx} is te zien dat de prestaties van LC2Irail iets consistenter goed beoordeeld worden, en LC2Irail een betere beoordeling krijgt dan Linked Connections. In vergelijking met liveboards (figuur \ref{fig:liveboardsUx}) zien we dat gebruikers bij routes iets minder verdeeld zijn over de prestaties van Linked Connections.
+
+Dit wordt verder duidelijk wanneer we dieper ingaan op hoe eenzelfde gebruiker de snelheid van LC2Irail en Linked Connections ervaart, zichtbaar in figuur \ref{fig:alluvialUserChoicesRoutes}. Hoewel veel gebruikers Linked Connections als trager ervaren, is er ook een klein aantal gebruikers dat Linked Connections sneller ervaart. Het zijn deze personen die, wanneer expliciet gevraagd wordt om de snelste implementatie aan te duiden, voor Linked Connections kiezen. Dit duidelijk verband kon bij liveboards niet gelegd worden (figuur \ref{fig:alluvialUserChoicesLiveboards}), waaruit blijkt dat er bij liveboards voor gebruikers slechts een klein, onduidelijk verschil was tussen de prestaties van beide implementaties. Voor routes wordt het verschil veel duidelijker ervaren, en kiezen gebruikers dus consistenter met de door hun ervaren snelheid.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{alluvial_user_choice_routes.eps}
+	\caption[Door gebruikers gekozen implementatie voor routes]{Verbanden tussen de door gebruikers gekozen implementaties voor routes. }
+	\label{fig:alluvialUserChoicesRoutes}
+\end{figure}
+
+Wanneer we voor routes beide JSON parsers vergelijken, zien we dat voor de LoganSquare parser de proefpersonen een meer uitgesproken mening hadden: er waren zowel meer tevreden als ontevreden personen, terwijl bij de \foreign{org.json} parser veel mensen neutraal waren. Dit gaat echter in tegen een praktijktest waarbij enkele gebruikers achtereenvolgens een versie gebruikmakend van de \foreign{org.json} en \foreign{LoganSquare} parser voorgeschoteld kregen, gaven deze telkens aan de versie op basis van \foreign{LoganSquare} sneller te ervaren, zowel op goedkope als dure smartphones. Hieruit besluiten we dat de gebruikerstests, opgedeeld per parser, te kleine steekproeven zijn om een algemene conclusie te vormen over de invloed van de parsers.
+
 
 \section{Voertuigen}
 
@@ -214,35 +231,35 @@ Het opzoeken van het traject dat een voertuig aflegt heeft als groot verschil da
 Dit is ook de opzoeking die het meeste data vereist bij Linked Connections: alle pagina's moeten doorzocht worden op connecties met betrekking tot één specifiek voertuig. Dit voertuig komt slechts in een relatief beperkt aantal pagina's voor, gezien het voertuig slechts enkele uren rijdt, en het tijdstip van eerste vertrek en aankomst onbekend zijn. Zoals eerder vermeld %TODO: referntie
 zijn hier enkele oplossingen voor, zoals het gebruik van een index. We definiëren een index in deze context als een lijst van alle treinen voor een bepaalde periode (in dit geval mei 2018) en het tijdstip van hun eerste vertrek.
 
-Om een idee te krijgen van de invloed van deze index, alsook van het gebruik van een cachegeheugen voor de Linked Connections pagina's bij deze opzoekingen, werden 102 voertuigen opgezocht, voor alle combinaties van cache en index gebruik. Tevens werd een extra test gedaan met een cache die in het RAM geheugen geplaatst wordt (in tegenstelling tot het flashgeheugen van het toestel), en een vergelijkende test waarbij de Linked Connections server gebruikt werd. De minimale, gemiddelde en maximale opzoektijd hiervoor is te zien in tabel \ref{tab:vehiclelabtest}. De gemiddelde resultaten zijn tevens gevisualiseerd in figuur \ref{fig:vehiclelabtest}.
+Om een idee te krijgen van de invloed van deze index, alsook van het gebruik van een cachegeheugen voor de Linked Connections pagina's bij deze opzoekingen, werden 102 voertuigen opgezocht, voor alle combinaties van cache en index gebruik. Tevens werd een extra test gedaan met een cache die in het RAM geheugen geplaatst wordt (in tegenstelling tot het flashgeheugen van het toestel), en een vergelijkende test waarbij de Linked Connections server gebruikt werd. De gemiddelde opzoektijd hiervoor is gevisualiseerd in figuur \ref{fig:vehiclelabtest}.
 
-\begin{figure}[ht]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1.00\textwidth]{Optimalisaties_voertuigen.eps}
 	\caption[Gemeten laadtijd voertuigen]{De gemeten laadtijd voor voertuigen gebruikmakend van een HTC 10 voor 102 opzoekingen gebaseerd op de iRail logs. }
 	\label{fig:vehiclelabtest}
 \end{figure}
 
-\begin{table}[ht]
-	\begin{tabular}{| c | c | c | c | c | c | c |}
-		\hline
-		Variant & parser & cache & index & minimaal (ms) & gemiddelde (ms) & maximaal (ms)\\
-		\hline
-		LC op toestel & org.json & nee & nee & 540 & 6764 & 12676 \\
-		LC op toestel & org.json & ja & nee & 483 & 6488 & 10921 \\
-		
-		LC op toestel & org.json & nee & ja & 2638 & 4443 & 10956 \\
-		LC op toestel & org.json & ja & ja &  2440 & 4066 & 6003\\
-		LC op toestel & org.json & RAM & ja & 2263 & 3912 & 5763 \\
-		LC op toestel & LoganSquare & nee & ja &  1860 & 3283 & 5374 \\
-		LC op toestel & LoganSquare & ja  & ja & 1195 & 1925 & 2888 \\
-		
-		LC op server &&&&  264 & 713 & 5068 \\
-		\hline
-	\end{tabular}
-	\caption[Gemeten laadtijd voertuigen]{De gemeten laadtijd voor voertuigen gebruikmakend van een HTC 10 voor 102 opzoekingen gebaseerd op de iRail logs. }
+%\begin{table}[ht]
+%	\begin{tabular}{| c | c | c | c | c | c | c |}
+%		\hline
+%		Variant & parser & cache & index & minimaal (ms) & gemiddelde (ms) & maximaal (ms)\\
+%		\hline
+%		LC op toestel & org.json & nee & nee & 540 & 6764 & 12676 \\
+%		LC op toestel & org.json & ja & nee & 483 & 6488 & 10921 \\
+%		
+%		LC op toestel & org.json & nee & ja & 2638 & 4443 & 10956 \\
+%		LC op toestel & org.json & ja & ja &  2440 & 4066 & 6003\\
+%		LC op toestel & org.json & RAM & ja & 2263 & 3912 & 5763 \\
+%		LC op toestel & LoganSquare & nee & ja &  1860 & 3283 & 5374 \\
+%		LC op toestel & LoganSquare & ja  & ja & 1195 & 1925 & 2888 \\
+%		
+%		LC op server &&&&  264 & 713 & 5068 \\
+%		\hline
+%	\end{tabular}
+%	\caption[Gemeten laadtijd voertuigen]{De gemeten laadtijd voor voertuigen gebruikmakend van een HTC 10 voor 102 opzoekingen gebaseerd op de iRail logs. }
 	\label{tab:vehiclelabtest}
-\end{table}
+%\end{table}
 
 Het is duidelijk dat de standaard implementatie zeer slecht presteert. Ook het gebruik van een cachegeheugen brengt hierbij niet veel beterschap. Wanneer echter een index toegevoegd worden, is een drastische verbetering merkbaar. Het gemiddelde daalt in deze beeperkte test met ongeveer een derde. Toevoeging van een cachegeheugen, op flash of in het RAM geheugen, brengt ook hier slechts weinig beterschap. 
 
@@ -285,17 +302,15 @@ Personen die de lokale implementatie op basis van \foreign{LoganSquare} testten,
 	\label{fig:alluvialUserChoicesVehicles}
 \end{figure}
 
-Wanneer de gebruiker gevraagd werd te kiezen, koos slechts één gebruiker voor de lokale implementatie in dit onderdeel. Vijf gebruikers hadden geen specifieke voorkeur voor een specifieke implementatie, ook al beoordeelden vier van hen Linked Connections als trager. In figuur \ref{fig:alluvialUserChoicesVehicles} is duidelijk te zien hoe de ervaringen van elke gebruiker waren. Zo zien we dat de ervaring voor gebruikers nooit verbeterd, en veel gebruikers een groot verschil ervaren tussen de snelheid van beide implementaties. Veel gebruikers die Linked Connections als redelijk of zeer snel ervaren, ervoeren LC2Irail nog steeds als sneller, waardoor ze wanneer ze moesten kiezen niet voor Linked Connections kozen.
+Wanneer de gebruiker gevraagd werd te kiezen, koos slechts één gebruiker voor de lokale implementatie in dit onderdeel. Vijf gebruikers hadden geen specifieke voorkeur voor een specifieke implementatie, ook al beoordeelden vier van hen Linked Connections als trager. In figuur \ref{fig:alluvialUserChoicesVehicles} zijn de ervaringen van elke gebruiker duidelijk te zien. Zo zien we dat de ervaring voor gebruikers nooit verbeterd, en veel gebruikers een groot verschil ervaren tussen de snelheid van beide implementaties, in het nadeel van Linked Connections. Veel gebruikers die Linked Connections als redelijk of zeer snel ervaren, ervoeren LC2Irail nog steeds als sneller, waardoor ze wanneer ze moesten kiezen niet voor Linked Connections kozen. De enigste gebruiker die voor Linked Connections koos, ervoer Linked Connections niet als sneller dan LC2Irail, maar vond beide wel snel.
 
-Uit de combinatie van metingen en ervaringen concluderen we dat gebruikers de laadtijd van voertuigdata acceptabel vinden wanneer deze onder 1 seconde blijft. Een seconde langer laden, wat vaak geval is bij Linked Connections, wordt door de meeste personen niet meer als snel ervaren. Gebruikers zullen in dit geval de voorkeur geven aan een snellere applicatie.
-
+Uit de combinatie van metingen en ervaringen concluderen we dat gebruikers de laadtijd van voertuigdata acceptabel tot snel vinden voor Linked Connections. Een seconde of meer langer laden, wat vaak geval is bij Linked Connections, zorgt bij veel mensen voor een slechtere ervaring. De impact hiervan wordt verder besproken in hoofdstuk \ref{chap:interpretatie}.
 
 \section{Keuze van de gebruiker}
 
 Voor alle soorten informatie (liveboards, routes, en voertuigen) lijkt Linked Connections een slechtere gebruikerservaring dan LC2Irail, in termen van laadtijd. Hierbij dienen we op te merken dat dit verschil bij liveboards slechts zeer beperkt is, en het laden nog steeds als snel werd ervaren. Voor routes bestempelden enkele personen Linked Connections als traag, maar blijft het verschil beperkt. Bij voertuigen blijkt echter dat Linked Connections door drie kwart van de gebruikers als trager werd ervaren, waarbij Linked Connections niet enkel relatief slechter scoort, maar ook in absolute termen slechts door een minderheid van de gebruikers als snel wordt ervaren. 
 
 Dit zien we ook terug in de antwoorden wanneer gebruikers gevraagd werd te kiezen tussen beide implementaties. Voor vertrekken zijn er vier gebruikers die beide implementaties even snel vinden, terwijl van de overige 13 slechts vijf kiezen voor Linked Connections. Bij routes en voertuigen scoort Linked Connections zoals verwacht slechter: er zijn respectievelijk slechts twee en een gebruiker die voor Linked Connections kiezen zijn. Hierbij zijn er respectievelijk twee en vijf gebruikers die geen verschil tussen de implementaties merkten. De keuzes van gebruikers werden uitgezet in figuur \ref{fig:alluvialUserChoices}. In dit diagram zien we zowel hoeveel gebruikers voor elke implementatie kozen, maar ook hoe de keuze van gebruiker evolueert. Zo zien we dat naarmate de relatieve prestaties van LC ten opzichte van LC2Irail dalen, personen die eerder voor Linked Connections kozen overstappen op LC2Irail.
-
 
 \begin{figure}[ht]
 	\centering
@@ -304,7 +319,7 @@ Dit zien we ook terug in de antwoorden wanneer gebruikers gevraagd werd te kieze
 	\label{fig:alluvialUserChoices}
 \end{figure}
 
-Terwijl de meerderheid van de gebruikers steeds voor LC2Irail koos, kantelt deze balans echter volledig om wanneer gebruikers worden gevraagd om met alle aspecten rekening te houden. Dit is duidelijk zichtbaar aan de rechterkant van figuur \ref{fig:alluvialUserChoices}. Hieruit blijkt duidelijk dat gebruikers enige snelheid willen opgeven in ruil voor offline opzoekingen. Zeven gebruikers laten weten dat ze een hybride systeem ideaal zou zijn, waarbij de snelheid van LC2Irail gecombineerd wordt met Linked Connections als offline alternatief. Wanneer deze gebruikers alsnog verplicht werden te kiezen, waren hun keuzes gelijk verdeeld, afhankelijk van de persoonlijke nood om offline te kunnen opzoeken.
+Terwijl de meerderheid van de gebruikers steeds voor LC2Irail koos, kantelt deze balans echter volledig om wanneer gebruikers worden gevraagd om met alle aspecten rekening te houden. Dit is duidelijk zichtbaar aan de rechterkant van figuur \ref{fig:alluvialUserChoices}. Hieruit blijkt duidelijk dat gebruikers enige snelheid willen opgeven in ruil voor offline opzoekingen. Zeven gebruikers laten weten dat ze een hybride systeem ideaal zou zijn, waarbij de snelheid van LC2Irail gecombineerd wordt met Linked Connections als offline alternatief. Wanneer deze gebruikers alsnog verplicht werden te kiezen, waren hun keuzes gelijk verdeeld, afhankelijk van de persoonlijke nood om offline te kunnen opzoeken. Wat dit wilt zeggen voor Linked Connections zullen we verder bespreken in hoofdstuk \ref{chap:interpretatie}.
 
 \section{Beperkingen}
 \subsection{Kleine steekproef voor user testing}
