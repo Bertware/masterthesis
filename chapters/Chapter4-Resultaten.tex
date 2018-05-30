@@ -119,7 +119,9 @@ Alle testpersonen werden expliciet gevraagd welke implementatie ze als sneller e
 
 Wanneer we gaan kijken naar de verschillen tussen de JSON parsers, blijkt dat beide parsers ongeveer even goed presteren in de ogen van de testers. Respectievelijk 5 op 7 en 7 op 10 testers zijn neutraal of tevreden, en bij beide varianten is er telkens een tester neutraal. Deze vergelijking is echter slechts een indicatie, en is door te kleine steekproeven ongeschikt om te veralgemenen naar een grotere populatie.
 
-Wanneer we tot slot kijken naar de gemeten prestatieverschillen tussen beide JSON parsers tijdens de usertests, zien we een duidelijk verschil, waarbij het 90e percentiel van de laadtijd onder de LoganSquare parser lager ligt dan de mediane laadtijd van de org.json parser. Dit verschil lijkt echter geen invloed te hebben op de ervaringen van gebruikers, vermoedelijk omdat men beide reeds als performant genoeg ervaart.
+Wanneer echter gekeken wordt naar de gemeten prestatieverschillen tussen beide JSON parsers tijdens de usertests, zien we een duidelijk verschil, waarbij het 90e percentiel van de laadtijd onder de LoganSquare parser lager ligt dan de mediane laadtijd van de org.json parser. Dit verschil lijkt echter geen invloed te hebben op de ervaringen van gebruikers, vermoedelijk omdat men beide reeds als performant genoeg ervaart.
+
+Als gevraagd wordt om de snelheid te vergelijken met de applicatie die de gebruiker op dit moment gebruikt, geven één op vier gebruikers aan Linked Connections als trager te ervaren, een derde ervaart Linked Connections als even snel, één op tien ervaart Linked Connections als een beetje sneller, nog een derde ervaart Linked Connections als redelijk wat sneller. Drie op tien testers ervaart LC2Irail als even snel om liveboards op te zoeken, nog eens drie op tien ervaart LC2Irail als een beetje sneller. Telkens twee op tien gebruikers meent dat LC2Irail redelijk of veel sneller dan de app die men gewoonlijk gebruikt.
 
 \section{Routes}
 
@@ -222,6 +224,7 @@ Dit wordt verder duidelijk wanneer we dieper ingaan op hoe eenzelfde gebruiker d
 
 Wanneer we voor routes beide JSON parsers vergelijken, zien we dat voor de LoganSquare parser de proefpersonen een meer uitgesproken mening hadden: er waren zowel meer tevreden als ontevreden personen, terwijl bij de \foreign{org.json} parser veel mensen neutraal waren. Dit gaat echter in tegen een praktijktest waarbij enkele gebruikers achtereenvolgens een versie gebruikmakend van de \foreign{org.json} en \foreign{LoganSquare} parser voorgeschoteld kregen, gaven deze telkens aan de versie op basis van \foreign{LoganSquare} sneller te ervaren, zowel op goedkope als dure smartphones. Hieruit besluiten we dat de gebruikerstests, opgedeeld per parser, te kleine steekproeven zijn om een algemene conclusie te vormen over de invloed van de parsers.
 
+Als gevraagd wordt om de snelheid te vergelijken met de applicatie die de gebruiker op dit moment gebruikt, geven vier op tien gebruikers aan Linked Connections als even snel te ervaren voor het opzoeken van routes, en telkens drie op tien gebruikers ervaart LC als trager of sneller. De helft van de testers ervaart LC2Irail als even snel om routes op te zoeken, telkens een zesde ervaart LC2Irail als een beetje, redelijk of veel sneller dan de app die men gewoonlijk gebruikt.
 
 \section{Voertuigen}
 
@@ -304,6 +307,8 @@ Personen die de lokale implementatie op basis van \foreign{LoganSquare} testten,
 
 Wanneer de gebruiker gevraagd werd te kiezen, koos slechts één gebruiker voor de lokale implementatie in dit onderdeel. Vijf gebruikers hadden geen specifieke voorkeur voor een specifieke implementatie, ook al beoordeelden vier van hen Linked Connections als trager. In figuur \ref{fig:alluvialUserChoicesVehicles} zijn de ervaringen van elke gebruiker duidelijk te zien. Zo zien we dat de ervaring voor gebruikers nooit verbeterd, en veel gebruikers een groot verschil ervaren tussen de snelheid van beide implementaties, in het nadeel van Linked Connections. Veel gebruikers die Linked Connections als redelijk of zeer snel ervaren, ervoeren LC2Irail nog steeds als sneller, waardoor ze wanneer ze moesten kiezen niet voor Linked Connections kozen. De enigste gebruiker die voor Linked Connections koos, ervoer Linked Connections niet als sneller dan LC2Irail, maar vond beide wel snel.
 
+Als gevraagd wordt om de snelheid te vergelijken met de applicatie die de gebruiker op dit moment gebruikt, geven zes op tien gebruikers aan Linked Connections als even snel te ervaren voor het opzoeken van voertuigen, en telkens één op tien gebruikers ervaart LC als een beetje trager, een beetje sneller of veel sneller. Net zoals bij het opzoeken van routes ervaart de helft van de testers LC2Irail als even snel om voertuigen op te zoeken, telkens een zesde ervaart LC2Irail als een beetje, redelijk of veel sneller dan de app die men gewoonlijk gebruikt.
+
 Uit de combinatie van metingen en ervaringen concluderen we dat gebruikers de laadtijd van voertuigdata acceptabel tot snel vinden voor Linked Connections. Een seconde of meer langer laden, wat vaak geval is bij Linked Connections, zorgt bij veel mensen voor een slechtere ervaring. De impact hiervan wordt verder besproken in hoofdstuk \ref{chap:interpretatie}.
 
 \section{Door de gebruiker gekozen implementatie}
@@ -319,7 +324,18 @@ Dit zien we ook terug in de antwoorden wanneer gebruikers gevraagd werd te kieze
 	\label{fig:alluvialUserChoices}
 \end{figure}
 
-Terwijl de meerderheid van de gebruikers steeds voor LC2Irail koos, kantelt deze balans echter volledig om wanneer gebruikers worden gevraagd om met alle aspecten rekening te houden. Dit is duidelijk zichtbaar aan de rechterkant van figuur \ref{fig:alluvialUserChoices}. Hieruit blijkt duidelijk dat gebruikers enige snelheid willen opgeven in ruil voor offline opzoekingen. Zeven gebruikers laten weten dat ze een hybride systeem ideaal zou zijn, waarbij de snelheid van LC2Irail gecombineerd wordt met Linked Connections als offline alternatief. Wanneer deze gebruikers alsnog verplicht werden te kiezen, waren hun keuzes gelijk verdeeld, afhankelijk van de persoonlijke nood om offline te kunnen opzoeken. Wat dit wilt zeggen voor Linked Connections zullen we verder bespreken in hoofdstuk \ref{chap:interpretatie}.
+Terwijl de meerderheid van de gebruikers steeds voor LC2Irail koos, kantelt deze balans echter volledig om wanneer gebruikers worden gevraagd om met alle aspecten rekening te houden. Dit is duidelijk zichtbaar aan de rechterkant van figuur \ref{fig:alluvialUserChoices}. Hieruit blijkt duidelijk dat gebruikers enige snelheid willen opgeven in ruil voor offline opzoekingen. Zeven gebruikers laten weten dat ze een hybride systeem ideaal zou zijn, waarbij de snelheid van LC2Irail gecombineerd wordt met Linked Connections als offline alternatief. Wanneer deze gebruikers alsnog verplicht werden te kiezen, waren hun keuzes gelijk verdeeld, afhankelijk van de persoonlijke nood om offline te kunnen opzoeken. 
+
+
+We trachten nu een antwoord te vinden op de in hoofdstuk \ref{chap:onderzoek} gestelde vragen.
+\begin{itemize}
+	\item Ervaart de gebruiker een app die lokaal Linked Connections gebruikt als sneller dan een app die gebruik maakt van een RPC API?\\
+	De ervaring van de gebuiker hangt sterk af van het gebruikte toestel en de gemaakte opzoekingen. Enkel gebruikers van snelle toestellen ervaren Linked Connections in sommige gevallen als sneller. Voor liveboards is Linked Connections concurrentieel, maar voor andere opzoekingen is deze techniek meestal trager dan de gebruikte RPC API.
+	\item Ervaart de gebruiker een app die lokaal Linked Connections gebruikt als sneller dan zijn huidige app?\\
+	Een minderheid ervaart Linked Connections als sneller dan de huidige gebruikte applicatie. Voor liveboards, routes en voertuigen vinden respectievelijk 45\%, 30\% en 24\% dat Linked Connections sneller is. Respectievelijk 30\%, 40\% en 60\% van de gebruikers ervaren Linked Connections als even snel, met 24\%, 30\% en 12\% van de gebruikers die Linked Connections expliciet als trager ervaren dan hun huidige applicatie. Linked Connections brengt op dit moment zeker geen verbetering in snelheid voor de gebruikers.
+\end{itemize}
+
+Wat dit wilt zeggen voor de onderzoeksvraag en hypotheses en zullen we verder bespreken in hoofdstuk \ref{chap:interpretatie}.
 
 \section{Enquete}
 Zoals vermeld in hoofdstuk \ref{chap:onderzoek}, trachten we een aantal vragen te beantwoorden aan de hand van een enquete (bijlage \ref{appendix:enquete}). We zullen nu eerst de resultaten van deze enquete overlopen, alvorens aan de hand van deze resultaten een antwoord te formuleren op de in hoofstuk \ref{chap:onderzoek} geformuleerde vragen.
