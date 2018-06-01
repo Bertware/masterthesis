@@ -7,22 +7,20 @@
 \chapter{Implementatie}
 \label{chap:implementatie}
 
-Om een zo eerlijk mogelijke vergelijking te bekomen, zullen we zowel bij de client-side API als de server-side API dezelfde algoritmes toepassen. Gezien de jonge leeftijd van het Linked Connections framework zijn er nog geen algoritmes beschikbaar om deze data te verwerken. We zullen de ontwikkeling van deze algoritmen bespreken, met speciale aandacht voor het routeplanning algoritme vanwege de hogere complexiteit en de uitgebreide mogelijkheden.
+Om een zo eerlijk mogelijke vergelijking te bekomen, zullen we zowel bij de client-side implementatie van Linked Connections als de server-side API (LC2Irail) dezelfde algoritmes toepassen. Gezien de jonge leeftijd van het Linked Connections framework zijn er nog geen algoritmes beschikbaar om deze data te verwerken. We zullen de ontwikkeling van deze algoritmen bespreken, met speciale aandacht voor het routeplanning algoritme vanwege de hogere complexiteit en de uitgebreide mogelijkheden.
 
 \section{Linked Connections specificaties}
 \label{sec:lcformaat}
-In plaats van een dump van planningsdata of een volledige routeplanner te publiceren, publiceert Linked Connections zogenoemde connecties. Een connectie is het kleinste ondeelbaar stuk van een treinrit, en beschrijft het vertrek in een station en de aankomst in het volgence station op de route. Deze connecties worden gesorteerd volgens vertrektijd. Hierna wordt deze lijst gesplitst, om pagina's van gelijke grootte of gelijke tijdsduur te bekomen. Deze fragmenten kunnen gepubliceerd worden via HTTP als \foreign{JSON-LD}\footnote{https://json-ld.org/}, waarbij user-agents kunnen kiezen welke pagina's ze opvragen. Links in de gepubliceerde documenten zorgen ervoor dat user-agents steeds weten welke pagina ze als volgende moeten laden \citep{linkedconnections18}.
+Zoals eerder aangehaald publiceert Linked Connections geen dump van reisinformatie of een volledige routeplanner, maar een lijst van zogenoemde connecties. Een connectie is het kleinste ondeelbaar stuk van een treinrit, en beschrijft het vertrek in een station en de aankomst in het volgende station op de route. Deze connecties worden opgeslagen in een lijst en gesorteerd volgens vertrektijd. Hierna wordt deze lijst gesplitst, om pagina's van gelijke grootte of gelijke tijdsduur te bekomen. Deze fragmenten kunnen gepubliceerd worden via HTTP als \foreign{JSON-LD}\footnote{https://json-ld.org/}, waarbij user-agents kunnen kiezen welke pagina's ze opvragen. Links in de gepubliceerde documenten zorgen ervoor dat user-agents steeds weten welke pagina ze als volgende moeten laden \citep{linkedconnections18}.
 
 Om bovenstaande methode in de praktijk om te zetten, wordt gebruik gemaakt van de open source LC-Server\footnote{https://github.com/julianrojas87/linked-connections-server/}. Om GTFS om te zetten naar Linked Connections, wordt er achterliggend gebruik gemaakt van de gtfs2lc tool\footnote{https://github.com/linkedconnections/gtfs2lc}.
 
 Deze data zijn publiek toegankelijk via https://graph.irail.be/.
 
 \subsection{Vraag- en antwoordformaat}
-Om een pagina met data op te halen, wordt een verzoek gemaakt naar de API, waarbij de vervoersmaatschappij en het gewenste tijdstip in ISO8601 formaat in de URL opgenomen worden.  Codefragmenten \ref{code:2:linkedconnections-response-context} en \ref{code:2:linkedconnections-response-graph} tonen een ingekort resultaat voor de vertrekken bij de NMBS op 20 maart 2018, 12:30. De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
+Om een pagina met data op te halen, wordt een verzoek gemaakt naar de API, waarbij de vervoersmaatschappij en het gewenste tijdstip in ISO8601 formaat in de URL opgenomen worden. In code \ref{code:2:linkedconnections-response-context} en \ref{code:2:linkedconnections-response-graph} zien we het resultaat voor de NMBS op 20 maart 2018, 12:30. Het verzoek dat gemaakt werd om de resultaten te bekomen is een HTTP verzoek naar \inlinecode{https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:30:00.000Z}.
 
-Verzoek: \inlinecode{https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:30:00.000Z}
-
-Een voorbeeld van een LC pagina zien we in fragmenten \ref{code:2:linkedconnections-response-context} en \ref{code:2:linkedconnections-response-graph}, met volgende data:
+We overlopen nu de belangrijkste velden in dit antwoord:
 \begin{enumerate}
 	\item \foreign{@context}: Deze lijst, zichtbaar in fragment \ref{code:2:linkedconnections-response-context}, definieert de gebruikte namespaces en velden
 	\item \foreign{hydra:next} en  \foreign{hydra:previous}: Links naar de pagina met respectievelijk de volgende en de voorgaande data
@@ -41,70 +39,75 @@ Een voorbeeld van een LC pagina zien we in fragmenten \ref{code:2:linkedconnecti
 
 \begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{json}
-			"@context": {
-			 "xsd": "http://www.w3.org/2001/XMLSchema#",
-			"lc": "http://semweb.mmlab.be/ns/linkedconnections#",
-			"hydra": "http://www.w3.org/ns/hydra/core#",
-			"gtfs": "http://vocab.gtfs.org/terms#",
-			"Connection": "lc:Connection",
-			"...": "..."
+			{"@context": {
+			    "lc": "http://semweb.mmlab.be/ns/linkedconnections#",
+			    "hydra": "http://www.w3.org/ns/hydra/core#",
+			    "gtfs": "http://vocab.gtfs.org/terms#",
+			    "...": "..."
 			},
 			"@id": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:30:00.000Z",
 			"@type": "hydra:PagedCollection",
 			"hydra:next": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:40:00.000Z",
 			"hydra:previous": "https://graph.irail.be/sncb/connections?departureTime=2018-03-20T12:20:00.000Z",
-			"hydra:search": {
-				"..."
-			}
+			"hydra:search": {"...": "..."},
+			"...":"..."}
 		\end{minted}
-	\caption{Voorbeeld Linked Connections Formaat: context}
+	\caption{Voorbeeld Linked Connections formaat: context}
 	\label{code:2:linkedconnections-response-context}
 \end{code}
 \begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{json}
+			{"...":"...",
 			"@graph": [
-				{
-				"@id": "http://irail.be/connections/8822228/20180320/S11961",
-				"@type": "Connection",
-				"departureStop": "http://irail.be/stations/NMBS/008822228",
-				"arrivalStop": "http://irail.be/stations/NMBS/008822210",
-				"departureTime": "2018-03-20T12:30:00.000Z",
-				"departureDelay": 60,
-				"arrivalTime": "2018-03-20T12:32:00.000Z",
-				"arrivalDelay": 0,
-				"direction": "Anvers-Central",
-				"gtfs:trip": "http://irail.be/vehicle/S11961/20180320",
-				"gtfs:route": "http://irail.be/vehicle/S11961",
-				"gtfs:pickupType": "gtfs:Regular",
-				"gtfs:dropOffType": "gtfs:Regular"
+				{   "@id": "http://irail.be/connections/8822228/20180320/S11961",
+				    "@type": "Connection",
+    				"departureStop": "http://irail.be/stations/NMBS/008822228",
+    				"arrivalStop": "http://irail.be/stations/NMBS/008822210",
+    				"departureTime": "2018-03-20T12:30:00.000Z",
+    				"departureDelay": 60,
+    				"arrivalTime": "2018-03-20T12:32:00.000Z",
+    				"arrivalDelay": 0,
+    				"direction": "Anvers-Central",
+    				"gtfs:trip": "http://irail.be/vehicle/S11961/20180320",
+    				"gtfs:route": "http://irail.be/vehicle/S11961",
+    				"gtfs:pickupType": "gtfs:Regular",
+    				"gtfs:dropOffType": "gtfs:Regular"
 				},
-				{"...":"..."}
-			]
-		}
+				{"...":"...", }
+			]}
 	\end{minted}
-\caption{Voorbeeld Linked Connections Formaat: graph}
+\caption{Voorbeeld Linked Connections formaat: graph}
 \label{code:2:linkedconnections-response-graph}
 \end{code}
+ 
+De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
+ 
 \section{Algoritmes}
 \label{sec:algoritmes}
 \subsection{Connection Scan Algoritme}
 \label{sec:csa}
-Routeplanning wordt vaak opgelost met behulp van (een variant op) het algoritme van Dijkstra ~\citep{strasser13,hannemann07,hannemann08}. Toepassingen die gebruik maken van Dijkstra vereisen echter een graaf en een \foreign{priority queue}. Naast de impact op prestaties die deze eisen vormen, beperkt een graaf ook de flexibiliteit. De \foreign{open world assumption} stelt dat er steeds andere stopplaatsen wiens bestaan we (nog) niet kennen. Het opstellen van een graaf zou vereisen dat we alle gegevens eerst volledig moeten downloaden, terwijl Linked Connections net goed geschikt is voor streaming. 
+Routeplanning wordt vaak opgelost met behulp van (een variant op) het algoritme van Dijkstra ~\citep{strasser13,hannemann07,hannemann08}. Toepassingen die gebruik maken van Dijkstra vereisen echter het bijhouden van een graaf en een \foreign{priority queue}. Naast de impact op prestaties die deze eisen vormen, beperkt een graaf ook de flexibiliteit. De \foreign{open world assumption} stelt dat er steeds andere stopplaatsen wiens bestaan we (nog) niet kennen. Het opstellen van een graaf zou vereisen dat we alle gegevens eerst volledig moeten downloaden, terwijl Linked Connections net goed geschikt is voor streaming. 
 
-Gezien het Belgische spoortnetwerk relatief klein is in vergelijking met andere landen, is CSA ruim snel genoeg. In de praktijk blijkt de standaard implementatie van CSA snel genoeg voor realtime opzoekingen, ook voor grote spoornetwerken zoals het Duitse net\citep{strasser14}. Wanneer Linked Connections op grote schaal toegepast wordt, kan ook de performantie van CSA nog verder verbeterd worden door het implementeren van Connection Scan Accelerated\citep{strasser14,strasser17}. Een andere optie is het toepassen van heuristieken. Deze verbeteren wel de responstijd, maar zorgen er in sommige gevallen voor dat een optimale route niet gevonden wordt~\citep{hannemann07}. 
+Het Connection Scan Algoritme (CSA) werd voor het eerst beschreven door Ben Strasser in 2013~\citep{strasser13}. Dit algoritme vereist van een lijst met vertrekken gesorteerd op vertrektijd. Hiermee worden alle routes in een tijdsinterval efficiënt berekend~\citep{strasser14,strasser17}. In tegenstelling tot Dijkstra's algoritme is er geen graaf of \foreign{priority queue} benodigd. Waar andere algoritmen ofwel enkel op kleine netwerken performant zijn, ofwel niet altijd de best mogelijke route vinden, kan CSA de optimale route in grote netwerken toch efficiënt vinden~\citep{strasser14}.
 
-Het Connection Scan Algoritme (CSA) werd voor het eerst beschreven door Ben Strasser in 2013~\citep{strasser13}. Dit algoritme vereist van een lijst met vertrekken gesorteerd op vertrektijd. Hiermee worden alle routes in een tijdsinterval efficiënt berekend~\citep{strasser14,strasser17}. In tegenstelling tot Dijkstra's algoritme is er geen graaf of \foreign{priority queue} benodigd. Waar andere algoritmen ofwel enkel op kleine netwerken performant zijn, ofwel niet altijd de  best mogelijke route vinden, kan CSA de optimale route in grote netwerken toch efficiënt vinden~\citep{strasser14}. In de praktijk is het vooral belangrijk om snel rekening te kunnen houden met vertragingen bij vertrek of aankomst~\citep{strasser14,strasser17}. CSA berekent oorspronkelijk de snelste route, al is dit duidelijk niet altijd de route die de gebruiker wenst. Zo kan de snelste route nog steeds een station meermaals bezoeken, of kan men van een trein afstappen om later op deze zelfde trein weer op te stappen~\citep{strasser14}. 
+In de praktijk blijkt de standaard implementatie van CSA snel genoeg voor realtime opzoekingen, ook voor grote spoornetwerken zoals het Duitse net\citep{strasser14}. Wanneer Linked Connections op grote schaal toegepast wordt, kan ook de performantie van CSA nog verder verbeterd worden door het implementeren van Connection Scan Accelerated\citep{strasser14,strasser17}. Een andere optie is het toepassen van heuristieken. Deze verbeteren wel de responstijd, maar zorgen er in sommige gevallen voor dat een optimale route niet gevonden wordt~\citep{hannemann07}. Gezien het Belgische spoornetwerk relatief klein is in vergelijking met andere landen, zullen we rechtstreeks CSA op toe te passen. 
 
-Een oplossing hiervoor is om ervoor te zorgen dat de resultaten pareto-optimaal zijn. Een resultaat is pareto-optimaal als het niet gedomineerd wordt door een ander resultaat. Een resultaat $q$ wordt gedomineerd door een ander resultaat $p$ als $p$ voor minstens één criterium een beter waarde heeft, en voor geen enkel criterium een slechtere waarde heeft dan $q$~\citep{hannemann08,strasser17}. Door het aantal overstappen te optimaliseren voorkomen we dat van eenzelfde trein wordt afgestapt om later terug op te stappen~\citep{strasser14}. Naast de tijd van aankomst, zijn er nog een aantal andere criteria die vaak geoptimaliseerd worden. Het populairste tweede criterium is het aantal overstappen, gevolgd door de prijs~\citep{strasser17}. Optimalisatie van de prijs is echter zeer complex vanwege de complexe tariefplannen bij openbaar vervoer\citep{muller06}. Dit valt buiten de context van deze masterproef.
+Wanneer we een routeplanning algoritme willen gebruiken voor een spoornetwerk, is het vooral belangrijk om snel rekening te kunnen houden met vertragingen bij vertrek of aankomst~\citep{strasser14,strasser17}. Als een trein met vertraging zal vertrekken, hoeft enkel de connectie die bij dit vertrek hoort aangepast te worden. Hierna zal CSA weer correcte resultaten geven rekening houdend met de vertraging. Met andere woorden hoeven we dus gewoon de Linked Connections pagina opnieuw te laden om een nieuwe lijst te verkrijgen met de huidige vertragingen. 
+
+Net zoals Dijkstra en andere algoritmes berekent CSA de snelste route, al is dit duidelijk niet altijd de route die de gebruiker wenst. Zo kan de snelste route nog steeds een station meermaals bezoeken, of kan men van een trein afstappen om later op deze zelfde trein weer op te stappen~\citep{strasser14}. Terwijl intuïtief duidelijk is dat deze routes niet de beste routes zijn, kan de reistijd bij deze trajecten even lang zijn als de snelste route. Het algoritme kan dergelijke routes dus als antwoord kiezen.
+
+Een oplossing hiervoor is om ervoor te zorgen dat de resultaten pareto-optimaal zijn. Een resultaat is pareto-optimaal als het niet gedomineerd wordt door een ander resultaat. Een resultaat $q$ wordt gedomineerd door een ander resultaat $p$ als $p$ voor minstens één criterium een beter waarde heeft, en voor geen enkel criterium een slechtere waarde heeft dan $q$~\citep{hannemann08,strasser17}. Door ook het aantal overstappen te optimaliseren voorkomen we dat van eenzelfde trein wordt afgestapt om later terug op te stappen~\citep{strasser14}. Een oplossing met een overstap te veel heeft immers een criterium met een slechtere waarde, en zal dus nooit pareto-optimaal zijn.
+
+Naast de tijd van aankomst zijn er nog een aantal andere criteria die vaak geoptimaliseerd worden. Na reistijd is het aantal overstappen het tweede populairste criterium, gevolgd door de prijs van de reis~\citep{strasser17}. Optimalisatie van de prijs is echter zeer complex vanwege de complexe tariefplannen bij openbaar vervoer\citep{muller06}. Dit valt buiten de context van deze masterproef.
 
 De werking en implementatie van CSA worden uitvoerig behandeld in~\citep{strasser17}. Dit algoritme kan zonder veel wijzigingen geïmplementeerd worden in zowel Java\footnote{\url{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java}} als PHP\footnote{\url{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}}.
 
-Wanneer dit algoritme geïmplementeerd wordt merken we echter duidelijke verschillen met de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel-Zuid en Brussel-Centraal tot Brussel-Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Brussel-Centraal naar Brussel-Zuid rijdt.
-Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal overstappen te beperken, en om op een betere manier aan \foreign{journey-extraction} te doen.
+Wanneer dit algoritme geïmplementeerd wordt merken we echter duidelijke verschillen met de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel-Zuid en Brussel-Centraal tot Brussel-Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Brussel-Centraal naar Brussel-Zuid rijdt. 
+Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal overstappen te beperken, en om op een meer uitgebreide manier aan \foreign{journey-extraction} te doen.
 
 De implementatie en evolutie van het CSA algoritme worden uitgelegd aan de hand van code fragmenten in Java. Er wordt verondersteld dat sectie 4.2 van \cite{strasser17} gekend is. De code is asynchroon, waarbij na het laden van de eerste Linked Connections pagina een callback functie opgeroepen wordt om deze pagina te verwerken. Afhankelijk van het resultaat van deze verwerking, wordt er een nieuwe pagina opgevraagd, of wordt het resultaat doorgegeven aan de oproepende code door middel van callbacks.
 
-Allereerst dienen we twee wijzigingen door te voeren aan de gegevensstructuren. De arrays S en T, waarin respectievelijk zogenoemde stopprofielen en aankomsttijden bijgehouden werden, zijn vervangen door een Map, waardoor we onbeperkt nieuwe stations en trips kunnen toevoegen, en deze kunnen opvragen op basis van hun URI. Dit maakt het algoritme geschikt om te werken rekening houdend met de open world assumption. In de datastructuur voor een voertuig (fragment \ref{code:2:trips}) houden we niet enkel bij wanneer we zouden aankomen, maar ook met hoeveel overstappen (beginnend na het opstappen op deze trein) we zouden aankomen, en waar we moeten afstappen van deze trein. Dit laatste is essentieel om niet enkel de aankomsttijd, maar ook de exacte route met alle overstappen te kunnen weergeven. 
+Allereerst dienen we twee wijzigingen door te voeren aan de gegevensstructuren. De arrays S en T, waarin respectievelijk zogeheten stopprofielen en aankomsttijden bijgehouden werden, zijn vervangen door een Map, waardoor we onbeperkt nieuwe stations en trips kunnen toevoegen, en deze kunnen opvragen op basis van hun URI. Dit maakt het algoritme geschikt om te werken rekening houdend met de open world assumption. In de datastructuur voor een voertuig (fragment \ref{code:2:trips}) houden we niet enkel bij wanneer we zouden aankomen, maar ook met hoeveel overstappen (beginnend na het opstappen op deze trein) we zouden aankomen, en waar we moeten afstappen van deze trein. Dit laatste is essentieel om niet enkel de aankomsttijd, maar ook de exacte route met alle overstappen te kunnen weergeven. 
 
 \begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
