@@ -7,13 +7,15 @@
 \chapter{Resultaten}
 \label{chap:resultaten}
 
-Om te voorkomen dat de keuze van het geteste station of route de objectieve metingen vertekent, werden de opzoekingen van echte gebruikers gebruikt op 2 mei 2018\footnote{https://gtfs.irail.be/logs}. Om de duur van de testen enigszins binnen de perken te houden, worden niet alle opzoekingen getest, maar telkens een willekeurig gekozen selectie. Deze selectie werd gemaakt door uit de chronologische logboeken met zoekopdrachten telkens de n-de zoekopdracht te gebruiken.
+Zoals eerder vermeld in hoofdstuk \ref{chap:onderzoek}, worden opzoekingen van echte gebruikers gebruikt om te voorkomen dat het onderzoek vertekend wordt. In dit geval werden de opzoekingen op 2 mei 2018 gebruikt.
 
-Voor de alle tests werd gebruik gemaakt van een HTC 10 of HTC One, verbonden met internet via wifi (ping 26ms, downloadsnelheid 42mbps, uploadsnelheid 9mbps), tenzij anders vermeld. Het toestel werd niet gebruikt tijdens de testen, en er werden geen achtergrondapplicaties uitgevoerd. De metingen werden automatisch uitgevoerd met behulp van \foreign{instrumented tests}. Metingen van Linked Connections (LC) gebruiken de LoganSquare JSON parser.
+Voor de alle tests werd gebruik gemaakt van de HTC 10 of HTC One zoals besproken in hoofdstuk \ref{chap:onderzoek}, verbonden met internet via wifi (ping 26ms, downloadsnelheid 42mbps, uploadsnelheid 9mbps). Het toestel werd niet gebruikt tijdens de testen, en er werden geen achtergrondapplicaties uitgevoerd. De metingen werden automatisch uitgevoerd met behulp van \foreign{instrumented tests}. Metingen van Linked Connections (LC) gebruiken de LoganSquare JSON parser tenzij anders vermeld.
 
-De HTC 10 is een \foreign{flagship} smartphone, uitgebracht in maart 2016. Deze beschikt over een krachtige Snapdragon 820 processor en 4GB ram. De HTC One daarintegen is een \foreign{flagship} smartphone uit 2013, welke over een oude Snapdragon 800 processor en 2GB ram beschikt. Het HTC 10 toestel komt overeen met moderne toestel bovenaan in het mid-range aanbod. Dit toestel biedt goede prestaties en zullen we gebruiken om de performantie van Linked Connections op toestellen van 400 a 600 euro te testen. De HTC One komt op vlak van prestaties overeen met low-end toestellen en oudere mid-range toestellen, en komt ongeveer overeen met de prestaties van een paar jaar oude smartphone van 200 euro. Op deze manier krijgen we een indicatie van de performantie voor alle smartphonegebruikers.
+Voor de drie types resultaten zullen we telkens de metingen uit benchmarks bespreken, en de resultaten van user-testing. Bij de metingen zullen we telkens kort het effect van implementatiedetails bespreken, waarna we specifiek en gedetailleerd de prestaties van de huidige implementatie, op basis van de LoganSquare parser, bespreken. Uit deze metingen zullen we telkens trachten specifieke oorzaken van prestatieverschillen te achterhalen.
 
-% TODO: afbeelding met schaal?
+Hierna worden telkens de ervaringen van gebruikers besproken. Dit omvat absolute ervaringen (zonder exact referentiepunt, maar tegenover de expected service zoals vermeld in hoofdstuk \ref{chap:onderzoek}), maar ook de relatieve ervaringen tussen LC2Irail en Linked Connections, en de relatieve ervaringen tegenover de huidige applicatie van de gebruiker zullen besproken worden.
+
+Tot slot zullen we nog kijken naar de uiteindelijke keuze van de gebruiker, en bespreken we ook de resultaten van de enquete. Een globale interpretatie van de resultaten volgt in hoofdstuk \ref{chap:interpretatie}.
 
 \section{Liveboards}
 \subsection{Metingen}
@@ -40,36 +42,11 @@ De HTC 10 is een \foreign{flagship} smartphone, uitgebracht in maart 2016. Deze 
 %	\label{tab:liveboardlabtest}
 %\end{table}
 
-In grafiek \ref{fig:liveboardlabtest} zijn de gemiddelde resultaten zichtbaar van een benchmark waarbij 262 stations opgezocht werden, ongeveer 5\% van de opzoekingen door gebruikers op 2 mei 2018. Telkens is de minimale, gemiddelde en maximale responstijd gemeten. Dit zowel gebruikmakend van de standaard (\foreign{org.json}) JSON parser en gebruikmakend van de \foreign{LoganSquare} parser. Ook werd de test herhaald met cache in- en uitgeschakeld, om zo het effect hiervan te meten. Tot slot werd dezelfde test herhaald gebruikmakend van data afkomstig van de LC2Irail web applicatie om een vergelijking tussen de twee methodes te kunnen maken. Deze cijfers geven slechts een indicatie van de snelheid - een volledige en diepgaande statistische analyse van de performantieverschillen tussen verschillende implementatiedetails van dezelfde techniek valt wegens tijdsgebrek buiten het bereik van deze masterproef.
+Zoals eerder vermeld vergelijken we eerst kort verschillende implementaties van Linked Connections. In grafiek \ref{fig:liveboardlabtest} zijn de gemiddelde resultaten zichtbaar van een benchmark waarbij 262 stations opgezocht werden, ongeveer 5\% van de opzoekingen door gebruikers op 2 mei 2018. Telkens is de minimale, gemiddelde en maximale responstijd gemeten. Dit zowel gebruikmakend van de standaard (\foreign{org.json}) JSON parser en gebruikmakend van de \foreign{LoganSquare} parser. Ook werd de test herhaald met cache in- en uitgeschakeld, om zo het effect hiervan te meten. Tot slot werd dezelfde test herhaald gebruikmakend van data afkomstig van de LC2Irail web applicatie om een vergelijking tussen de twee methodes te kunnen maken. Deze cijfers geven slechts een indicatie van de snelheid - een volledige en diepgaande statistische analyse van de performantieverschillen tussen verschillende implementaties van dezelfde techniek valt wegens tijdsgebrek buiten het bereik van deze masterproef.
 
-In deze cijfers is invloed van de cache wel duidelijk merkbaar. We zien wel een duidelijk verschil tussen de parsers: terwijl bij gebruik van de \foreign{LoganSquare} parser de gemiddelde laadtijd bijna halveert, terwijl het effect van de cache bij het gebruik van de \foreign{org.json} parser veel kleiner is. Wanneer de cache uitgeschakeld is is het verschil tussen de parsers verwaarloosbaar. Dit is te verklaren door het feit dat voor het tonen van vertrekken of aankomsten relatief weinig data nodig is: in de meeste gevallen volstaat een enkele Linked Connections pagina.
+In deze cijfers is invloed van de cache duidelijk merkbaar. We zien wel een duidelijk verschil tussen de JSON parsers: terwijl bij gebruik van de \foreign{LoganSquare} parser de gemiddelde laadtijd bijna halveert, terwijl het effect van de cache bij het gebruik van de \foreign{org.json} parser veel kleiner is. Wanneer de cache uitgeschakeld is is het verschil tussen de parsers verwaarloosbaar. Dit is mogelijk te verklaren door het feit dat voor het tonen van vertrekken of aankomsten relatief weinig data nodig is: in de meeste gevallen volstaat een enkele Linked Connections pagina.
 
-Om een exact beeld te vormen van de prestaties, zoeken we een duizendtal liveboards op. Hiervoor kiezen we telkens de vijfde opzoeking uit de iRail logs. Voor elk liveboard worden twintig resultaten geladen. De resultaten hiervan zijn zichtbaar in grafieken \ref{fig:liveboardsDiefBest}, \ref{fig:liveboardsDiefAvg} en \ref{fig:liveboardsDiefSlechtst}, respectievelijk voor het tiende, vijftigste en negentigste percentiel. Uit deze grafieken kunnen we duidelijke trends zien:
-\begin{itemize}
-\item In de snelste gevallen is de serverimplementatie sneller. Hiervoor kunnen we verschillende oorzaken aanwijzen: 
-	\begin{itemize}
-		\item De serverimplementatie kan resultaten op een specifieke vraag cachen, terwijl de lokale implementatie deze steeds zal herberekenen vanaf Linked Connections pagina's.
-		\item De serverimplementatie hoeft minder data te versturen. Ook het parsen van het antwoord gaat sneller, gezien slechts een kleine hoeveelheid data verwerkt moet worden en er verder geen berekeningen moeten gebeuren.
-	\end{itemize}
-	\item Terwijl in de snelste gevallen de serverimplementatie sneller is, is dit verschil beperkt tot ongeveer 60 milliseconden voor het eerste resultaat. Dit is in praktijk amper merkbaar voor gebruikers %TODO: citation needed
-	\item Wanneer we naar de mediane performantie kijken, is Linked Connections duidelijk sneller voor de eerste resultaten. Dit snelheidsverschil is aanzienlijk, en vooral te wijten aan het feit dat Linked Connections volledige ondersteuning biedt voor incrementele resultaten, waarbij de server steeds meerdere pagina's zal overlopen voor een antwoord gegeven wordt; Naarmate meer resultaten geladen worden, vormt het overlopen van meerdere pagina's een voordeel voor de serverimplementatie: Zo zullen in daluren sneller resultaten geladen worden door de snellere toegang tot Linked Connections pagina's, terwijl bij Linked Connections sprake is van een \foreign{overhead} door het laden van te veel data. Hierbij zien we dat hoe sneller het toestel, hoe langer Linked Connections het snelst blijft. Ook blijft het verschil tussen Linked Connections en LC2Irail beperkt op de HTC 10, terwijl dit verschil aanzienlijk oploopt op de HTC One.
-	\item In alle gevallen is er een sterke gelijkenis tussen de curves voor LC2Irail op het HTC 10 toestel en het HTC One toestel. Deze zijn enkel een relatief kleine afstand in tijd verschoven, wat verklaart kan worden door de lage belasting voor het mobiele toestel wanneer een RPC API gebruikt wordt.
-	\item Het verschil in laadtijd tussen Linked Connections op de twee toestellen loopt lineair op met de benodigde laadtijd om resultaten te laden. Zo zien we dat in het slechtste geval dubbel zoveel tijd benodigd is op de HTC One in vergelijking met de HTC 10.
-\end{itemize}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.00\textwidth]{boxplot_liveboards_1.eps}
-	\caption[Laadtijd eerste resultaat liveboard in functie van toestel en technologie]{Laadtijd eerste resultaat liveboard in functie van toestel en technologie.}
-	\label{fig:liveboardsBoxplot1}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.00\textwidth]{boxplot_liveboards_10.eps}
-	\caption[Laadtijd tiende resultaat liveboard in functie van toestel en technologie]{Laadtijd tiende resultaat liveboard in functie van toestel en technologie.}
-	\label{fig:liveboardsBoxplot10}
-\end{figure}
+Om een exact beeld te vormen van de prestaties, zoeken we een duizendtal liveboards op. Hiervoor kiezen we elke vijfde opzoeking uit de iRail logs. Voor elk liveboard worden twintig resultaten geladen. De resultaten hiervan zijn zichtbaar in grafieken \ref{fig:liveboardsDiefBest}, \ref{fig:liveboardsDiefAvg} en \ref{fig:liveboardsDiefSlechtst}, respectievelijk voor het tiende, vijftigste en negentigste percentiel. Uit deze grafieken kunnen we duidelijke trends zien:
 
 \begin{figure}[h]
 	\centering
@@ -92,10 +69,49 @@ Om een exact beeld te vormen van de prestaties, zoeken we een duizendtal liveboa
 	\label{fig:liveboardsDiefSlechtst}
 \end{figure}
 
-Waneer we nu naar de spreiding van de laadtijden kijken, zichtbaar in figuren \ref{fig:liveboardsBoxplot1} en \ref{fig:liveboardsBoxplot10} zien we ook hier duidelijke verschillen tussen de verschillende methodes. Zo zien we dat bij gebruik van een RPC API de mediaan van de laadtijd ongeveer gelijk is tussen verschillende toestellen, en de interkwartielafstand relatief klein is, wat op een kleine spreiding en dus consistente resultaten duidt. Bij gebruik van Linked Connections zien we duidelijke verschillen tussen de mediaan van de laadtijd bij verschillende toestellen. Ook de interkwartielafstand varieert tussen toestellen: zo is een ouder toestel niet enkel trager, maar is ook de spreiding veel groter, en zijn de resultaten dus minder consistent op oudere (tragere) toestellen.
+
+\begin{itemize}
+    \item In de snelste gevallen is de serverimplementatie sneller. Hiervoor kunnen we verschillende oorzaken aanwijzen: 
+	\begin{itemize}
+		\item De serverimplementatie kan resultaten op een specifieke vraag cachen, terwijl de lokale implementatie deze steeds zal herberekenen vanaf Linked Connections pagina's. Voor veel voorkomende zoekopdrachten, zoals populaire stations, kan de server ook Linked Connections pagina's cachen.
+		\item De serverimplementatie hoeft minder data te versturen. Ook het parsen van het antwoord gaat sneller, gezien slechts een kleine hoeveelheid data verwerkt moet worden en er verder geen berekeningen moeten gebeuren.
+	\end{itemize}
+
+	\item Terwijl in de snelste gevallen de serverimplementatie sneller is, is dit verschil beperkt tot ongeveer 60 milliseconden voor het eerste resultaat. Dit ligt zeer kort bij een verschil van 10\%, wat in deze ordegrootte moeilijk onderscheidbaar is voor gebruikers \citep{miller68}. %TODO CITE Weber-Fechner Law
+	
+	\item Wanneer we naar de mediane performantie kijken, is Linked Connections duidelijk sneller voor de eerste resultaten. Dit snelheidsverschil is aanzienlijk, en hoogstwaarschijnlijk vooral te wijten aan het feit dat Linked Connections volledige ondersteuning biedt voor incrementele resultaten, waarbij de server meestal meerdere pagina's zal overlopen voor een  antwoord gegeven wordt. Dit is te zien aan de steile curves voor LC2Irail, waar de curves voor LC gekenmerkt worden door een minder sterke stijging. 
+	
+	Anderzijds is er bij Linked Connections sprake van een \foreign{overhead} door het laden van te veel data. Voor stations met weinig vertrekken, of tijdens piekuren, kan het hierdoor meer moeite kosten om Linked Connections te verwerken. We vermoeden dat dit contrast met de korte, informatiedichte antwoorden van de RPC API zorgt voor het trager laden van resultaten. We zien dat hoe sneller het toestel, hoe langer Linked Connections het snelst blijft. Dit bevestigt de hypothese dat het verwerken van Linked Connections pagina's aan de oorzaak ligt. Ook blijft het verschil tussen Linked Connections en LC2Irail beperkt op de HTC 10, terwijl dit verschil aanzienlijk oploopt op de tragere HTC One.
+	
+	\item In alle gevallen is er een sterke gelijkenis tussen de curves voor LC2Irail op het HTC 10 toestel en het HTC One toestel. Deze zijn enkel een relatief kleine afstand in tijd verschoven, wat verklaart kan worden door de lage belasting voor het mobiele toestel wanneer een RPC API gebruikt wordt.
+
+	\item Het verschil in laadtijd tussen Linked Connections op de twee toestellen loopt lineair op met de benodigde laadtijd om resultaten te laden. Zo zien we dat in het slechtste geval dubbel zoveel tijd benodigd is op de HTC One in vergelijking met de HTC 10. Dit is een sterke indicatie dat de performantie van Linked Connections afhankelijk is van het gebruikte toestel.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.00\textwidth]{boxplot_liveboards_1.eps}
+	\caption[Laadtijd eerste resultaat liveboard in functie van toestel en technologie]{Laadtijd eerste resultaat liveboard in functie van toestel en technologie.}
+	\label{fig:liveboardsBoxplot1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.00\textwidth]{boxplot_liveboards_10.eps}
+	\caption[Laadtijd tiende resultaat liveboard in functie van toestel en technologie]{Laadtijd tiende resultaat liveboard in functie van toestel en technologie.}
+	\label{fig:liveboardsBoxplot10}
+\end{figure}
+
+Wanneer we nu naar de spreiding van de laadtijden kijken, zichtbaar in figuur \ref{fig:liveboardsBoxplot1} voor het eerste resultaat en figuur \ref{fig:liveboardsBoxplot10} voor het tiende resultaat, zien we ook hier duidelijke verschillen tussen de verschillende methodes. Telkens levert LC2Irail een dichtere verdeling op dan LC, waarbij Linked Connections enkel sneller is voor het eerste resultaat op de HTC 10. Voor het eerste resultaat op de HTC One, en het tiende resultaat op de HTC 10, zijn beide implementaties volgens de wet van Weber-Fechner niet te onderscheiden op de mediaan.
+
+In deze grafieken zijn ook de verschillen tussen toestellen enorm interessant. Zo zien we dat bij gebruik van een RPC API de mediaan van de laadtijd ongeveer gelijk is tussen verschillende toestellen, en de interkwartielafstand relatief klein is, wat op een kleine spreiding en dus consistente resultaten per toestel duidt. De mediaan voor beide toestellen ligt respectievelijk op 578 en 650 milliseconden voor het eerste resultaat. Volgens de wet van Weber-Fechner is dit onmerkbaar voor gebruikers. Ook het eerste kwartiel ligt kort genoeg bij elkaar om niet merkbaar te zijn. Ondanks dat we boven de mediaan zien dat opzoekingen via LC2Irail op de HTC One meer tijd vergen, is onder de mediaan voor gebruikers geen verschil merkbaar. Deze zeer consistente ervaring over toestellen is zeer wenselijk voor routeplanning applicatie. Voor het tiende resultaat neemt het verschil tussen de toestellen toe, waarbij gebruikers een verschil zullen merken tussen de LC2Irail implementatie op verschillende toestellen.
+
+Bij gebruik van Linked Connections zien we duidelijke verschillen tussen de mediaan van de laadtijd bij verschillende toestellen. Ook de interkwartielafstand varieert tussen toestellen: zo is een ouder toestel niet enkel trager, maar is ook de spreiding veel groter, en zijn de resultaten dus minder consistent op oudere (tragere) toestellen. Anderzijds is Linked Connections in de meeste gevallen wel duidelijk sneller dan LC2Irail op de HTC 10.
+
+Een eigenaardigheid is dat de minima voor de HTC One telkens lager liggen. Dit wordt vermoedelijk veroorzaakt door verschillende Android versies, met een verschillende aanpak op vlak van asynchrone scheduling.
 
 \subsection{Ervaringen}
-Wanneer we nu naar de ervaringen van gebruikers gaan kijken, stemmen deze ongeveer overeen met wat we zouden verwachten na het bekijken van voorgaande grafieken. 
+Wanneer we nu naar de ervaringen van gebruikers gaan kijken, stemmen deze ongeveer overeen met wat we zouden verwachten na evaluatie van de metingen.
 
 Zoals we in figuren \ref{fig:liveboardsBoxplot1} en \ref{fig:liveboardsBoxplot10} konden zien blijkt uit testen dat de performantie van LC2Irail consistenter is. Ook bij de gebruikerservaring zien we dit terugkomen. Wanneer de ervaren snelheid wordt uitgezet in een boxplot per implementatie, zichtbaar in figuur \ref{fig:liveboardsUx}, zien we net als bij de testen dat voor LC2Irail een heel consistente beoordeling wordt gegeven, terwijl deze voor Linked Connections veel meer uitgespreid, én iets lager ligt.
 
