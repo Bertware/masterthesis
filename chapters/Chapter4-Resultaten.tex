@@ -113,7 +113,7 @@ Een eigenaardigheid is dat de minima voor de HTC One telkens lager liggen. Dit w
 \subsection{Ervaringen}
 Wanneer we nu naar de ervaringen van gebruikers gaan kijken, stemmen deze ongeveer overeen met wat we zouden verwachten na evaluatie van de metingen.
 
-Zoals we in figuren \ref{fig:liveboardsBoxplot1} en \ref{fig:liveboardsBoxplot10} konden zien blijkt uit testen dat de performantie van LC2Irail consistenter is. Ook bij de gebruikerservaring zien we dit terugkomen. Wanneer de ervaren snelheid wordt uitgezet in een boxplot per implementatie, zichtbaar in figuur \ref{fig:liveboardsUx}, zien we net als bij de testen dat voor LC2Irail een heel consistente beoordeling wordt gegeven, terwijl deze voor Linked Connections veel meer uitgespreid, én iets lager ligt.
+Zoals we in figuren \ref{fig:liveboardsBoxplot1} en \ref{fig:liveboardsBoxplot10} konden zien blijkt uit testen dat de performantie van LC2Irail consistenter is, zowel in de vorm van een kleinere spreiding van de resultaten op eenzelfde toestel, als in de vorm van kleinere verschillen tussen toestellen. Ook bij de gebruikerservaring zien we dit terugkomen. Wanneer de ervaren snelheid wordt uitgezet in een boxplot per techniek, zichtbaar in figuur \ref{fig:liveboardsUx}, zien we net als bij de testen dat voor LC2Irail een heel consistente beoordeling wordt gegeven, terwijl deze voor Linked Connections veel meer uitgespreid, én iets lager ligt.
 
 \begin{figure}[h]
 	\centering
@@ -131,13 +131,20 @@ Hoewel 12 van de 17 testpersonen Linked Connections als redelijk tot extreem sne
 	\label{fig:alluvialUserChoicesLiveboards}
 \end{figure}
 
-Alle testpersonen werden expliciet gevraagd welke implementatie ze als sneller ervoeren. Hierbij waren de antwoorden verdeeld: acht personen kozen de eerste variant, vier personen hadden geen mening, en vijf personen kozen de tweede variant.
+Alle testpersonen werden expliciet gevraagd welke implementatie ze als sneller ervoeren. Hierbij waren de antwoorden verdeeld: acht personen kozen de Linked Connections, vier personen hadden geen mening, en vijf personen kozen LC2Irail variant. Het is moeilijk om hier onmiddelijk conclusies uit te trekken. Om deze reden zullen we in hoofdstuk \ref{chap:interpretatie} de resultaten algemener bespreken. Wel kunnen we zeggen dat gebruikerservaringen zeer gemengd zijn voor Linked Connections, en zal Linked Connections zoiezo niet voor de volledige populatie sneller zijn.
 
 Wanneer we gaan kijken naar de verschillen tussen de JSON parsers, blijkt dat beide parsers ongeveer even goed presteren in de ogen van de testers. Respectievelijk 5 op 7 en 7 op 10 testers zijn neutraal of tevreden, en bij beide varianten is er telkens een tester neutraal. Deze vergelijking is echter slechts een indicatie, en is door te kleine steekproeven ongeschikt om te veralgemenen naar een grotere populatie.
 
-Wanneer echter gekeken wordt naar de gemeten prestatieverschillen tussen beide JSON parsers tijdens de usertests, zien we een duidelijk verschil, waarbij het 90e percentiel van de laadtijd onder de LoganSquare parser lager ligt dan de mediane laadtijd van de org.json parser. Dit verschil lijkt echter geen invloed te hebben op de ervaringen van gebruikers, vermoedelijk omdat men beide reeds als performant genoeg ervaart.
+Wanneer echter gekeken wordt naar de gemeten prestatieverschillen tussen beide JSON parsers tijdens de usertests, zien we een duidelijk verschil, waarbij het 90e percentiel van de laadtijd onder de LoganSquare parser lager ligt dan de mediane laadtijd van de org.json parser. Dit verschil lijkt echter geen invloed te hebben op de ervaringen van gebruikers, vermoedelijk omdat men beide reeds als performant genoeg ervaart. % TODO: Hoe groot procentueel verschil?
 
-Als gevraagd wordt om de snelheid te vergelijken met de applicatie die de gebruiker op dit moment gebruikt, geven één op vier gebruikers aan Linked Connections als trager te ervaren, een derde ervaart Linked Connections als even snel, één op tien ervaart Linked Connections als een beetje sneller, nog een derde ervaart Linked Connections als redelijk wat sneller. Drie op tien testers ervaart LC2Irail als even snel om liveboards op te zoeken, nog eens drie op tien ervaart LC2Irail als een beetje sneller. Telkens twee op tien gebruikers meent dat LC2Irail redelijk of veel sneller dan de app die men gewoonlijk gebruikt.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{userdata_liveboards_currentapp.eps}
+	\caption[Door gebruikers ervaren snelheid liveboards tov huidige apps]{De door 17 gebruikers ervaren snelheid liveboards ten opzichte huidige apps }
+	\label{fig:relativePerceptionLiveboards}
+\end{figure}
+
+Als tot slot gevraagd wordt om de snelheid te vergelijken met de applicatie die de gebruiker op dit moment gebruikt, zichtbaar in figuur \ref{fig:relativePerceptionLiveboards} , komen beide apps er goed uit. LC2Irail scoort hier zeer goed, en ondanks dat Linked Connections iets minder goed scoort dan LC2Irail, geven slechts 2 gebruikers aan Linked Connections trager te ervaren dan hun huidige applicatie.
 
 \section{Routes}
 
