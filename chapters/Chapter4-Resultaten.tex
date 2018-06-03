@@ -439,8 +439,24 @@ We zullen nu een antwoord formuleren op de in hoofdstuk \ref{chap:onderzoek} gef
 	Ondanks dat privacy steevast onderaan de lijst met prioriteiten van gebruikers staat, wilt dit niet zeggen dat gebruikers hierin niet geïnteresseerd zijn. Meer dan acht op tien gebruikers vindt dit interessant.
 \end{itemize}
 
+\section{Dataverbruik}
+Zoals eerder aangehaald is op mobiele toestellen niet enkel de snelheid, maar ook andere zaken zoals batterijverbruik en connectiviteit van belang. We gaan nu dieper in op het dataverbruik van de applicatie. 
+
+%TODO: betere data routes?
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{dataverbruik.eps}
+	\caption[Dataverbruik per opzoeking]{Dataverbruik per type opzoeking en techniek}
+	\label{fig:dataUsage}
+\end{figure}
+
+Wanneer we dit dataverbruik onderzoeken, zichtbaar in figuur \ref{fig:dataUsage}, zien we dat Linked Connections zoals te verwachten meer data gebruikt in de slechtste gevallen. Wat echter ook opvalt, is dat de mediaan steevast nul is. Dit is een rechtstreeks gevolg van de enorme cachebaarheid van Linked Connections. Linked Connections heeft ook last van grote uitlopers wanneer informatie wordt opgezocht met betrekking tot stations met weinig stops. In deze gevallen is het mogelijk dat Linked Connections alle vertrekken voor de komende paar dagen op moet halen, terwijl LC2Irail niet meer data dan anders moet versturen. LC2Irail zal immers steeds minstens één resultaat teruggeven, waardoor in het slechtste geval 10 verzoeken nodig zijn. Linked Connections kent geen harde bovengrens voor het aantal verzoeken, al is het zinloos om langer dan 15 seconden te zoeken \citep{miller68}.
+
+In het geval van Linked Connections zien we duidelijke verschillen tussen het opzoeken van liveboards en andere types data. Dit is te verklaren door het feit dat om een liveboard van een station te reconstrueren vaak slechts één of twee pagina's nodig zijn. Hierdoor is minder data nodig, maar wordt ook minder data gecached. Wanneer we echter kijken naar dataverbruik voor routes en voertuigen, wordt hier bij de eerste paar verzoeken enorm veel data binnengehaald, waarna vrijwel alle verzoeken uit cache beantwoord kunnen worden. Hierdoor zijn alle statistische waarden (eerste, tweede, derde kwartiel, interkwartielafstand) nul, met enkel wat uitlopers om data op te halen. Door data vooraf te laden wanneer de gebruiker verbonden is via Wi-Fi, zouden we ook deze uitlopers kunnen vermijden. In dit geval zou eerst een antwoord berekend kunnen worden op basis van offline (verouderde) gegevens, waarna alle gebruikte pagina's opnieuw opgehaald worden om het actuele antwoord op te bouwen.
+
+
 \section{Batterijverbruik}
-Zoals eerder aangehaald is op mobiele toestellen niet enkel de snelheid, maar ook andere zaken zoals batterijverbruik en connectiviteit van belang. We gaan nu dieper in op het batterijverbruik van de applicatie. Dit is moeilijk om exact te meten, gezien alle omstandigheden exact dezelfde moeten zijn. Automatische testen op UI vereisen een USB-verbinding, waarbij stroom via USB geleverd wordt in plaats van via de batterij. 
+Naast dataverbruik is ook energieverbruik belangrijk bij draagbare toestellen. We gaan nu dieper in op het batterijverbruik van de applicatie. Dit is moeilijk om exact te meten, gezien alle omstandigheden exact dezelfde moeten zijn. Automatische testen op UI vereisen een USB-verbinding, waarbij stroom via USB geleverd wordt in plaats van via de batterij. 
 
 Om toch consistent verschillende applicaties te kunnen testen, maken we een variant op de testapplicatie, waarin we knoppen plaatsen om een korte benchmark uit te voeren. Hierdoor kunnen we dezelfde test voor elk soort opzoeking uitvoeren, waarna we uit Android energiebeheer het verbruik aflezen en het toestel weer tot 100\% opladen alvorens de volgende test uit te voeren. Om aan testdata te komen kiezen we voor elk endpoint 5\% van de opzoekingen uit de iRail logs. De resultaten van deze tests zijn te zien in figuur \ref{fig:batteryUsage}.
 
