@@ -440,7 +440,21 @@ We zullen nu een antwoord formuleren op de in hoofdstuk \ref{chap:onderzoek} gef
 \end{itemize}
 
 \section{Batterijverbruik}
-%TODO: write
+Zoals eerder aangehaald is op mobiele toestellen niet enkel de snelheid, maar ook andere zaken zoals batterijverbruik en connectiviteit van belang. We gaan nu dieper in op het batterijverbruik van de applicatie. Dit is moeilijk om exact te meten, gezien alle omstandigheden exact dezelfde moeten zijn. Automatische testen op UI vereisen een USB-verbinding, waarbij stroom via USB geleverd wordt in plaats van via de batterij. 
+
+Om toch consistent verschillende applicaties te kunnen testen, maken we een variant op de testapplicatie, waarin we knoppen plaatsen om een korte benchmark uit te voeren. Hierdoor kunnen we dezelfde test voor elk soort opzoeking uitvoeren, waarna we uit Android energiebeheer het verbruik aflezen en het toestel weer tot 100\% opladen alvorens de volgende test uit te voeren. Om aan testdata te komen kiezen we voor elk endpoint 5\% van de opzoekingen uit de iRail logs. De resultaten van deze tests zijn te zien in figuur \ref{fig:batteryUsage}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{energieverbruik.eps}
+	\caption[Energieverbruik per opzoeking]{Gemiddeld energieverbruik per type opzoeking en techniek}
+	\label{fig:batteryUsage}
+\end{figure}
+
+Onmiddellijk vallen enkele verschillen tussen beide implementaties op. Zo zien we dat Linked Connections steeds een veelvoud aan energie verbruikt. Dit varieert tussen dubbel zoveel voor Liveboards, tot acht maal zoveel voor routes. We zien hier een duidelijk verband tussen energieverbruik, de hoeveelheid gedownloade data en de complexiteit van de toegepaste algoritmes.
+Liveboards, die weinig data en weinig processing vereisen, verbruiken het minst energie. Voertuigen, die meer data vereisen maar nog steeds een relatief eenvoudig algoritme hebben verbruiken ongeveer drie keer meer energie. Routes vereisen iets minder data dan voertuigen,  maar hebben een complexer algoritme. De processortijd blijkt een grote impact te hebben op de batterij, met een verdubbeling ten opzichte van het energieverbruik bij voertuigen tot gevolg.
+
+Een belangrijke nuance bij deze resultaten is dat zelfs in het slechtste geval, het laden van routes via Linked Connections, slechts 4mAh verbruikt wordt. Dit is zeer weinig, en zal zelfs op smartphones met een zeer kleine batterij (2.000mAh) slechts 0,2\% batterij verbruiken. Op toestellen met een gemiddelde batterij (3.200mAh) zakt dit verder tot 0,125\%. Linked Connections verbruikt wel degelijk meer dan LC2Irail, maar het effect op de gebruiker blijft steeds beperkt.
 
 \section{Beperkingen}
 \label{sec:beperkingen}
