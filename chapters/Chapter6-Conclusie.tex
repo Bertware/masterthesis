@@ -1,3 +1,4 @@
+% !TeX spellcheck = nl_NL
 \begin{savequote}[0.55\linewidth]
 	``Inspirational quote''
 	\qauthor{\textasciitilde Source}
@@ -5,9 +6,9 @@
 
 \chapter{Conclusie}
 
-In deze masteproef hebben we een client geschreven om informatie over openbaar vervoer per trein te raadplegen, gebruikmakend van Linked Connections. Hiervoor hebben we algoritmes uitgewerkt om op een efficiënte manier vertrekken en aankomsten in een station op te lijsten en het traject van een voertuig weer te geven. Ook hebben we routeplanning geïmplementeerd door het Connection Scan Algoritme te implementeren en te optimaliseren zodat niet de snelste, maar de beste route bepaald wordt, en zodat informatie over de volledige reis opgehaald kan worden. Ook hebben we hier ondervonden dat implementatiedetails een groot verschil in prestaties kunnen veroorzaken, en de implementatie nog aangepast om gebruik te maken van een efficiëntere JSON parser. Tevens ontwikkelden we LC2Irail, een RPC API die dezelfde algoritmes en data gebruikt als de lokale Linked Connections client. LC2Irail werd gebruikt als referentie voor een RPC API.
+In deze masterproef hebben we een client geschreven om informatie over openbaar vervoer per trein te raadplegen, gebruikmakend van Linked Connections. Hiervoor hebben we algoritmes uitgewerkt om op een efficiënte manier vertrekken en aankomsten in een station op te lijsten en het traject van een voertuig weer te geven. Ook hebben we routeplanning geïmplementeerd op basis van het Connection Scan Algoritme en geoptimaliseerd zodat niet de snelste, maar de beste route bepaald wordt, en zodat informatie over de volledige reis opgehaald kan worden. Ook hebben we ondervonden dat implementatiedetails een groot verschil in prestaties kunnen veroorzaken, en de implementatie nog aangepast om gebruik te maken van een efficiëntere JSON parser. Tevens ontwikkelden we LC2Irail, een RPC API die dezelfde algoritmes en data gebruikt als de lokale Linked Connections client. LC2Irail werd gebruikt als referentie voor een RPC API.
 
-Vervolgens hebben we in hoofdstuk \ref{chap:onderzoek} uiteengezet hoe we aan de hand van deze cliënt de performance, user-perceived performance en user experience bepalen. Vervolgens zijn volgens de hier omschreven methode user tests afgenomen, is er een enquete uitgevoerd en zijn de prestaties gemeten bij automatische tests. 
+Vervolgens hebben we in hoofdstuk \ref{chap:onderzoek} uiteengezet hoe we aan de hand van deze cliënt de performance, user-perceived performance en user experience bepalen. Vervolgens zijn volgens de hier omschreven methode user-tests afgenomen, is er een enquête uitgevoerd en zijn de prestaties gemeten bij automatische tests. 
 
 De resultaten van al deze tests zijn uitvoerig besproken in hoofdstukken \ref{chap:resultaten} en \ref{chap:interpretatie}. Hierbij blijkt dat LC2Irail beter presteert dan Linked Connections, alhoewel Linked Connections nog net de snelheid van de huidige beschikbare applicaties kan volgen. Linked Connections blijkt een inconsistente ervaring te geven, terwijl LC2Irail een consistente snelle ervaring kan bieden. Linked Connections is aantoonbaar trager, en ook gebruikers ervaren dit zo. Desondanks biedt offline opzoeken een grote meerwaarde, waardoor de meeste gebruikers toch lieven Linked Connections gebruiken dan LC2Irail.
 
