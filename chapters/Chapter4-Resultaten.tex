@@ -442,7 +442,6 @@ We zullen nu een antwoord formuleren op de in hoofdstuk \ref{chap:onderzoek} gef
 \section{Dataverbruik}
 Zoals eerder aangehaald is op mobiele toestellen niet enkel de snelheid, maar ook andere zaken zoals batterijverbruik en connectiviteit van belang. We gaan nu dieper in op het dataverbruik van de applicatie. 
 
-%TODO: betere data routes?
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1.00\textwidth]{dataverbruik.eps}
@@ -452,7 +451,20 @@ Zoals eerder aangehaald is op mobiele toestellen niet enkel de snelheid, maar oo
 
 Wanneer we dit dataverbruik onderzoeken, zichtbaar in figuur \ref{fig:dataUsage}, zien we dat Linked Connections zoals te verwachten meer data gebruikt in de slechtste gevallen. Wat echter ook opvalt, is dat de mediaan steevast nul is. Dit is een rechtstreeks gevolg van de enorme cachebaarheid van Linked Connections. Linked Connections heeft ook last van grote uitlopers wanneer informatie wordt opgezocht met betrekking tot stations met weinig stops. In deze gevallen is het mogelijk dat Linked Connections alle vertrekken voor de komende paar dagen op moet halen, terwijl LC2Irail niet meer data dan anders moet versturen. LC2Irail zal immers steeds minstens één resultaat teruggeven, waardoor in het slechtste geval 10 verzoeken nodig zijn. Linked Connections kent geen harde bovengrens voor het aantal verzoeken, al is het zinloos om langer dan 15 seconden te zoeken \citep{miller68}.
 
-In het geval van Linked Connections zien we duidelijke verschillen tussen het opzoeken van liveboards en andere types data. Dit is te verklaren door het feit dat om een liveboard van een station te reconstrueren vaak slechts één of twee pagina's nodig zijn. Hierdoor is minder data nodig, maar wordt ook minder data gecached. Wanneer we echter kijken naar dataverbruik voor routes en voertuigen, wordt hier bij de eerste paar verzoeken enorm veel data binnengehaald, waarna vrijwel alle verzoeken uit cache beantwoord kunnen worden. Hierdoor zijn alle statistische waarden (eerste, tweede, derde kwartiel, interkwartielafstand) nul, met enkel wat uitlopers om data op te halen. Door data vooraf te laden wanneer de gebruiker verbonden is via Wi-Fi, zouden we ook deze uitlopers kunnen vermijden. In dit geval zou eerst een antwoord berekend kunnen worden op basis van offline (verouderde) gegevens, waarna alle gebruikte pagina's opnieuw opgehaald worden om het actuele antwoord op te bouwen.
+In het geval van Linked Connections zien we duidelijke verschillen tussen het opzoeken van liveboards en andere types data. Dit is te verklaren door het feit dat om een liveboard van een station te reconstrueren vaak slechts één of twee pagina's nodig zijn. Hierdoor is minder data nodig, maar wordt ook minder data gecached. Opzoekingen voor verschillende tijdstippen hebben verschillende data nodig, terwijl deze nog niet gecached is, waardoor minder vaak de cache gebruikt kan worden. Bijgevolg hebben meer dan 25\% van de opzoekingen nieuwe data nodig.
+Wanneer we echter kijken naar dataverbruik voor routes en voertuigen, gebruiken deze verzoeken erg veel data. Hierdoor is er echt vaker een overlap tussen opzoekingen. Als gevolg wordt hier bij de enkele verzoeken enorm veel data binnengehaald, waarna vrijwel alle verzoeken uit cache beantwoord kunnen worden. We zien dat ook het derde kwartiel nul bedraagt, wat wilt zeggen dat meer dan 75\% van de verzoeken uit cache geladen kan worden. Dit laden zien we in de uitlopers, die tot 2,4 megabyte kunnen oplopen.
+
+Door data vooraf te laden wanneer de gebruiker verbonden is via Wi-Fi, zouden we ook deze uitlopers kunnen vermijden. In dit geval zou eerst een antwoord berekend kunnen worden op basis van offline (verouderde) gegevens, waarna alle gebruikte pagina's opnieuw opgehaald worden om het actuele antwoord op te bouwen.
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.00\textwidth]{dataverbruik_werkelijk.eps}
+	\caption[Werkelijk dataverbruik per opzoeking Linked Connections]{Dataverbruik in werkelijke omstandigheden per type opzoeking voor Linked Connections}
+	\label{fig:dataUsageRealLife}
+\end{figure}
+
+Bij deze cijfers dienen we een belangrijke kanttekening te maken. Deze gegevens tonen aan dat Linked Connections enorm cachbaar is, en enorm kan variëren in dataverbruik. Dit in tegenstelling tot Linked Connections, dat bijna altijd internet nodig heeft, met uitzondering van enkele populaire opzoekingen, die tijdens spitsuur uit cache geladen konden worden. Echter zijn deze gebaseerd op opzoekingen uitgevoerd op een server door verschillende gebruikers, en is de cache extreem afhankelijk van vorige opzoekingen. Het exacte dataverbruik wordt met andere woorden bepaald door het gebruikspatroon van de applicatie, en door eventueel gebruik van technieken zoals prefetching. Ter illustratie is in figuur \ref{fig:dataUsageRealLife} het werkelijke dataverbruik tijdens online opzoekingen weergegeven (online opzoekingen zijn opzoekingen waarbij internet beschikbaar was, en de applicatie dus vrije keus had tussen cache en online data). In deze figuur zien we een veel realistischer beeld, waarbij dat er, ondanks dat sommige opzoekingen volledig uit cache beantwoord kunnen worden, meestal toch data opgehaald wordt. Ook bij deze grafiek plaatsen we kanttekeningen. Zo zijn de metingen voor liveboards en routes per incrementeel resultaat (er zijn dus mogelijk meerdere dergelijke opzoekingen nodig) en is het gebruik van de applicatie alsnog kunstmatig. Gebruikers kunnen in werkelijkheid mogelijk trager opzoeken, waardoor minder verzoeken uit cache beantwoord zouden kunnen worden.
 
 
 \section{Batterijverbruik}
