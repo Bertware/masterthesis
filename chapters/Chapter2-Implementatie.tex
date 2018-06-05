@@ -95,6 +95,7 @@ Het Connection Scan Algoritme (CSA) werd voor het eerst beschreven door Ben Stra
 
 In de praktijk blijkt de standaard implementatie van CSA snel genoeg voor realtime opzoekingen, ook voor grote spoornetwerken zoals het Duitse net~\citep{strasser14}. Wanneer Linked Connections op grote schaal toegepast wordt, kan ook de performantie van CSA nog verder verbeterd worden door het implementeren van Connection Scan Accelerated~\citep{strasser14,strasser17}. Een andere optie is het toepassen van heuristieken. Deze verbeteren wel de responstijd, maar zorgen er in sommige gevallen voor dat een optimale route niet gevonden wordt~\citep{hannemann07}. Gezien het Belgische spoornetwerk relatief klein is in vergelijking met andere landen, zullen we rechtstreeks CSA op toe te passen. 
 
+%TODO NALEZEN
 %Wanneer we een routeplanning algoritme willen gebruiken voor een spoornetwerk, is het vooral belangrijk om snel rekening te kunnen houden met vertragingen bij vertrek of aankomst~\citep{strasser14,strasser17}. Als een trein met vertraging zal vertrekken, hoeft enkel de connectie die bij dit vertrek hoort aangepast te worden. Hierna zal CSA weer correcte resultaten geven rekening houdend met de vertraging. Met andere woorden hoeven we dus gewoon de Linked Connections-pagina opnieuw te laden om een nieuwe lijst te verkrijgen met de huidige vertragingen. 
 
 Net zoals Dijkstra en andere algoritmes berekent CSA de snelste route, al is dit duidelijk niet altijd de route die de gebruiker wenst. Zo kan de snelste route nog steeds een station meermaals bezoeken, of kan men van een trein afstappen om later op deze zelfde trein weer op te stappen~\citep{strasser14}. Terwijl intuïtief duidelijk is dat deze routes niet de beste routes zijn, kan de reistijd bij deze trajecten even lang zijn als de snelste route. Het algoritme kan dergelijke routes dus als antwoord kiezen.
@@ -111,7 +112,7 @@ Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal oversta
 
 \begin{code}[htb]
 	\begin{minted}[breaklines,tabsize=2]{java}
-	class TrainTriple {
+	class TrainProfile {
 		/**
 		* The arrival time at the final destination
 		*/
@@ -139,7 +140,7 @@ In de datastructuur voor een voertuig (fragment~\ref{code:2:trips}) houden we ni
 
 \begin{code}[htb]
 \begin{minted}[breaklines,tabsize=2]{java}
-  class StationQuintuple {
+  class StationStopProfile {
 	/**
 	* The departure time in this stop
 	*/
@@ -229,30 +230,22 @@ Het bepalen van de aankomsttijd bij wandelen, T1, en de aankomsttijd bij het gez
 \begin{code}[htb]
 	\begin{minted}[breaklines,tabsize=2]{java}
 		if (S.containsKey(connection.arrivalStationUri)) {
-			int position = S.get(connection.arrivalStationUri).size() - 1;
-			StationQuintuple quintuple = S.get(connection.arrivalStationUri).get(position);
-		
-			while (
-				(quintuple.departureTime.minusSeconds(transferSeconds).getMillis() <= connection.arrivalTime.getMillis() ||
-				quintuple.transfers >= maxTransfers) &&  
-				position > 0
-			) {
+			int position = S.get(connection.getArrivalStationUri()).size() - 1;
+			StationStopProfile stopProfile = S.get(connection.getArrivalStationUri()).get(position);
+			
+			while ((stopProfile.departureTime.getMillis() - 300 * 1000 <= connection.getArrivalTime().getMillis() ||
+			stopProfile.transfers >= maxTransfers) && position > 0) {
 				position--;
-				quintuple = S.get(connection.arrivalStationUri).get(position);
+				stopProfile = S.get(connection.getArrivalStationUri()).get(position);
 			}
-			if (quintuple.departureTime.minusSeconds(transferSeconds)
-					.isAfter(connection.arrivalTime) && 
-					quintuple.transfers <= maxTransfers) {
-				T3_transferArrivalTime = quintuple.arrivalTime.plusSeconds(extraTimeInsteadOfTransfer);
-				// Using this transfer will increase the number of transfers with 1
-				T3_transfers = quintuple.transfers + 1;
+			if (stopProfile.departureTime.getMillis() - 300 * 1000 > connection.getArrivalTime().getMillis() && stopProfile.transfers <= maxTransfers) {
+				T3_transferArrivalTime = new DateTime(stopProfile.arrivalTime.getMillis() + 240 * 1000);
+				T3_transfers = stopProfile.transfers + 1;
 			} else {
-				// When there isn't a reachable connection, transferring isn't an option
 				T3_transferArrivalTime = infinite;
 				T3_transfers = 999;
 			}
 		} else {
-			// When there isn't a reachable connection, transferring isn't an option
 			T3_transferArrivalTime = infinite;
 			T3_transfers = 999;
 		}
@@ -304,41 +297,46 @@ Door de extra toevoegingen voor journey extraction en het optimaliseren van de r
 
 \begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
-	
-		if (Tmin.isEqual(T.get(connection.trip).arrivalTime) && 
-			T3_transferArrivalTime.isEqual(T2_stayOnTripArrivalTime) &&
-			S.containsKey(T.get(connection.trip).arrivalConnection.arrivalStationUri) &&
-			S.containsKey(connection.arrivalStationUri)
+        if (Tmin.isEqual(T.get(connection.getTrip()).arrivalTime)
+			&& !T.get(connection.getTrip()).arrivalConnection.getArrivalStationUri().equals(mRoutesRequest.getDestination().getUri())
+			&& T3_transferArrivalTime.isEqual(T2_stayOnTripArrivalTime)
+			&& S.containsKey(T.get(connection.getTrip()).arrivalConnection.getArrivalStationUri())
+			&& S.containsKey(connection.getArrivalStationUri())
 		) {
-			LinkedConnection currentTrainExit = T.get(connection.trip).arrivalConnection;
-			
-			StationQuintuple quint = new StationQuintuple();
-			quint.departureTime = connection.departureTime;
-			quint.departureConnection = connection;
-			quint.arrivalTime = Tmin;
-			
-			// Current situation
-			quint.arrivalConnection = currentTrainExit;
-			Duration currentTransfer = new Duration(currentTrainExit.arrivalTime, getFirstReachableConnection(quint).departureTime);
-			// New situation
-			quint.arrivalConnection = exitTrainConnection;
-			Duration newTransfer = new Duration(exitTrainConnection.arrivalTime, getFirstReachableConnection(quint).departureTime);
+			LinkedConnection currentTrainExit = T.get(connection.getTrip()).arrivalConnection;
 	
+			StationStopProfile stationStopProfile = new StationStopProfile();
+			stationStopProfile.departureTime = connection.getDepartureTime();
+			stationStopProfile.departureConnection = connection;
+		
+			stationStopProfile.arrivalTime = Tmin;
+			stationStopProfile.arrivalConnection = currentTrainExit;
+			
+			Duration currentTransfer = new Duration(currentTrainExit.getArrivalTime(), getFirstReachableConnection(stationStopProfile).departureTime);
+			
+			// New situation
+			stationStopProfile.arrivalTime = Tmin;
+			stationStopProfile.arrivalConnection = exitTrainConnection;
+			Duration newTransfer = new Duration(exitTrainConnection.getArrivalTime(), getFirstReachableConnection(stationStopProfile).departureTime);
+			
+			// If the new situation is better
 			if (newTransfer.isLongerThan(currentTransfer)) {
-				TrainTriple triple = new TrainTriple();
-				triple.arrivalTime = Tmin;
-				triple.arrivalConnection = exitTrainConnection;
-				triple.transfers = numberOfTransfers;
-				T.put(connection.trip, triple);
+				TrainProfile trainProfile = new TrainProfile();
+				trainProfile.arrivalTime = Tmin;
+				trainProfile.arrivalConnection = exitTrainConnection;
+				trainProfile.transfers = numberOfTransfers;
+				
+				T.put(connection.getTrip(), trainProfile);
 			}
 		}
-		
-		if (Tmin.isBefore(T.get(connection.trip).arrivalTime)) {
-			TrainTriple triple = new TrainTriple();
-			triple.arrivalTime = Tmin;
-			triple.arrivalConnection = exitTrainConnection;
-			triple.transfers = numberOfTransfers;
-			T.put(connection.trip, triple);
+			
+		if (Tmin.isBefore(T.get(connection.getTrip()).arrivalTime)) {
+			TrainProfile trainProfile = new TrainProfile();
+			trainProfile.arrivalTime = Tmin;
+			trainProfile.arrivalConnection = exitTrainConnection;
+			trainProfile.transfers = numberOfTransfers;
+			
+			T.put(connection.getTrip(), trainProfile);
 		}
 	\end{minted}
 	\caption[CSA: Bijwerken T]{Bijwerken van de trips gegevensstructuur.}
@@ -347,29 +345,27 @@ Door de extra toevoegingen voor journey extraction en het optimaliseren van de r
 
 \begin{code}[h]
 	\begin{minted}[breaklines,tabsize=2]{java}
-		StationQuintuple quint = new StationQuintuple();
-		quint.departureTime = connection.departureTime;
-		quint.arrivalTime = Tmin;
+		StationStopProfile newProfile = new StationStopProfile();
+		newProfile.departureTime = connection.getDepartureTime();
+		newProfile.arrivalTime = Tmin;
+		newProfile.departureConnection = connection;
+		newProfile.arrivalConnection = T.get(connection.getTrip()).arrivalConnection;
+		newProfile.transfers = numberOfTransfers;
+		if (S.containsKey(connection.getDepartureStationUri())) {
+			int numberOfPairs = S.get(connection.getDepartureStationUri()).size();
+			StationStopProfile existingProfile = S.get(connection.getDepartureStationUri()).get(numberOfPairs - 1);
 		
-		// Additional data for journey extraction
-		quint.departureConnection = connection;
-		quint.arrivalConnection = T.get(connection.trip).arrivalConnection;
-		quint.transfers = numberOfTransfers;
-		
-		if (S.containsKey(connection.departureStationUri)) {
-			int numberOfPairs = S.get(connection.departureStationUri).size();
-			StationQuintuple existingquint = S.get(connection.departureStationUri).get(numberOfPairs - 1);
-			if (quint.arrivalTime.isBefore(existingquint.arrivalTime)) {
-				if (quint.departureTime.isEqual(existingquint.departureTime)) {
-					S.get(connection.departureStationUri).remove(numberOfPairs - 1);
-					S.get(connection.departureStationUri).add(numberOfPairs - 1, quint);
+			if (newProfile.arrivalTime.isBefore(existingProfile.arrivalTime)) {
+				if (newProfile.departureTime.isEqual(existingProfile.departureTime)) {
+					S.get(connection.getDepartureStationUri()).remove(numberOfPairs - 1);
+					S.get(connection.getDepartureStationUri()).add(numberOfPairs - 1, newProfile);
 				} else {
-					S.get(connection.departureStationUri).add(quint);
+					S.get(connection.getDepartureStationUri()).add(newProfile);
 				}
 			}
 		} else {
-			S.put(connection.departureStationUri, new ArrayList<StationQuintuple>());
-			S.get(connection.departureStationUri).add(quint);
+			S.put(connection.getDepartureStationUri(), new ArrayList<StationStopProfile>());
+			S.get(connection.getDepartureStationUri()).add(newProfile);
 		}
 	\end{minted}
 	\caption[CSA: Bijwerken S]{Bijwerken van de stops gegevensstructuur.}
