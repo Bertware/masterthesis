@@ -83,7 +83,25 @@ We overlopen nu de belangrijkste velden in dit antwoord:
 De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
  
 \subsection{Open World Assumption}
-% TODO: uitleggen wat OWA is, citations, link met LC
+Een van de speerpunten van Linked Connections is het gemak waarmee data gecombineerd kunnen worden. Om data van meerdere vervoersmaatschappijen te combineren, hoeft men enkel de Linked Connections voor deze vervoersmaatschappijen te downloaden, en \foreign{merge-sort} toepassen. Wanneer het niet mogelijk is een route tussen twee punten te plannen, is het ook nog steeds mogelijk dat deze route gepland kan worden wanneer data van een extra vervoersmaatschappij toegevoegd wordt. Dit heet de Open World Assumption. Formeel stellen we dat de open world assumption gedefinieerd wordt door de veronderstelling dat de "waarheid" van een statement of hypothese niet afhangt van het al dan niet bekend zijn van deze hypothese door een enkele agent~\citep{Moore15}. Met andere woorden is mogelijk dat wanneer een client een vraag niet kan beantwoorden, het nog steeds mogelijk is dat er een antwoord op deze vraag is wanneer meer data toegevoegd wordt.
+
+
+\section{Gebruikte systemen doorheen dit onderzoek}
+In het kader van dit onderzoek zullen we twee implementaties ontwikkelen. Enerzijds ontwikkelen we een client-side implementatie van Linked Connections, waarbij data opgehaald wordt van de bestaande Linked-Connections-Server. Anderzijds ontwikkelen we ook een RPC API die als referentie zal dienen, LC2Irail. Deze API hanteert dezelfde algoritmes als de lokale implementatie.
+
+\textbf{Linked Connections Server} Deze term doelt op de bestaande NodeJS applicatie welke Linked Connections fragmenten beheert op een server, en deze over HTTP aanbiedt. Beide API implementaties maken gebruik van deze fragmenten. Broncode is beschikbaar op https://github.com/julianrojas87/linked-connections-server/.
+
+\textbf{Linked Connections, LC, lokale implementatie} Deze termen doelen op de implementatie waarbij data van de Linked-Connections-Server opgehaald wordt en op het mobiele toestel verwerkt wordt. Broncode is beschikbaar op https://github.com/Bertware/masterthesis-LC-LC2Irail-android-client.
+
+\textbf{LC2Irail, server implementatie} Deze termen doelen op de implementatie van een RPC API waarbij data in de vorm van Linked Connections fragments van de harde schijf opgehaald wordt, om daarna op de server verwerkt te worden en het antwoord naar de mobiele client te sturen. Broncode is beschikbaar op https://github.com/Bertware/masterthesis-lc2Irail.
+
+Beide implementaties beschikken elk over dezelfde drie types opzoeking.
+
+\textbf{Liveboards} Deze opzoeking geeft de gebruiker alle vertrekkende of aankomende treinen voor een bepaald station. Er zijn theoretisch gezien oneindig veel resultaten beschikbaar door het beschouwde tijdsinterval steeds uit te breiden.
+
+\textbf{Routes} Deze opzoeking geeft de gebruiker routes van A naar B, waarbij stations A en B door de gebruiker zijn gekozen. Er zijn theoretisch gezien oneindig veel resultaten beschikbaar door het beschouwde tijdsinterval steeds uit te breiden.
+
+\textbf{Voertuigen} Deze opzoeking geeft het volledige traject van een voertuig weer. Het volledig traject wordt als één resultaat beschouwd.
 
 \section{Algoritmes}
 \label{sec:algoritmes}
