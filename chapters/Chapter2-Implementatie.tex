@@ -105,8 +105,6 @@ Beide implementaties beschikken elk over dezelfde drie types opzoeking.
 
 \textbf{Voertuigen} Deze opzoeking geeft het volledige traject van een voertuig weer. Het volledig traject wordt als één resultaat beschouwd.
 
-
-
 \section{Algoritmes}
 \label{sec:algoritmes}
 \subsection{Connection Scan Algoritme}
@@ -128,8 +126,8 @@ Naast de tijd van aankomst zijn er nog een aantal andere criteria die vaak geopt
 De werking en implementatie van CSA worden uitvoerig behandeld in~\citep{strasser17}. %TODO:correcte zin of ook titel schrijven?
 De implementatie en evolutie in dit project zal worden uitgelegd aan de hand van code fragmenten in Java. Er wordt hierbij verondersteld dat sectie 4.2 in~\cite{strasser17} gekend is. De code is asynchroon, waarbij na het laden van de eerste Linked Connections-pagina een \foreign{callback} functie opgeroepen wordt om deze pagina te verwerken. Afhankelijk van het resultaat van deze verwerking, wordt er een nieuwe pagina opgevraagd, of wordt het resultaat doorgegeven aan de oproepende code door middel van callbacks. De volledige broncode van de implementatie is online beschikbaar, zowel in  Java\footnote{\url{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java}} als PHP\footnote{\url{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}}.
 
-Wanneer CSA geïmplementeerd wordt merken we duidelijke verschillen met de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel-Zuid en Brussel-Centraal tot Brussel-Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Brussel-Centraal naar Brussel-Zuid rijdt. 
-Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal overstappen te beperken, en om op een meer uitgebreide manier aan \foreign{journey-extraction} te doen.
+Wanneer CSA geïmplementeerd wordt merken we duidelijke verschillen met de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel-Zuid en Brussel-Centraal tot Brussel-Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Brussel-Centraal naar Brussel-Zuid rijdt. We zullen dit proberen te voorkomen door enkele aanpassingen door te voeren.
+Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal overstappen te beperken, en om op een meer uitgebreide manier aan \foreign{journey-extraction} te doen. Aangezien CSA de connecties volgens dalende vertrektijd overloopt, moeten we op voorhand weten waar te beginnen. Dit kunnen we niet zomaar weten, en wegens de beperkte tijd is het tijdens deze masterproef niet mogelijk hier een apart algoritme voor te implementeren. Wanneer een gebruiker een vertrekuur kiest, zullen we steeds 4 of 6 uur verder in de verzameling connecties beginnen. Een alternatief zou zijn om het \foreign{Earliest Arrival Time} op te lossen alvorens CSA toe te passen, zoals besproken in sectie~\ref{sec:futurework}.
 
 \begin{listing}[htb]
 	\begin{minted}[breaklines,tabsize=2]{java}
@@ -154,7 +152,6 @@ Verder zullen we ook nog aanpassingen doorvoeren om eenvoudig het aantal oversta
 	\caption[CSA: Gegevensstructuur voor trips]{In tegenstelling tot~\cite{strasser17} wordt niet enkel de aankomsttijd, maar ook de afstaphalte en het aantal overstappen bijgehouden per trip.}
 	\label{code:2:trips}
 \end{listing}
-
 
 Allereerst dienen we twee wijzigingen door te voeren aan de gegevensstructuren. De arrays S en T, waarin respectievelijk zogeheten stopprofielen en aankomsttijden bijgehouden werden, zijn vervangen door een Map, waardoor we onbeperkt nieuwe stations en trips kunnen toevoegen, en deze kunnen opvragen op basis van hun URI. Dit maakt het algoritme geschikt om te werken rekening houdend met de open world assumption.  %TODO: citation needed, explanation needed
 In de datastructuur voor een voertuig (fragment~\ref{code:2:trips}) houden we niet enkel bij wanneer we zouden aankomen, maar ook met hoeveel overstappen (beginnend na het opstappen op deze trein) we zouden aankomen, en waar we moeten afstappen van deze trein. Dit laatste is essentieel om niet enkel de aankomsttijd, maar ook de exacte route met alle overstappen te kunnen weergeven. 

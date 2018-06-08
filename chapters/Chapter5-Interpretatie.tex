@@ -57,6 +57,16 @@ Het zou onterecht zijn om Linked Connections definitief als `slechter' te bestem
 	Gebruikers maken zich niet echt zorgen om hun privacy bij het gebruik van routeplanning applicaties. Verder zijn ze ook zeer slecht op de hoogte welke data over internet verzonden worden. Privacy belandt ook steevast onderaan de lijst met prioriteiten voor gebruikers. Dit wil echter niet zeggen dat men hierin niet geïnteresseerd is. Wanneer expliciet naar interesse om meer privacy gepolst wordt, geeft meer dan acht op tien gebruikers aan dit interessant te vinden.
 	
 	\textbf{Gebruikers ervaren extra privacy als een meerwaarde, alhoewel deze niet noemenswaardig is, en niet noemenswaardig veel gebruikers zal overhalen over te stappen. Ook hypothese 4 blijkt correct.}
+	
+\section{Toekomstig werk}
+\label{sec:futurework}
+Linked Connections kan op een aantal vlakken nog verbeterd worden. Tijdens implementaties moet aandacht besteed worden aan details, zoals de keuze van de gebruikte libraries, en moet opgelet worden met het gebruik van \foreign{String} objecten. Op basis van dit onderzoek zien we dat het enkel aanbieden van een gepagineerde verzameling Linked Connections onvoldoende is om de basisfunctionaliteit van een routeplanner efficiënt aan te bieden. De toevoeging van een index van trips, of clients toelaten om gefilterde lijsten op te halen is van groot belang om goede prestaties te kunnen bieden.
+
+Verder is het mogelijk om het netwerkverkeer te beperken door clients slimmer te maken. Zo zou een client op vaste tijdstippen informatie via Wi-Fi kunnen downloaden, om dan wanneer nodig steeds de berekening op gecachete data uit te voeren. Op basis van deze berekening kan dan bepaald worden welke pagina's nodig zijn, en kan gericht realtime data via internet opgehaald worden. Terwijl realtime data verwerkt wordt kan de gebruiker in dit geval al resultaten op basis van de gecachte data voorgeschoteld krijgen.
+
+Het routeplanning algoritme zelf kan verder verbeterd worden door eerst het \foreign{Earliest Arrival Time} probleem op te lossen. Tijdens het oplossen van dit probleem worden pagina's chronologisch stijgend overlopen om het eerste tijdstip van aankomst te bepalen, waarna \foreign{CSA} vanaf hier de exacte route kan bepalen. Na het toepassen van \foreign{ETA} zijn alle nodige pagina's reeds aanwezig in de cache, waardoor dit geen extra netwerkverkeer vereist.
+
+Tot slot kan ook een \foreign{in-memory} cache helpen bij het verbeteren van de prestaties. De kans is groot dat voor een volgende opzoeking pagina's uit eenzelfde periode nodig zijn. Door recent gebruikte pagina's in geheugen bij te houden kan tijd bespaard worden aangezien pagina's niet steeds opnieuw geparsed moeten worden. Dit is echter niet altijd haalbaar door beperkingen op de beschikbare hoeveelheid RAM-geheugen.
 
 \section{Tot slot}
 	
