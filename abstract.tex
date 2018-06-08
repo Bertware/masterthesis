@@ -182,7 +182,7 @@ Reducing this network traffic could also be achieved by running the algorithms o
 
 The performance of the route planning algorithm can be further optimized by first applying the Earliest Arrival Time algorithm, which will cache the required pages and determine the starting point where the Connection Scan Algorithm should start iterating over the pages. Search performance could also be improved by pre-loading data when it is highly likely the user will make a search. In this case it is no longer needed to retrieve the pages the moment the user confirms the search.
 
-Keeping recently used pages in memory will speed up the loading of results after the first pages has been downloaded, as it is likely that the next search will require data from the same page as the previous page. In reality, this might not be feasible due to constraints on the available memory. All performance improvements should take the device properties into account, as a device with limited \textsc{ram} might be better off using a cache in the flash memory.
+Keeping recently used pages in memory will speed up the loading of results for consecutive searches around the same time, as after the first pages has been downloaded, the next search will require data from the same page as the previous page. In reality, this might not be feasible due to constraints on the available memory. All performance improvements should take the device properties into account, as a device with limited \textsc{ram} might be better off using a cache in the flash memory.
 
 \nocite{*}
 \bibliographystyle{phdsymp}
