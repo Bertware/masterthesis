@@ -1,0 +1,13 @@
+\contentsline {listing}{\numberline {2.1}{\ignorespaces Voorbeeld Linked Connections formaat: context\relax }}{26}{listing.2.1}
+\contentsline {listing}{\numberline {2.2}{\ignorespaces Voorbeeld Linked Connections formaat: graph\relax }}{26}{listing.2.2}
+\contentsline {listing}{\numberline {2.3}{\ignorespaces CSA: Gegevensstructuur voor trips}}{30}{listing.2.3}
+\contentsline {listing}{\numberline {2.4}{\ignorespaces CSA: Gegevensstructuur voor stopprofielen}}{31}{listing.2.4}
+\contentsline {listing}{\numberline {2.5}{\ignorespaces CSA: Overlopen van connecties}}{32}{listing.2.5}
+\contentsline {listing}{\numberline {2.6}{\ignorespaces CSA: Bepalen van aankomsttijden}}{33}{listing.2.6}
+\contentsline {listing}{\numberline {2.7}{\ignorespaces CSA: Bepalen van aankomsttijden}}{34}{listing.2.7}
+\contentsline {listing}{\numberline {2.8}{\ignorespaces CSA: Bepalen van vroegste aankomsttijd}}{35}{listing.2.8}
+\contentsline {listing}{\numberline {2.9}{\ignorespaces CSA: Bijwerken T}}{36}{listing.2.9}
+\contentsline {listing}{\numberline {2.10}{\ignorespaces CSA: Bijwerken S}}{37}{listing.2.10}
+\contentsline {listing}{\numberline {2.11}{\ignorespaces CSA: Journey extraction}}{37}{listing.2.11}
+\contentsline {listing}{\numberline {2.12}{\ignorespaces CSA: Journey extraction bij tussenstops}}{38}{listing.2.12}
+\contentsline {listing}{\numberline {2.13}{\ignorespaces Zoeken van pagina's in offline cache}}{46}{listing.2.13}
