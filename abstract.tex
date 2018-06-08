@@ -25,7 +25,7 @@
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{url}
 
-\usepackage{times}
+\usepackage[T1]{fontenc}
 
 \hyphenation{}
 
@@ -95,11 +95,11 @@ In order to assess which aspects were more important to users, a survey was held
 
 Along with subjective experiences from users, objective benchmarks were also executed. These benchmarks used a fraction of the real-world searches handled by the iRail \textsc{api}\footnote{The iRail project: \url{https://hello.irail.be}}, to determine the speed needed to load a certain number of results. This was done both on a relatively modern smartphone (HTC 10, Android 8.0) and on an older smartphone (HTC One, Android 5.0). By running each benchmark on both devices, it was possible to evaluate the impact of the hardware on the client-side Linked Connections implementation.
 
-For the local implementation, two versions were implemented. The first implementation relies on the default Android \textsc{json} parser, \emph{org.json}. This implementation proved to be rather slow, with vehicle requests taking around four seconds on the HTC 10. It used an index containing the first departure of every vehicle and it did not use a cache. CPU profiling for this implementation revealed heavy CPU usage by the \textsc{json} parsing process, for which several optimizations were applied. These optimizations proved to be insufficient, which is why a second implementation was built. This new implementation makes use of the \emph{LoganSquare} parser, resulting in a reduction of around one second for the same queries.
+For the local implementation, two versions were implemented. The first implementation relies on the default Android \textsc{json} parser, \emph{org.json}. This implementation proved to be rather slow, with vehicle requests taking around four seconds on the HTC 10. It used an index containing the first departure of every vehicle and it did not use a cache. CPU profiling for this implementation revealed heavy CPU usage by the \textsc{json} parsing process, for which several optimizations were applied. These optimizations proved to be insufficient, which is why a second implementation was built. This new implementation makes use of the \emph{LoganSquare} parser, resulting in a reduction of around one second for the same queries. Both implementations are available online\footnote{\url{https://github.com/Bertware/masterthesis-LC-LC2Irail-android-client/releases/tag/RESEARCH40}}.
 
 \section{Results}
 
-When testing both parsers with a cache memory on the device’s flash storage, performance increased even more, going from around four seconds to just below two seconds. Based on this, the user-test was altered. While the first ten users tested the first implementation, the last seven testers received the second implementation. The second group reported slightly faster experiences for routes and vehicles, but the separate test groups are too small to generalize this to the entire population. Users who tested both implementations reported an perceived speed gain, independent of the test device hardware. All benchmarks use the second (more efficient) implementation.
+When testing both parsers with a cache memory on the device’s flash storage, performance increased even more, going from around four seconds to just below two seconds. Based on this, the user-test was altered. While the first ten users tested the first implementation, the last seven testers received the second implementation. The second group reported slightly faster experiences for routes and vehicles, but the separate test groups are too small to generalize this to the entire population. Users who tested both implementations reported an perceived speed gain, independent of the test device hardware. All benchmarks use the second (more efficient) implementation. Raw results are available online\footnote{\url{https://github.com/Bertware/masterthesis/blob/master/data.ods?raw=true}}.
 
 
 \begin{figure}[ht]
