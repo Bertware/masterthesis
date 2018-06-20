@@ -10,7 +10,7 @@ In this work, we study the user-perceived performance of route planning on the c
 
 We found that the performance of the client-side Android Linked Connections implementation heavily depends on the type of information, the query and the users device. Linked Connections can be faster or slower than a query answering API based on these parameters. For a majority of the users, the benefit of off-line searches outweighs the slower speed of Linked Connections and even though Linked Connections is slower than the reference API, users consider it as fast as their default application on recent devices.
 
-###**abstract (NL)**
+### **abstract (NL)**
 Voor de achterliggende Web-architecturen van routeplanning applicaties worden gebruikelijk Remote Procedure Calls toegepast, waarbij een server de routes voor elke gebruiker berekent. Linked Connections biedt een alternatieve architectuur volgens de REST-constraints, waarbij ruwe data in fragmenten gepubliceerd worden. Terwijl reeds is aangetoond dat de kostenefficiëntie van Linked Connections op servers hoger is, is het op dit moment nog niet bekend hoe Linked Connections presteert op clients, die nu ook zelf het routeplanningsalgoritme moeten uitvoeren. 
 
 In dit werk bestuderen we de door gebruikers ervaren performantie van routeplanning aan de client-side tegenover routeplanning aan de server-side. Een isomorfe applicatie werd ontwikkeld met zowel routeplanning aan client- als server-side. Zowel technische performantie als door gebruikers ervaren performantie werden getest bij 17 reizigers, en 81 respondenten gaven inzichten in hun gebruik van reisapplicaties. 
