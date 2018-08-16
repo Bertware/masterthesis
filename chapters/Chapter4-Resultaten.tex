@@ -298,7 +298,7 @@ Het is duidelijk dat de standaard implementatie zeer slecht presteert. Ook het g
 
 Een tweede grote verbetering kan behaald worden door het gebruik van de eerder besproken \foreign{LoganSquare}-parser. Hierbij zien we ook een veel grotere verbetering door cachegebruik dan bij de \foreign{org.json} parser. Dit is logisch, gezien bij het gebruik van de \foreign{LoganSquare}-parser het verwerken van de data relatief gezien minder tijd in beslag neemt - het ophalen van data wordt dus belangrijker. Op het eerste zicht blijven alle lokale varianten veel trager dan de serverimplementatie, die sneller door pagina's kan zoeken.
 
-We onderzoeken nu het verschil tussen de lokale implementatie en de serverimplementatie in detail. Hiervoor zoeken we 2102 ritten op die plaatsvinden op 6 mei 2018. Dit wordt enerzijds gedaan voor de Linked Connections implementatie die gebruik maakt van de \foreign{LoganSquare}-parser, cache en lokale index, en anderzijds voor de serverimplementatie, die server-side over dezelfde index en een cache beschikt.
+We onderzoeken nu het verschil tussen de lokale implementatie en de serverimplementatie in detail. Hiervoor zoeken we 2102 ritten op die plaatsvinden op 6 mei 2018. Dit wordt enerzijds gedaan voor de Linked Connections implementatie die gebruikmaakt van de \foreign{LoganSquare}-parser, cache en lokale index, en anderzijds voor de serverimplementatie, die server-side over dezelfde index en een cache beschikt.
 
 Wanneer we kijken naar de boxplot van de responstijd, weergegeven in figuur~\ref{fig:vehicleboxplot}, zien we dat de Linked Connections duidelijk slechter presteert. Op beide toestellen is LC2Irail sneller. Bij de HTC 10, valt dit nog enigszins mee, maar op de HTC One zijn via LC2Irail de meeste resultaten binnen 3000 milliseconden geladen, terwijl op dat moment nog geen 25\% van de opzoekingen via Linked Connections uitgevoerd werd. Net zoals bij liveboards en routes zien we hier dat LC2Irail consistente prestaties biedt: beide boxplots zijn ongeveer identiek, op wat uitlopers na. Voor Linked Connections zien we echter dat, net zoals voor het opzoeken van liveboards en routes, de spreiding van de benodigde tijd afhangt van het toestel: een traag toestel zal niet alleen trager resultaten laden, maar heeft ook een grotere variatie in de laadtijd.
 
@@ -363,7 +363,7 @@ Terwijl de meerderheid van de gebruikers steeds voor LC2Irail koos, kantelt deze
 
 We trachten nu een antwoord te vinden op de in hoofdstuk~\ref{chap:onderzoek} gestelde vragen omtrent de gebruikerservaring.
 \begin{itemize}
-	\item Ervaart de gebruiker een app die lokaal Linked Connections gebruikt als sneller dan een app die gebruik maakt van een RPC API?\\
+	\item Ervaart de gebruiker een app die lokaal Linked Connections gebruikt als sneller dan een app die gebruikmaakt van een RPC API?\\
 	De ervaring van de gebruiker hangt sterk af van het gebruikte toestel en de gemaakte opzoekingen. Enkel gebruikers van snelle toestellen ervaren Linked Connections in sommige gevallen als sneller. Voor liveboards is Linked Connections concurrentieel, maar voor andere opzoekingen is deze techniek meestal merkbaar trager dan de gebruikte RPC API.
 	\item Ervaart de gebruiker een app die lokaal Linked Connections gebruikt als sneller dan zijn huidige app?\\
 	Een minderheid ervaart Linked Connections als sneller dan de huidige gebruikte applicatie. Voor liveboards, routes en voertuigen vinden respectievelijk 45\%, 30\% en 24\% dat Linked Connections sneller is. Respectievelijk 30\%, 40\% en 60\% van de gebruikers ervaren Linked Connections als even snel, met 24\%, 30\% en 12\% van de gebruikers die Linked Connections expliciet als trager ervaren dan hun huidige applicatie. Linked Connections brengt op dit moment zeker geen verbetering in snelheid voor de gebruikers.
@@ -372,7 +372,7 @@ We trachten nu een antwoord te vinden op de in hoofdstuk~\ref{chap:onderzoek} ge
 Wat dit wil zeggen voor de onderzoeksvraag en hypotheses en zullen we verder bespreken in hoofdstuk~\ref{chap:interpretatie}.
 
 \section{Enquête}
-Zoals vermeld in hoofdstuk~\ref{chap:onderzoek}, trachten we een aantal vragen te beantwoorden aan de hand van een enquête (bijlage~\ref{appendix:enquête}). We zullen nu eerst de resultaten van deze enquête overlopen, alvorens aan de hand van deze resultaten een antwoord te zoeken op de in hoofdstuk~\ref{chap:onderzoek} geformuleerde vragen.
+Zoals vermeld in hoofdstuk~\ref{chap:onderzoek}, trachten we een aantal vragen te beantwoorden aan de hand van een enquête (bijlage~\ref{appendix:enquete}). We zullen nu eerst de resultaten van deze enquête overlopen, alvorens aan de hand van deze resultaten een antwoord te zoeken op de in hoofdstuk~\ref{chap:onderzoek} geformuleerde vragen.
 
 \subsection{Antwoorden van respondenten}
 Er werden in totaal \emph{81 volledig ingevulde enquêtes} digitaal verzameld, in een gevarieerd publiek. Zo neemt meer dan de helft van de respondenten meerdere keren per week (26\%) of dagelijks (28\%) de trein. Ook personen die occasioneel reizen zijn goed vertegenwoordigd, zo reist 16\% minder dan één keer per maand per trein.
