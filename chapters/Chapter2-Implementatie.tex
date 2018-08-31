@@ -13,7 +13,7 @@ Om een zo eerlijk mogelijke vergelijking te bekomen, zullen we zowel bij de clie
 \label{sec:lcformaat}
 Zoals eerder aangehaald publiceert Linked Connections geen dump van reisinformatie of een volledige routeplanner, maar een lijst van zogenoemde connecties. Een connectie is het kleinste ondeelbaar stuk van een treinrit, en beschrijft het vertrek in een station en de aankomst in het volgende station op de route. Deze connecties worden opgeslagen in een lijst en gesorteerd volgens vertrektijd. Hierna wordt deze lijst gesplitst, om pagina's van gelijke grootte of gelijke tijdsduur te bekomen. Deze fragmenten kunnen gepubliceerd worden via HTTP als \foreign{JSON-LD}\footnote{https://json-ld.org/}, waarbij \foreign{user-agents} kunnen kiezen welke pagina's ze opvragen. Links in de gepubliceerde documenten zorgen ervoor dat \foreign{user-agents} steeds weten welke pagina ze als volgende moeten laden~\citep{linkedconnections18}.
 
-Om bovenstaande methode in de praktijk om te zetten, wordt gebruikgemaakt van de open source LC-Server\footnote{https://github.com/julianrojas87/linked-connections-server/}. Om GTFS om te zetten naar Linked Connections, wordt er achterliggend gebruikgemaakt van de gtfs2lc tool\footnote{https://github.com/linkedconnections/gtfs2lc}.
+Om bovenstaande methode in de praktijk om te zetten, wordt de open source LC-Server\footnote{https://github.com/julianrojas87/linked-connections-server/} gebruikt. Om de data in het Linked Connections formaat te generen, wordt op de server de gtfs2lc tool\footnote{https://github.com/linkedconnections/gtfs2lc} gebruikt.
 
 Deze data zijn publiek toegankelijk via https://graph.irail.be/.
 
@@ -22,17 +22,17 @@ Om een pagina met data op te halen, wordt een verzoek gemaakt naar de API, waarb
 
 We overlopen nu de belangrijkste velden in dit antwoord:
 \begin{enumerate}
-	\item \foreign{@context}: Deze lijst, zichtbaar in codefragment~\ref{code:2:linkedconnections-response-context}, definieert de gebruikte namespaces en velden
+	\item \foreign{@context}: Deze lijst, zichtbaar in codefragment~\ref{code:2:linkedconnections-response-context}, definieert de gebruikte \foreign{namespaces} en velden
 	\item \foreign{hydra:next} en  \foreign{hydra:previous}: Links naar de pagina met respectievelijk de volgende en de voorgaande data
 	\item \foreign{hydra:search}: Informatie over de huidige pagina
 	\item \foreign{@graph}: Deze lijst, zichtbaar in codefragment~\ref{code:2:linkedconnections-response-graph},  bevat de eigenlijke data. Elk vertrek bevat de volgende informatie:
 	\begin{enumerate}
-			\item \foreign{departureStop}: De URI welke het station van vertrek uniek identificeert.
-			\item \foreign{arrivalStop}: De URI welke het station van aankomst uniek identificeert.	\item departureTime, arrivalTime: De geplande tijden, respectievelijk bij vertrek en aankomst.
-			\item \foreign{departureDelay}, \foreign{arrivalDelay}: De vertraging, respectievelijk bij vertrek en aankomst.
-			\item \foreign{direction}: De richting van dit voertuig, wat vaak ook op de lichtkrant van het voertuig weergegeven wordt.
-			\item \foreign{gtfs:trip}: Een URI welk de rit van het voertuig uniek identificeert
-			\item \foreign{gtfs:route}: Een URI welk de route van het voertuig uniek identificeert
+			\item \foreign{departureStop}: de URI die het station van vertrek uniek identificeert.
+			\item \foreign{arrivalStop}: de URI die het station van aankomst uniek identificeert.	\item departureTime, arrivalTime: De geplande tijden, respectievelijk bij vertrek en aankomst.
+			\item \foreign{departureDelay}, \foreign{arrivalDelay}: de vertraging, respectievelijk bij vertrek en aankomst.
+			\item \foreign{direction}: de richting van dit voertuig, wat vaak ook op de lichtkrant van het voertuig weergegeven wordt.
+			\item \foreign{gtfs:trip}: een URI die de rit van het voertuig uniek identificeert
+			\item \foreign{gtfs:route}: een URI die de route van het voertuig uniek identificeert
 			\item \foreign{gtfs:pickupType} en \foreign{gtfs:dropOffType}: geeft aan of reizigers al dan niet kunnen op- of afstappen bij respectievelijk vertrek en aankomst
 	\end{enumerate}
 \end{enumerate}
@@ -83,27 +83,27 @@ We overlopen nu de belangrijkste velden in dit antwoord:
 De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
  
 \subsection{Open World Assumption}
-Een van de speerpunten van Linked Connections is het gemak waarmee data gecombineerd kunnen worden. Om data van meerdere vervoersmaatschappijen te combineren, hoeft men enkel de Linked Connections voor deze vervoersmaatschappijen te downloaden, en \foreign{merge-sort} toepassen. Wanneer het niet mogelijk is een route tussen twee punten te plannen, is het ook nog steeds mogelijk dat deze route gepland kan worden wanneer data van een extra vervoersmaatschappij toegevoegd wordt. Dit is de zogeheten `Open World Assumption`. Formeel stellen we dat de open world assumption gedefinieerd wordt door de veronderstelling dat de "waarheid" van een statement of hypothese niet afhangt van het al dan niet bekend zijn van deze hypothese door een enkele agent~\citep{Moore15}. Met andere woorden is het mogelijk dat wanneer een client een vraag niet kan beantwoorden, de client deze vraag toch kan beantwoorden wanneer meer data toegevoegd wordt.
+Een van de speerpunten van Linked Connections is het gemak waarmee data gecombineerd kan worden. Om data van meerdere vervoersmaatschappijen te combineren, hoeft men enkel de Linked Connections voor deze vervoersmaatschappijen te downloaden, en \foreign{merge-sort} toepassen. Wanneer het niet mogelijk is een route tussen twee punten te plannen, is het ook nog steeds mogelijk dat deze route gepland kan worden wanneer data van een extra vervoersmaatschappij toegevoegd wordt. Dit is de zogeheten `Open World Assumption`. Formeel stellen we dat de open world assumption gedefinieerd wordt door de veronderstelling dat de "waarheid" van een statement of hypothese niet afhangt van het al dan niet bekend zijn van deze hypothese door een enkele agent~\citep{Moore15}. Met andere woorden is het mogelijk dat wanneer een client een vraag niet kan beantwoorden, de client deze vraag toch kan beantwoorden wanneer meer data toegevoegd wordt.
 
 
 \section{Gebruikte systemen doorheen dit onderzoek}
 In het kader van dit onderzoek zullen we twee implementaties ontwikkelen. Enerzijds ontwikkelen we een client-side implementatie van Linked Connections, waarbij data opgehaald wordt van de bestaande Linked-Connections-Server. Anderzijds ontwikkelen we ook een RPC API die als referentie zal dienen, LC2Irail. Deze API hanteert dezelfde algoritmes als de lokale implementatie.
 
-\textbf{Linked Connections Server} Deze term doelt op de bestaande NodeJS applicatie welke Linked Connections fragmenten beheert op een server, en deze over HTTP aanbiedt. Beide API implementaties maken gebruik van deze fragmenten. Broncode is beschikbaar op https://github.com/julianrojas87/linked-connections-server/.
+\textbf{Linked Connections Server:} deze term doelt op de bestaande NodeJS applicatie welke Linked Connections fragmenten beheert op een server, en deze over HTTP aanbiedt. Beide API implementaties maken gebruik van deze fragmenten. Broncode is beschikbaar op https://github.com/julianrojas87/linked-connections-server/.
 
-\textbf{Linked Connections, LC, lokale implementatie} Deze termen doelen op de implementatie waarbij data van de Linked-Connections-Server opgehaald wordt en op het mobiele toestel verwerkt wordt. Broncode is beschikbaar op https://github.com/Bertware/masterthesis-LC-LC2Irail-android-client.
+\textbf{Linked Connections, LC, lokale implementatie:} deze termen doelen op de implementatie waarbij data van de Linked-Connections-Server opgehaald wordt en op het mobiele toestel verwerkt wordt. Broncode is beschikbaar op https://github.com/Bertware/masterthesis-LC-LC2Irail-android-client.
 
-\textbf{LC2Irail, server implementatie} Deze termen doelen op de implementatie van een RPC API waarbij data in de vorm van Linked Connections fragmenten van de harde schijf opgehaald wordt, om daarna op de server verwerkt te worden en het antwoord naar de mobiele client te sturen. Broncode is beschikbaar op https://github.com/Bertware/masterthesis-lc2Irail.
+\textbf{LC2Irail, server implementatie:} deze termen doelen op de implementatie van een RPC API waarbij data in de vorm van Linked Connections fragmenten van de harde schijf opgehaald wordt, om daarna op de server verwerkt te worden en het antwoord naar de mobiele client te sturen. Broncode is beschikbaar op https://github.com/Bertware/masterthesis-lc2Irail.
 
 Zowel de implementatie op basis van de \foreign{org.json} parser en de implementatie op basis van de \foreign{LoganSquare} parser kunnen gedownload en geïnstalleerd worden door de *.apk bestanden te downloaden op een smartphone met Android 4.4 of hoger. De applicatie is beschikbaar op \url{https://github.com/Bertware/masterthesis-LC-LC2Irail-android-client/releases/tag/RESEARCH40}.
 
 Beide implementaties beschikken elk over dezelfde drie types opzoeking.
 
-\textbf{Liveboards} Deze opzoeking geeft de gebruiker alle vertrekkende of aankomende treinen voor een bepaald station. Er zijn theoretisch gezien oneindig veel resultaten beschikbaar door het beschouwde tijdsinterval steeds uit te breiden.
+\textbf{Liveboards:} deze opzoeking geeft de gebruiker alle vertrekkende of aankomende treinen voor een bepaald station. Er zijn theoretisch gezien oneindig veel resultaten beschikbaar door het beschouwde tijdsinterval steeds uit te breiden.
 
-\textbf{Routes} Deze opzoeking geeft de gebruiker routes van A naar B, waarbij stations A en B door de gebruiker zijn gekozen. Er zijn theoretisch gezien oneindig veel resultaten beschikbaar door het beschouwde tijdsinterval steeds uit te breiden.
+\textbf{Routes:} deze opzoeking geeft de gebruiker routes van A naar B, waarbij stations A en B door de gebruiker zijn gekozen. Er zijn theoretisch gezien oneindig veel resultaten beschikbaar door het beschouwde tijdsinterval steeds uit te breiden.
 
-\textbf{Voertuigen} Deze opzoeking geeft het volledige traject van een voertuig weer. Het volledig traject wordt als één resultaat beschouwd.
+\textbf{Voertuigen:} deze opzoeking geeft het volledige traject van een voertuig weer. Het volledig traject wordt als één resultaat beschouwd.
 
 \section{Algoritmes}
 \label{sec:algoritmes}
@@ -244,7 +244,7 @@ Wanneer we de ingeladen connecties willen verwerken, filteren we alle connecties
 		\label{code:2:csaT1T2}
 \end{listing}
 
-Het bepalen van de aankomsttijd bij wandelen, T1, en de aankomsttijd bij het gezeten blijven in de trein, T2, loopt vrijwel gelijk aan de implementatie uit~\cite{strasser17}. Wandelen van een station naar het eindstation wordt niet ondersteund in onze implementatie. Dit implementeren is relatief eenvoudig door het gebruiken van \foreign{inter-stop foothpaths}~\citep{strasser17,hannemann08}, maar deze data is op dit moment niet beschikbaar, en het verzamelen, opschonen en valideren van deze data valt buiten de context van deze masterproef. In fragment~\ref{code:2:csaT1T2} zien we hoe het aantal overstappen wordt bepaald. In het geval dat er geen aankomst mogelijk is (binnen de beperkte tijd) stellen we zowel de aankomsttijd als het aantal overstappen in op een onrealistisch hoog getal. Dit vereenvoudigt de code aanzienlijk, aangezien er geen rekening gehouden hoeft te worden met het mogelijk leeg zijn van variabelen.
+Het bepalen van de aankomsttijd bij wandelen, T1, en de aankomsttijd bij het gezeten blijven in de trein, T2, loopt vrijwel gelijk aan de implementatie uit~\cite{strasser17}. Wandelen van een station naar het eindstation wordt niet ondersteund in onze implementatie. Dit implementeren is relatief eenvoudig door het gebruiken van \foreign{inter-stop foothpaths}~\citep{strasser17,hannemann08}, maar deze data zijn op dit moment niet beschikbaar, en het verzamelen, opschonen en valideren van deze data valt buiten de context van deze masterproef. In fragment~\ref{code:2:csaT1T2} zien we hoe het aantal overstappen wordt bepaald. In het geval dat er geen aankomst mogelijk is (binnen de beperkte tijd) stellen we zowel de aankomsttijd als het aantal overstappen in op een onrealistisch hoog getal. Dit vereenvoudigt de code aanzienlijk, aangezien er geen rekening gehouden hoeft te worden met het mogelijk leeg zijn van variabelen.
 
 \begin{listing}[htb]
 	\begin{minted}[breaklines,tabsize=2]{java}
@@ -279,7 +279,7 @@ Wanneer we een overstap vinden die aan deze voorwaarden voldoet, verhogen we het
 
 In plaats van de door~\cite{strasser17} voorgestelde verhoging van de aankomsttijd met één, om zo routes met een gelijke aankomsttijd maar minder overstappen voorkeur te geven, verhogen we hier de aankomsttijd met een vooraf gedefinieerd aantal seconden. Dit aantal geeft aan hoeveel seconden we langer op een trein wensen te zitten, in plaats van over te stappen. Door dit in te stellen op 240, wordt aangegeven dat een route die er tot 4 minuten langer over doet, met een overstap minder, toch de voorkeur krijgt over de snellere route met meer overstappen. Dit is een eerste veld dat eventueel door gebruikers ingesteld zou kunnen worden om de routes te personaliseren.
 
-Bij het bepalen van de vroegste aankomsttijd (fragment~\ref{code:2:csaT3}), wordt nu ook het aantal overstappen dat bij deze aankomsttijd hoort bepaald, en de connectie waar van de trein afgestapt wordt. Wanneer de aankomsttijd met overstap gelijk is aan de aankomsttijd wanneer de reiziger hier blijft zitten, kiezen we voor de aankomsttijd met overstap. Dit kan contra-intuïtief lijken, maar we moeten hierbij onthouden dat bij aankomsttijd T3 reeds een constante `straftijd` is opgeteld (in dit geval 240 seconden). Hierdoor zullen deze aankomsttijden enkel gelijk zijn indien T2 even veel overstappen bevat. In dat geval verkiezen we om `nu` over te stappen, waarbij `nu` vroeger ligt dan T2: we overlopen alle vertrekken immers van laatst naar vroegst.
+Bij het bepalen van de vroegste aankomsttijd (fragment~\ref{code:2:csaT3}), wordt nu ook het aantal overstappen dat bij deze aankomsttijd hoort bepaald, en de connectie waar van de trein afgestapt wordt. Wanneer de aankomsttijd met overstap gelijk is aan de aankomsttijd wanneer de reiziger hier niet overstapt, kiezen we voor de aankomsttijd met overstap. Dit kan contra-intuïtief lijken, maar we moeten hierbij onthouden dat bij aankomsttijd T3 reeds een constante `straftijd` is opgeteld (in dit geval 240 seconden). Hierdoor zullen deze aankomsttijden enkel gelijk zijn indien T2 even veel overstappen bevat. In dat geval verkiezen we om `nu` over te stappen, waarbij `nu` vroeger ligt dan T2: we overlopen alle vertrekken immers van laatst naar vroegst.
 
 \begin{listing}[htb]
 \begin{minted}[breaklines,tabsize=2]{java}
@@ -451,7 +451,7 @@ Wanneer de stopvoorwaarde is bereikt, splitsen we de lijsten in drie soorten sto
 	\item Stops: dit zijn de stops van voertuigen die een tussenstop maken
 \end{itemize}
 
-Om te bepalen tot welke categorie een connectie behoort, dienen we voor elke aankomende connectie in het station te bepalen of er een vertrekkende connectie mee overeenkomt. Komt er een vertrekkende connectie mee overeen, is er sprake van een tussenstop. Komt er geen vertrek mee overeen, is dit een eindhalte. De connecties die vertrekken vanuit het station, en waarmee geen aankomst overeenkomt, zijn dan de vertrekhaltes. 
+Om te bepalen tot welke categorie een connectie behoort, dienen we voor elke aankomende connectie in het station te bepalen of er een vertrekkende connectie mee overeenkomt. Komt er een vertrekkende connectie mee overeen, dan is er sprake van een tussenstop. Komt er geen vertrek mee overeen, is dit een eindhalte. De connecties die vertrekken vanuit het station, en waarmee geen aankomst overeenkomt, zijn dan de vertrekhaltes. 
 
 Bij de implementatie hiervan zorgen we ervoor dat we voor elk vertrek alle aankomsten volgens dalende aankomsttijd overlopen: we verwachten in de meeste gevallen een tussenstop (en dus geen vertrek), en in het geval van een tussenstop zal de aankomst slechts enkele minuten eerder zijn. Door de aankomsten volgens dalende aankomsttijd te overlopen zullen we dus sneller de bijhorende aankomende connectie ontdekken, indien deze bestaat.
 
@@ -507,7 +507,7 @@ Tijdens het schrijven van deze masterproef werd ook de Linked Connections server
 	\label{fig:responsetimeperresultsrouteKiewit}
 \end{figure}
 
-We zien dat deze tijd telkens ongeveer lineair toeneemt, maar zeker de variant op basis van constante tijdsintervallen sterke knikken vertoont op sommige plaatsen. Deze knikken kunnen we verklaren aan het overlopen van pagina's met weinig connecties, zoals 's nachts wanneer geen treinen rijden en tijdens daluren. Sommige knikken die we in beide grafieken zien, worden veroorzaakt door pagina's met weinig relevante connecties. Dit is duidelijk merkbaar wanneer beide grafieken vergeleken worden: Tussen Gent en Brussel Zuid (een belangrijke treinverbinding) zijn er geen knikken wanneer gebruikgemaakt wordt van pagina's met een constante grootte, terwijl deze er wel zijn wanneer een route naar een klein station zoals Kiewit gepland wordt. Deze verschillen zijn zichtbaar in grafiek~\ref{fig:responsetimeperresultsroute}. Om te voorkomen dat gebruikers te lang moeten wachten op een resultaat wanneer een route naar een klein station gepland wordt, zal de server implementatie steeds 8 resultaten weergeven.
+We zien dat deze tijd telkens ongeveer lineair toeneemt, maar zeker de variant op basis van constante tijdsintervallen sterke knikken vertoont op sommige plaatsen. Deze knikken kunnen we verklaren aan het overlopen van pagina's met weinig connecties, zoals 's nachts wanneer geen treinen rijden en tijdens daluren. Sommige knikken die we in beide grafieken zien, worden veroorzaakt door pagina's met weinig relevante connecties. Dit is duidelijk merkbaar wanneer beide grafieken vergeleken worden: Tussen Gent en Brussel Zuid (een belangrijke treinverbinding) zijn er geen knikken wanneer pagina's met een constante grootte gebruikt worden, terwijl deze er wel zijn wanneer een route naar een klein station zoals Kiewit gepland wordt. Deze verschillen zijn zichtbaar in grafiek~\ref{fig:responsetimeperresultsroute}. Om te voorkomen dat gebruikers te lang moeten wachten op een resultaat wanneer een route naar een klein station gepland wordt, zal de server implementatie steeds 8 resultaten weergeven.
 
 \begin{figure}[h]
 	\centering
@@ -539,7 +539,7 @@ Wanneer we echter kijken naar de laadtijd bij pagina's van constante grootte, ve
 Het is belangrijk om op te merken dat de metingen voor bovenstaande grafieken steeds gemaakt zijn op een lokale server, gebruikmakend van krachtige hardware. Op zwakkere hardware zal de responstijd lineair hoger liggen. De LC2Irail applicatie wordt ingesteld om telkens 8 routes, en 60 minuten van vertrekken en aankomsten weer te geven. Hierdoor krijgt de gebruiker telkens genoeg resultaten, en wordt onnodig werk en tijdsverspilling vermeden.
 
 \subsection{Caching}
-Een van de grootste voordelen die bij Linked Connections hoort, is de hoge mate waarin data gecachet en hergebruikt kan worden. Om data te cachen zullen we een SQLite database bijhouden op de interne opslag van het toestel.
+Één van de grootste voordelen die bij Linked Connections hoort, is de hoge mate waarin data gecachet en hergebruikt kan worden. Om data te cachen zullen we een SQLite database bijhouden op de interne opslag van het toestel.
 
 Door gebruik te maken van een opslag op het toestel blijven alle opgeslagen pagina's behouden wanneer de applicatie afgesloten en herstart wordt. Hierdoor is de applicatie ook na het afsluiten nog te gebruiken voor offline opzoekingen. Wanneer pagina's constante tijdsintervallen beschrijven is het eenvoudig om te controleren of een pagina reeds gecachet is: de gezochte tijd afronden, URL construeren en opzoeken in de database is voldoende. Wanneer echter pagina's van constante fysieke grootte gebruikt worden, kan het id van de pagina niet meer client-side bepaald worden. Wanneer een nog nooit eerder opgezocht tijdstip gezocht wordt, zoals 8:05, is het mogelijk dat deze data zich in de pagina beginnend op 8:03 bevindt. Om dit op te lossen gebruiken we een query, waarbij de URL voor een tijdstip geconstrueerd wordt en deze vergeleken wordt met de intervallen per pagina. De keuze voor SQLite laat toe om dit eenvoudig te implementeren. Een voorbeeld hiervan is te zien in fragment~\ref{code:2:LCCache}. In de cache slaan we steeds de URL, het volledige server antwoord en de tijd waarop het antwoord ontvangen werd op.
 
@@ -567,4 +567,4 @@ Wanneer we echter kijken naar een vergelijking tussen JSON parsers, blijkt al sn
 	\label{fig:jsonparsersdeserialize}
 \end{figure}
 
-Als oplossing is gekozen om de \foreign{LoganSquare} parser te gebruiken. \foreign{LoganSquare} is niet de snelste, maar wel aanzienlijk sneller dan \foreign{org.json} en relatief eenvoudig te implementeren. Deze parser is gebaseerd op Jackson, waardoor het grootste voordeel van Jackson gedeeld wordt: achterliggend wordt gebruikgemaakt van \foreign{streaming}, waardoor minder \foreign{garbage} veroorzaakt wordt. Hierdoor is minder \foreign{garbage collection} nodig, waardoor de code minder vaak gepauzeerd hoeft te worden en dus sneller resultaten geeft. De verschillen in performantie tussen de parsers worden besproken in hoofdstuk 4. Binnen de beperkte tijd die beschikbaar was voor het schrijven van deze masterproef was er onvoldoende tijd om \foreign{DSLJson} te implementeren. Afgaand op figuur~\ref{fig:jsonparsersdeserialize} zou hier echter wel nog prestatiewinst geboekt kunnen worden.
+Als oplossing is gekozen om de \foreign{LoganSquare} parser te gebruiken. \foreign{LoganSquare} is niet de snelste, maar wel aanzienlijk sneller dan \foreign{org.json} en relatief eenvoudig te implementeren. Deze parser is gebaseerd op Jackson, waardoor het grootste voordeel van Jackson gedeeld wordt: achterliggend wordt \foreign{streaming} gebruikt, waardoor minder \foreign{garbage} veroorzaakt wordt. Hierdoor is minder \foreign{garbage collection} nodig, waardoor de code minder vaak gepauzeerd hoeft te worden en dus sneller resultaten geeft. De verschillen in performantie tussen de parsers worden besproken in hoofdstuk 4. Binnen de beperkte tijd die beschikbaar was voor het schrijven van deze masterproef was er onvoldoende tijd om \foreign{DSLJson} te implementeren. Afgaand op figuur~\ref{fig:jsonparsersdeserialize} zou hier echter wel nog prestatiewinst geboekt kunnen worden.

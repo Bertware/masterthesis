@@ -19,11 +19,11 @@ Hieruit trekken we de conclusie dat Linked Connections enorm afhankelijk is van 
 
 Hoewel Linked Connections ten opzichte van LC2Irail traag kan overkomen, dienen we dit zeker te nuanceren. Zo is LC2Irail, de gebuikte referentie voor een RPC API, beduidend sneller dan Linked Connections. Echter blijkt dat de meeste gebruikers LC2Irail als sneller ervaren in vergelijking met de huidige beschikbare applicaties, en Linked Connections in veel gevallen als even snel als beschikbare applicaties. Wel zijn de prestaties van Linked Connections inconsistent en sterk afhankelijk van de gemaakte opzoeking, waardoor gebruikers sneller irritatie ervaren bij het gebruik van Linked Connections dan bij het gebruik van LC2Irail.
 
-\textbf{De user-perceived performance van Linked Connections is algemeen gezien, voor de meerderheid van de gebruikers, gelijk of iets slechter dan de user-perceived performance van RPC API's.}
+\textbf{Besluit:} Op basis van user-tests bij 17 personen kan besloten worden dat de user-perceived performance van Linked Connections is algemeen gezien, voor de meerderheid van de gebruikers, gelijk of iets slechter dan de user-perceived performance van RPC API's.
 
 Opvallend is ook dat de meerderheid van de gebruikers, ondanks aan te geven dat ze LC2Irail sneller ervaren, toch aangeeft liefst Linked Connections te gebruiken wanneer ook offline toegang meespeelt. Dit wil zeggen dat gebruikers Linked Connections snel genoeg ervaren om een algemene betere gebruikerservaring te bieden vergeleken met RPC API's.
 
-\textbf{De user-experience van een routeplanning applicatie op basis van Linked Connections is beter dan de user-experience van een identieke applicatie die gebruikt maakt van een RPC API, voornamelijk door een hoge betrouwbaarheid onafhankelijk van de beschikbaarheid van (mobiel) internet.}
+\textbf{Besluit:} Op basis van user-tests bij 17 personen kan besloten worden dat de user-experience van een routeplanning applicatie op basis van Linked Connections is beter dan de user-experience van een identieke applicatie die gebruikt maakt van een RPC API, voornamelijk door een hoge betrouwbaarheid onafhankelijk van de beschikbaarheid van (mobiel) internet.
 
 We gaan even dieper in op de prestaties, en proberen op basis van alle voorgaande informatie de achterliggende oorzaak van de variërende prestaties te achterhalen. Testpersonen die achtereenvolgens een implementatie op basis van de \foreign{org.json} parser en de \foreign{LoganSquare} voorgeschoteld kregen, gaven allemaal aan dat de \foreign{LoganSquare} parser betere prestaties bood, zowel op budget- als high-end smartphones. Hierbij werd telkens gemeten hoe lang het duurde om een Linked Connections pagina van JSON om te vormen tot een object. Dit is het enige verschil tussen beide implementaties, maar toch blijkt hier dat het 50e percentiel voor de uitvoeringstijd van deze code verdubbelde bij gebruik van de \foreign{LoganSquare} parser: in plaats van 100 zijn nu 200 milliseconden nodig.
 
@@ -35,28 +35,28 @@ Elke \foreign{garbage collection} zal door de beperktere processorkracht ook mee
 
 Het zou onterecht zijn om Linked Connections definitief als `slechter' te bestempelen. Wel kunnen we zeggen dat er zeer veel aandacht aan de exacte implementatie besteed moet worden, waarbij ontwikkelaars diepgaande kennis over hun omgeving moeten beschikken. Een ontwikkelaar die geen kennis heeft van de principes van \foreign{garbage collection}, zal sneller problemen ervaren bij de performantie van Linked Connections dan bij het implementeren van een RPC API.
 
-\paragraph{Hypothese 1} \textbf{Gebruikers beschikken niet over een kwalitatieve internetverbinding tijdens het reizen, en ervaren de mogelijkheid voor offline zoekopdrachten als een meerwaarde.}
+\paragraph{Hypothese 1:} \textbf{Gebruikers beschikken niet over een kwalitatieve internetverbinding tijdens het reizen, en ervaren de mogelijkheid voor offline zoekopdrachten als een meerwaarde.}
 	Gebruikers hebben grote interesse in offline opzoekingen, voornamelijk door een slechte mobiele internetverbinding tijdens het reizen, en in mindere mate omdat ze vrezen te veel data te verbruiken of gewoonweg niet over mobiel internet beschikken.
 	
-\textbf{Hieruit volgt dat Hypothese 1 correct is, en de gebruiker dit inderdaad als meerwaarde ervaart, op basis van een populatie bestaand uit 81 treinreizigers.}
+\textbf{Deze hypothese werd bevestigd op basis van een bevraging bij 81 treinreizigers.}
 
-\paragraph{Hypothese 2}\textbf{De gebruiker ervaart de mogelijkheid om voorkeuren voor routes in te stellen (overstaptijd, toegankelijkheid, ...) als een meerwaarde.}
+\paragraph{Hypothese 2:}\textbf{De gebruiker ervaart de mogelijkheid om voorkeuren voor routes in te stellen (overstaptijd, toegankelijkheid, ...) als een meerwaarde.}
 	De gebruiker is zeer geïnteresseerd in routeplanning op maat, waarbij vooral het aanpassen van de overstaptijd in stations belangrijk is, en ook het mijden van drukke treinen als zeer interessant beschouwd wordt.
 
-\textbf{Hieruit volgt dat Hypothese 2 correct is, en de gebruiker dit inderdaad als meerwaarde beschouwt. }	
+\textbf{Deze hypothese werd bevestigd op basis van een bevraging bij 81 treinreizigers.}
 
-\paragraph{Hypothese 3}\textbf{ De gebruiker heeft angst om te veel mobiele data te verbruiken, maar let hier niet op bij het gebruik van routeplanning-apps.}
+\paragraph{Hypothese 3:}\textbf{ De gebruiker heeft angst om te veel mobiele data te verbruiken, maar let hier niet op bij het gebruik van routeplanning-apps.}
     53\% van de gebruikers is nog voorzichtig met zijn of haar databundel. Slechts 14\% heeft `redelijk veel' schrik om te veel data te verbruiken, 19\% heeft `veel' of `enorm veel' schrik om te veel data te verbruiken. Gebruikers zijn dus zeker nog voorzichtig met hun databundel, al maakt 47\% zich hier geen zorgen over.
     Wanneer we kijken naar datagebruik bij routeplanning applicaties, blijkt dat één op zes gebruikers soms geen informatie met een applicatie op te zoeken uit vrees te veel data te verbruiken. Dit komt ongeveer overeen met de personen die aangaven nog veel schrik te hebben om te veel data te verbruiken.
     
     Wanneer gebruikers echter gevraagd wordt om een aantal aspecten van een routeplanning applicatie van belangrijk naar onbelangrijk te rangschikken, eindigt dataverbruik op de laatste plaats. Dataverbruik is voor de gebruiker dus van ondergeschikt belang aan de functionaliteit.
     
-\textbf{De helft van de gebruikers heeft angst om te veel mobiele data te gebruiken, maar slechts één op zes gebruikers let ook op bij het gebruik van routeplanning applicaties op mobiel datagebruik. Hypothese 3 blijkt correct.}
+\textbf{Deze hypothese werd bevestigd op basis van een bevraging bij 81 treinreizigers.}
 
-\paragraph{Hypothese 4}\textbf{De gebruiker ervaart extra privacy bij het opzoeken van routes niet als een noemenswaardige meerwaarde}
+\paragraph{Hypothese 4:}\textbf{De gebruiker ervaart extra privacy bij het opzoeken van routes niet als een noemenswaardige meerwaarde}
 	Gebruikers maken zich niet echt zorgen om hun privacy bij het gebruik van routeplanning applicaties. Verder zijn ze ook zeer slecht op de hoogte welke data over internet verzonden worden. Privacy belandt ook steevast onderaan de lijst met prioriteiten voor gebruikers. Dit wil echter niet zeggen dat men hierin niet geïnteresseerd is. Wanneer expliciet naar interesse om meer privacy gepolst wordt, geeft meer dan acht op tien gebruikers aan dit interessant te vinden.
 	
-	\textbf{Gebruikers ervaren extra privacy als een meerwaarde, alhoewel deze niet noemenswaardig is, en niet noemenswaardig veel gebruikers zal overhalen over te stappen. Ook hypothese 4 blijkt correct.}
+\textbf{Ook deze hypothese werd bevestigd op basis van een bevraging bij 81 treinreizigers.}
 	
 \section{Toekomstig werk}
 \label{sec:futurework}
@@ -70,10 +70,10 @@ Tot slot kan ook een \foreign{in-memory} cache helpen bij het verbeteren van de 
 
 \section{Tot slot}
 	
-In deze masterproef hebben we een client geschreven om informatie over openbaar vervoer per trein te raadplegen, gebruikmakend van Linked Connections. Hiervoor hebben we algoritmes uitgewerkt om op een efficiënte manier vertrekken en aankomsten in een station op te lijsten en het traject van een voertuig weer te geven. Ook hebben we routeplanning geïmplementeerd op basis van het Connection Scan Algoritme en geoptimaliseerd zodat niet de snelste, maar de beste route bepaald wordt, en zodat informatie over de volledige reis opgehaald kan worden. Ook hebben we ondervonden dat implementatiedetails een groot verschil in prestaties kunnen veroorzaken, en de implementatie nog aangepast om gebruik te maken van een efficiëntere JSON parser. Tevens ontwikkelden we LC2Irail, een RPC API die dezelfde algoritmes en data gebruikt als de lokale Linked Connections client. LC2Irail werd gebruikt als referentie voor een RPC API.
+In deze masterproef werd een client geschreven om informatie over openbaar vervoer per trein te raadplegen, gebruikmakend van Linked Connections. Hiervoor werden algoritmes uitgewerkt om op een efficiënte manier vertrekken en aankomsten in een station op te lijsten en het traject van een voertuig weer te geven. Ook hebben we routeplanning geïmplementeerd op basis van het Connection Scan Algoritme en geoptimaliseerd zodat niet de snelste, maar de beste route bepaald wordt, en zodat informatie over de volledige reis opgehaald kan worden. Ook hebben we ondervonden dat implementatiedetails een groot verschil in prestaties kunnen veroorzaken, en de implementatie nog aangepast om gebruik te maken van een efficiëntere JSON parser. Tevens ontwikkelden we LC2Irail, een RPC API die dezelfde algoritmes en data gebruikt als de lokale Linked Connections client. LC2Irail werd gebruikt als referentie voor een RPC API.
 	
-Vervolgens hebben we in hoofdstuk~\ref{chap:onderzoek} uiteengezet hoe we aan de hand van deze cliënt de performantie, door gebruikers ervaren performantie en user-experience bepalen. Vervolgens zijn volgens de hier omschreven methode user-tests afgenomen, is er een enquête uitgevoerd en zijn de prestaties gemeten bij automatische tests. 
+Vervolgens werd in hoofdstuk~\ref{chap:onderzoek} uiteengezet hoe we aan de hand van deze cliënt de performantie, door gebruikers ervaren performantie en user-experience bepalen. Vervolgens zijn volgens de hier omschreven methode user-tests afgenomen, is er een enquête uitgevoerd en zijn de prestaties gemeten bij automatische tests. 
 	
 De resultaten van al deze tests zijn uitvoerig besproken in hoofdstukken~\ref{chap:resultaten} en~\ref{chap:interpretatie}. Hierbij blijkt dat LC2Irail beter presteert dan Linked Connections, alhoewel Linked Connections nog net de snelheid van de huidige beschikbare applicaties kan volgen. Linked Connections blijkt een inconsistente ervaring te geven, terwijl LC2Irail een consistente snelle ervaring kan bieden. Linked Connections is aantoonbaar trager, en ook gebruikers ervaren dit zo. Desondanks biedt offline opzoeken een grote meerwaarde, waardoor de meeste gebruikers toch lieven Linked Connections gebruiken dan LC2Irail.
 	
-Tot slot kwamen we tot de conclusie dat de in hoofdstuk~\ref{chap:intro} gestelde hypotheses correct zijn, en dat de gebruikerservaring beter is bij het gebruik van Linked Connections ondanks dat de user-perceived performantie lager ligt.
+Tot slot werd besloten conclusie dat de in hoofdstuk~\ref{chap:intro} gestelde hypotheses correct zijn, en dat de gebruikerservaring beter is bij het gebruik van Linked Connections ondanks dat de user-perceived performantie lager ligt.
