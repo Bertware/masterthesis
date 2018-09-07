@@ -7,7 +7,7 @@
 \chapter{Conclusie}
 \label{chap:interpretatie}
 
-We zullen nu de resultaten, besproken in hoofdstuk~\ref{chap:resultaten}, interpreteren om zo een antwoord te vinden op de in sectie~\ref{sec:onderzoeksvraag} geuite vragen.
+De resultaten, besproken in hoofdstuk~\ref{chap:resultaten}, zullen nu geïnterpreteerd worden om zo een antwoord te vinden op de in sectie~\ref{sec:onderzoeksvraag} geuite vragen.
 
 \paragraph{Onderzoeksvraag}  \textbf{Verbetert de user-experience en user-perceived performance van een applicatie voor openbaar vervoer wanneer gebruik gemaakt wordt van Linked Connections in plaats van traditionele RPC API's?}\\
 
@@ -25,7 +25,7 @@ Opvallend is ook dat de meerderheid van de gebruikers, ondanks aan te geven dat 
 
 \textbf{Besluit:} Op basis van user-tests bij 17 personen kan besloten worden dat de user-experience van een routeplanning applicatie op basis van Linked Connections is beter dan de user-experience van een identieke applicatie die gebruikt maakt van een RPC API, voornamelijk door een hoge betrouwbaarheid onafhankelijk van de beschikbaarheid van (mobiel) internet.
 
-We gaan even dieper in op de prestaties, en proberen op basis van alle voorgaande informatie de achterliggende oorzaak van de variërende prestaties te achterhalen. Testpersonen die achtereenvolgens een implementatie op basis van de \foreign{org.json} parser en de \foreign{LoganSquare} voorgeschoteld kregen, gaven allemaal aan dat de \foreign{LoganSquare} parser betere prestaties bood, zowel op budget- als high-end smartphones. Hierbij werd telkens gemeten hoe lang het duurde om een Linked Connections pagina van JSON om te vormen tot een object. Dit is het enige verschil tussen beide implementaties, maar toch blijkt hier dat het 50e percentiel voor de uitvoeringstijd van deze code verdubbelde bij gebruik van de \foreign{LoganSquare} parser: in plaats van 100 zijn nu 200 milliseconden nodig.
+Er wordt nu even dieper ingegaan op de prestaties, en proberen op basis van alle voorgaande informatie de achterliggende oorzaak van de variërende prestaties te achterhalen. Testpersonen die achtereenvolgens een implementatie op basis van de \foreign{org.json} parser en de \foreign{LoganSquare} voorgeschoteld kregen, gaven allemaal aan dat de \foreign{LoganSquare} parser betere prestaties bood, zowel op budget- als high-end smartphones. Hierbij werd telkens gemeten hoe lang het duurde om een Linked Connections pagina van JSON om te vormen tot een object. Dit is het enige verschil tussen beide implementaties, maar toch blijkt hier dat het 50e percentiel voor de uitvoeringstijd van deze code verdubbelde bij gebruik van de \foreign{LoganSquare} parser: in plaats van 100 zijn nu 200 milliseconden nodig.
 
 Dit is volledig tegenstrijdig aan de gebruikerservaringen, en is dan ook moeilijk te vatten. Echter is er een zeer belangrijke `externe' invloed op de uitvoeringstijd, namelijk de \foreign{Java Virtual Machine (JVM)} die de applicatie uitvoert. Deze JVM pauzeert de applicatie voor \foreign{garbage collection} wanneer er te veel \foreign{garbage} is - objecten die ooit gebruikt werden, maar waar nu geen enkele verwijzing meer naar bestaat. Tijdens deze \foreign{garbage collection} worden alle ongebruikte objecten verwijderd om geheugen vrij te maken. Hierbij komt het voordeel van de \foreign{LoganSquare} parser naar boven: ondanks dat het parsen op zich langer duurt, wordt aanzienlijk minder \foreign{garbage} gecreëerd, en is het aanzienlijk minder vaak nodig om de applicatie te pauzeren voor \foreign{garbage collection}.
 
