@@ -5,9 +5,9 @@
 \contentsline {listing}{\numberline {2.5}{\ignorespaces CSA: Overlopen van connecties}}{33}{listing.2.5}
 \contentsline {listing}{\numberline {2.6}{\ignorespaces CSA: Bepalen van aankomsttijden}}{34}{listing.2.6}
 \contentsline {listing}{\numberline {2.7}{\ignorespaces CSA: Bepalen van aankomsttijden}}{35}{listing.2.7}
-\contentsline {listing}{\numberline {2.8}{\ignorespaces CSA: Bepalen van vroegste aankomsttijd}}{36}{listing.2.8}
-\contentsline {listing}{\numberline {2.9}{\ignorespaces CSA: Bijwerken T}}{37}{listing.2.9}
-\contentsline {listing}{\numberline {2.10}{\ignorespaces CSA: Bijwerken S}}{38}{listing.2.10}
-\contentsline {listing}{\numberline {2.11}{\ignorespaces CSA: Journey extraction}}{38}{listing.2.11}
-\contentsline {listing}{\numberline {2.12}{\ignorespaces CSA: Journey extraction bij tussenstops}}{39}{listing.2.12}
-\contentsline {listing}{\numberline {2.13}{\ignorespaces Zoeken van pagina's in offline cache}}{48}{listing.2.13}
+\contentsline {listing}{\numberline {2.8}{\ignorespaces CSA: Journey extraction bij tussenstops}}{36}{listing.2.8}
+\contentsline {listing}{\numberline {2.9}{\ignorespaces Zoeken van pagina's in offline cache}}{44}{listing.2.9}
+\contentsline {listing}{\numberline {A.1}{\ignorespaces CSA: Bepalen van vroegste aankomsttijd}}{96}{listing.A.1}
+\contentsline {listing}{\numberline {A.2}{\ignorespaces CSA: Bijwerken T}}{97}{listing.A.2}
+\contentsline {listing}{\numberline {A.3}{\ignorespaces CSA: Bijwerken S}}{98}{listing.A.3}
+\contentsline {listing}{\numberline {A.4}{\ignorespaces CSA: Journey extraction}}{98}{listing.A.4}

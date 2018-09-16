@@ -37,7 +37,9 @@ We overlopen nu de belangrijkste velden in dit antwoord:
 	\end{enumerate}
 \end{enumerate}
 
-\begin{listing}[h]
+De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
+
+\begin{listing}[!h]
 	\begin{minted}[breaklines,tabsize=2]{json}
 			{"@context": {
 			    "lc": "http://semweb.mmlab.be/ns/linkedconnections#",
@@ -55,7 +57,7 @@ We overlopen nu de belangrijkste velden in dit antwoord:
 	\caption{Voorbeeld Linked Connections formaat: context}
 	\label{code:2:linkedconnections-response-context}
 \end{listing}
-\begin{listing}[h]
+\begin{listing}[!h]
 	\begin{minted}[breaklines,tabsize=2]{json}
 			{"...":"...",
 			"@graph": [
@@ -79,8 +81,6 @@ We overlopen nu de belangrijkste velden in dit antwoord:
 \caption{Voorbeeld Linked Connections formaat: graph}
 \label{code:2:linkedconnections-response-graph}
 \end{listing}
- 
-De volledige specificatie kan teruggevonden worden op de LC website\footnote{https://linkedconnections.org/specification/1-0}.
  
 \subsection{Open World Assumption}
 Een van de speerpunten van Linked Connections is het gemak waarmee data gecombineerd kan worden. Om data van meerdere vervoersmaatschappijen te combineren, hoeft men enkel de Linked Connections voor deze vervoersmaatschappijen te downloaden, en \foreign{merge-sort} toepassen. Wanneer het niet mogelijk is een route tussen twee punten te plannen, is het ook nog steeds mogelijk dat deze route gepland kan worden wanneer data van een extra vervoersmaatschappij toegevoegd wordt. Dit is de zogeheten `Open World Assumption`. De open world assumption wordt gedefinieerd door de veronderstelling dat de "waarheid" van een statement of hypothese niet afhangt van het al dan niet bekend zijn van deze hypothese door een enkele agent~\citep{Moore15}. Met andere woorden is het mogelijk dat wanneer een client een vraag niet kan beantwoorden, de client deze vraag toch kan beantwoorden wanneer meer data toegevoegd wordt.
@@ -125,12 +125,12 @@ Naast de tijd van aankomst zijn er nog een aantal andere criteria die vaak geopt
 
 De werking en implementatie van CSA worden uitvoerig behandeld in~\citep{strasser17}.
 De implementatie en evolutie in dit project zal worden uitgelegd aan de hand van code fragmenten in Java. Er wordt hierbij verondersteld dat sectie 4.2 in~\cite{strasser17} gekend is. De code is asynchroon, waarbij na het laden van de eerste Linked Connections-pagina een \foreign{callback} functie opgeroepen wordt om deze pagina te verwerken. Afhankelijk van het resultaat van deze verwerking, wordt er een nieuwe pagina opgevraagd, of wordt het resultaat doorgegeven aan de oproepende code door middel van callbacks. 
-De volledige broncode van de implementatie is online beschikbaar, zowel in  Java\footnote{\url{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java}} als PHP\footnote{\url{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}}.
+De volledige broncode van de implementatie is online beschikbaar, zowel in  Java\footnote{\url{https://github.com/Bertware/linkedconnections-android-client/blob/master/Hyperrail/src/main/java/be/hyperrail/android/irail/implementation/linkedconnections/RouteResponseListener.java}} als PHP\footnote{\url{https://github.com/hyperrail/lc2irail/blob/master/app/Http/Repositories/ConnectionsRepository.php}}. Enkele langere codefragmenten zijn terug te vinden in bijlage~\ref{appendix:code}.
 
 Wanneer CSA geïmplementeerd wordt zijn duidelijke verschillen merkbaar tussen de door CSA berekende routes en de voorgestelde routes door de NMBS. Deze verschillen manifesteren zich vooral in de keuze van het station waar er overgestapt moet worden tussen twee treinen, en de keuze van de tussenliggende treinen indien er meer dan één overstap is. Zo is het mogelijk dat er wordt aangeraden om een trein te nemen langs Brussel-Zuid en Brussel-Centraal tot Brussel-Noord, om van daar een andere trein te nemen die op zijn beurt van Brussel-Noord langs Brussel-Centraal naar Brussel-Zuid rijdt. Dit zal voorkomen worden door enkele aanpassingen door te voeren in het CSA algoritme.
 Verder zullen ook nog andere aanpassingen doorgevoerd worden om eenvoudig het aantal overstappen te beperken, en om op een meer uitgebreide manier aan \foreign{journey-extraction} te doen. Aangezien CSA de connecties volgens dalende vertrektijd overloopt, moet op voorhand geweten zijn waar te beginnen. Dit kan een implementatie echter niet zomaar weten, en wegens de beperkte tijd is het tijdens deze masterproef niet mogelijk hier een apart algoritme voor te implementeren. Wanneer een gebruiker een vertrekuur kiest, zal steeds 4 of 6 uur verder in de verzameling connecties begonnen worden. Een alternatief zou zijn om het \foreign{Earliest Arrival Time} op te lossen alvorens CSA toe te passen, zoals besproken in sectie~\ref{sec:futurework}.
 
-\begin{listing}[htb]
+\begin{listing}[!h]
 	\begin{minted}[breaklines,tabsize=2]{java}
 	class TrainProfile {
 		/**
@@ -157,7 +157,7 @@ Verder zullen ook nog andere aanpassingen doorgevoerd worden om eenvoudig het aa
 Allereerst dienen twee wijzigingen doorgevoerd te worden aan de gegevensstructuren. De \foreign{arrays} S en T, waarin respectievelijk zogeheten stopprofielen en aankomsttijden bijgehouden werden, zijn vervangen door een \foreign{map}, waardoor onbeperkt nieuwe stations en trips toegevoegd kunnen worden, en deze kunnen opvragen op basis van hun URI. Dit maakt het algoritme geschikt om te werken rekening houdend met de \foreign{Open World Assumption}~\cite{colpaert17}.
 In de datastructuur voor een voertuig (fragment~\ref{code:2:trips}) wordt niet enkel bijgehouden wanneer de reiziger zou aankomen, maar ook met hoeveel overstappen (beginnend na het opstappen op deze trein) deze zou aankomen, en waar afgestapt moet worden van deze trein. Dit laatste is essentieel om niet enkel de aankomsttijd, maar ook de exacte route met alle overstappen te kunnen weergeven. 
 
-\begin{listing}[htb]
+\begin{listing}[!h]
 \begin{minted}[breaklines,tabsize=2]{java}
   class StationStopProfile {
 	/**
@@ -192,7 +192,7 @@ In de datastructuur voor een voertuig (fragment~\ref{code:2:trips}) wordt niet e
 
 Ook de paren van vertrek- en aankomsttijd per station, zogenoemde profielen, worden vervangen door een meer uitgebreide gegevensstructuur, zichtbaar in fragment~\ref{code:2:stations}. Naast de vertrek- en aankomsttijd wordt nu ook de connectie bijgehouden die het vertrek in dit station op dit tijdstip omschrijft, en de connectie die de aankomst in het volgend station op de route omschrijft. In dit station moet een overstap plaatsvinden of afgestapt worden indien dit de eindbestemming is. Ook het aantal overstappen, beginnend met tellen na het opstappen in dit station, wordt bijgehouden.
 
-\begin{listing}[htb]
+\begin{listing}[!h]
 \begin{minted}[breaklines,tabsize=2]{java}
 	if (data.connections.length == 0) {
 		mLinkedConnectionsProvider.getLinkedConnectionByUrl(data.previous, this, this, null);
@@ -273,151 +273,19 @@ Het bepalen van de aankomsttijd bij wandelen, T1, en de aankomsttijd bij het gez
 \end{listing}
 
 Bij de bepaling van T3, terug te vinden in fragment~\ref{code:2:csaT3}, is de eerste grote afwijking van het oorspronkelijk algoritme te zien. Om te bepalen of een overstap mogelijk is, moeten er reeds profielen voor dit station bekend zijn. Indien dit het geval is, wordt op zoek gegaan naar het profiel waarbij er genoeg tijd is om over te stappen, maar waarbij het aantal overstappen het maximum aantal niet overschrijdt. 
-De \foreign{intra-footpaths}~\citep{strasser17,hannemann08}, nodig voor het bepalen van de tijd die reiziger nodig heeft om over te stappen in een station, worden ingesteld op een standaardwaarde die eventueel door de gebruiker gewijzigd kan worden. Dit is nodig aangezien tijdens de ontwikkeling nog geen officiële waarden gepubliceerd waren\footnote{Sinds april 2018 is deze data beschikbaar via iRail: \url{https://github.com/iRail/stations/pull/127}}. 
+De \foreign{intra-stop footpaths}~\citep{strasser17,hannemann08}, nodig voor het bepalen van de tijd die reiziger nodig heeft om over te stappen in een station, worden ingesteld op een standaardwaarde die eventueel door de gebruiker gewijzigd kan worden. Dit is nodig aangezien tijdens de ontwikkeling nog geen officiële waarden gepubliceerd waren\footnote{Sinds april 2018 is deze data beschikbaar via iRail: \url{https://github.com/iRail/stations/pull/127}}. 
 Wanneer een overstap gevonden wordt die aan deze voorwaarden voldoet, wordt de variabele die het aantal overstappen sinds deze connectie bijhoudt ook met één verhoogd. Deze aanpak is eenvoudiger dan de array-gebaseerde aanpak omschreven in~\cite{strasser17}. Het voordeel van deze aanpak is dat automatisch alle snelste opties worden bijgehouden, zolang hun aantal overstappen onder het maximum blijft. 
 
 In plaats van de door~\cite{strasser17} voorgestelde verhoging van de aankomsttijd met één, om zo routes met een gelijke aankomsttijd maar minder overstappen voorkeur te geven, wordt de aankomsttijd met een vooraf gedefinieerd aantal seconden verhoogd. Dit aantal geeft aan hoeveel seconden de reiziger langer op een trein wensen te zitten, in plaats van een keer extra over te stappen. Door dit in te stellen op 240, wordt aangegeven dat een route die er tot 4 minuten langer over doet, met een overstap minder, toch de voorkeur krijgt over de snellere route met meer overstappen. Dit is een eerste veld dat eventueel door gebruikers ingesteld zou kunnen worden om de routes te personaliseren.
 
 Bij het bepalen van de vroegste aankomsttijd (fragment~\ref{code:2:csaT3}), wordt nu ook het aantal overstappen dat bij deze aankomsttijd hoort bepaald, en de connectie waar van de trein afgestapt wordt. Wanneer de aankomsttijd met overstap gelijk is aan de aankomsttijd wanneer de reiziger hier niet overstapt, wordt gekozen voor de aankomsttijd met overstap. Dit kan contra-intuïtief lijken, maar hierbij moet onthouden worden dat bij aankomsttijd T3 reeds een constante `straftijd` is opgeteld (in dit geval 240 seconden). Hierdoor zullen deze aankomsttijden enkel gelijk zijn indien T2 even veel overstappen bevat. In dit geval wordt verkozen om `nu` over te stappen, waarbij `nu` vroeger ligt dan T2: alle vertrekken immers van laatst naar vroegst overlopen.
 
-\begin{listing}[htb]
-\begin{minted}[breaklines,tabsize=2]{java}
-if (T3_transferArrivalTime.getMillis() <= T2_stayOnTripArrivalTime.getMillis()) {
-	Tmin = T3_transferArrivalTime;
-	exitTrainConnection = connection;
-	numberOfTransfers = T3_transfers;
-} else {
-	Tmin = T2_stayOnTripArrivalTime;
-	if (T2_stayOnTripArrivalTime.isBefore(infinite)) {
-		exitTrainConnection = T.get(connection.trip).arrivalConnection;
-	} else {
-		exitTrainConnection = null;
-	}
-	numberOfTransfers = T2_transfers;
-}
-
-// For equal times, prefer just arriving.
-if (T1_walkingArrivalTime.getMillis() <= Tmin.getMillis()) {
-	Tmin = T1_walkingArrivalTime;
-	exitTrainConnection = connection;
-	numberOfTransfers = T1_transfers;
-}
-
-if (Tmin.isEqual(infinite)) {
-	continue;
-}
-		\end{minted}
-		\caption[CSA: Bepalen van vroegste aankomsttijd]{Bepalen van de vroegste aankomsttijd}
-		\label{code:2:csaMin}
-\end{listing}
-
 Door de extra toevoegingen voor \foreign{journey extraction} en het optimaliseren van de routes, is het bijwerken van de gegevensstructuren aanzienlijk ingewikkelder vergeleken met de originele implementatie. Voor voertuigen wordt niet langer enkel de aankomsttijd bijgehouden, maar ook de afstaphalte. Hierbij wordt de halte verkozen waarlangs de reiziger zo snel mogelijk aankomt, maar bij gelijke aankomsttijd is een zo lang mogelijke periode voor de overstap gewenst. Wanneer de aankomsttijd gelijk is, wordt onderzocht of de nieuwe afstaphalte (de connectie die op dit moment onderzocht wordt) meer tijd voor een overstap geeft. Indien dit het geval is, wordt de afstaphalte bijgewerkt. Het bijwerken van een bestaande trip is zichtbaar in fragment~\ref{code:2:csaT}.
 
-\begin{listing}[h]
-	\begin{minted}[breaklines,tabsize=2]{java}
-        if (Tmin.isEqual(T.get(connection.getTrip()).arrivalTime)
-			&& !T.get(connection.getTrip()).arrivalConnection.getArrivalStationUri().equals(mRoutesRequest.getDestination().getUri())
-			&& T3_transferArrivalTime.isEqual(T2_stayOnTripArrivalTime)
-			&& S.containsKey(T.get(connection.getTrip()).arrivalConnection.getArrivalStationUri())
-			&& S.containsKey(connection.getArrivalStationUri())
-		) {
-			LinkedConnection currentTrainExit = T.get(connection.getTrip()).arrivalConnection;
-	
-			StationStopProfile stationStopProfile = new StationStopProfile();
-			stationStopProfile.departureTime = connection.getDepartureTime();
-			stationStopProfile.departureConnection = connection;
-		
-			stationStopProfile.arrivalTime = Tmin;
-			stationStopProfile.arrivalConnection = currentTrainExit;
-			
-			Duration currentTransfer = new Duration(currentTrainExit.getArrivalTime(), getFirstReachableConnection(stationStopProfile).departureTime);
-			
-			// New situation
-			stationStopProfile.arrivalTime = Tmin;
-			stationStopProfile.arrivalConnection = exitTrainConnection;
-			Duration newTransfer = new Duration(exitTrainConnection.getArrivalTime(), getFirstReachableConnection(stationStopProfile).departureTime);
-			
-			// If the new situation is better
-			if (newTransfer.isLongerThan(currentTransfer)) {
-				TrainProfile trainProfile = new TrainProfile();
-				trainProfile.arrivalTime = Tmin;
-				trainProfile.arrivalConnection = exitTrainConnection;
-				trainProfile.transfers = numberOfTransfers;
-				
-				T.put(connection.getTrip(), trainProfile);
-			}
-		}
-			
-		if (Tmin.isBefore(T.get(connection.getTrip()).arrivalTime)) {
-			TrainProfile trainProfile = new TrainProfile();
-			trainProfile.arrivalTime = Tmin;
-			trainProfile.arrivalConnection = exitTrainConnection;
-			trainProfile.transfers = numberOfTransfers;
-			
-			T.put(connection.getTrip(), trainProfile);
-		}
-	\end{minted}
-	\caption[CSA: Bijwerken T]{Bijwerken van de trips gegevensstructuur.}
-	\label{code:2:csaT}
-\end{listing}
-
-\begin{listing}[h]
-	\begin{minted}[breaklines,tabsize=2]{java}
-		StationStopProfile newProfile = new StationStopProfile();
-		newProfile.departureTime = connection.getDepartureTime();
-		newProfile.arrivalTime = Tmin;
-		newProfile.departureConnection = connection;
-		newProfile.arrivalConnection = T.get(connection.getTrip()).arrivalConnection;
-		newProfile.transfers = numberOfTransfers;
-		if (S.containsKey(connection.getDepartureStationUri())) {
-			int numberOfPairs = S.get(connection.getDepartureStationUri()).size();
-			StationStopProfile existingProfile = S.get(connection.getDepartureStationUri()).get(numberOfPairs - 1);
-		
-			if (newProfile.arrivalTime.isBefore(existingProfile.arrivalTime)) {
-				if (newProfile.departureTime.isEqual(existingProfile.departureTime)) {
-					S.get(connection.getDepartureStationUri()).remove(numberOfPairs - 1);
-					S.get(connection.getDepartureStationUri()).add(numberOfPairs - 1, newProfile);
-				} else {
-					S.get(connection.getDepartureStationUri()).add(newProfile);
-				}
-			}
-		} else {
-			S.put(connection.getDepartureStationUri(), new ArrayList<StationStopProfile>());
-			S.get(connection.getDepartureStationUri()).add(newProfile);
-		}
-	\end{minted}
-	\caption[CSA: Bijwerken S]{Bijwerken van de stops gegevensstructuur.}
-	\label{code:2:csaS}
-\end{listing}
 
 Het bijwerken van de stopprofielen, zichtbaar in fragment~\ref{code:2:csaS}, is lichtjes aangepast om de efficiëntie te verhogen. De vroegste vertrekken worden nu achteraan toegevoegd. Door deze aanpassing, en het gegeven dat de vertrektijd van de huidige connectie altijd\footnote{We overlopen de lijst immers volgens niet-stijgende vertrektijd} gelijk of kleiner dan de vertrektijd van alle vorige connecties is, hoeft nu enkel het laatste profiel in de lijst geëvalueerd te worden.
 
 Als de vertrektijd kleiner of gelijk is, moet de aankomsttijd kleiner zijn. Er wordt dus enkel gecontroleerd of de aankomsttijd kleiner is, en zo ja, of de vertrektijd kleiner of gelijk is. Afhankelijk van deze laatste controle voegen wordt een nieuw item toegevoegd aan de lijst, of wordt het laatste item vervangen. Aangezien er enkel toevoegingen kunnen plaatsvinden wanneer de aankomsttijd vroeger ligt, zal deze lijst altijd gesorteerd zijn volgens dalende aankomsttijd. Hiermee is bewezen dat deze optimalisatie correct is, en een beter alternatief voor het overlopen van de volledige lijst.
-
-\begin{listing}[h]
-	\begin{minted}[breaklines,tabsize=2]{java}
-		// Results? Return data
-		Route[] routes = new Route[S.get(mRoutesRequest.getOrigin().getSemanticId()).size()];
-		
-		int i = 0;
-		for (StationQuintuple quint : S.get(mRoutesRequest.getOrigin().getSemanticId())
-		) {
-			// it will iterate over all legs
-			StationQuintuple it = quint;
-			List<RouteLeg> legs = new ArrayList<>();
-			
-			while (!Objects.equals(it.arrivalConnection.arrivalStationUri, mRoutesRequest.getDestination().getSemanticId())) {
-				// use it.departureConnection and it.arrivalConnection to construct legs of this journey
-				legs.add(...);
-				it = getFirstReachableConnection(it);
-			}
-			
-			routes[i++] = new Route(legs);
-		}
-	\end{minted}
-	\caption[CSA: Journey extraction]{Journey Extraction door middel van post-processing}
-	\label{code:2:csaJourneyExtraction}
-\end{listing}
 
 De lijst met volledige routes reconstrueren (fragment~\ref{code:2:csaJourneyExtraction}) is relatief eenvoudig. Voor elk profiel horend bij de locatie van waar de reiziger vertrekt, worden de vertrek- en aankomstconnecties gevolgd. Om bij elke tussenstop de juiste connectie te vinden waarmee de reis verder zal gezet worden, worden de aankomsttijd uit het stopprofiel waaruit vertrokken werd vergeleken met de aankomsttijden uit de stopprofielen van de tussenstop (fragment~\ref{code:2:csaJourneyExtractionReachable}). Wanneer deze gelijk zijn, is het volgende deel van de reis gevonden. Hierbij is het belangrijk dat de aankomsttijd ook ´straftijd´ voor eventuele overstappen bevat. Deze wordt dan ook enkel intern gebruikt - zodra aan \foreign{journey extraction} gedaan wordt en informatie voor de gebruiker verzameld wordt, worden de vertrek- en aankomsttijden gebruikt die omschreven worden in connecties.
 
@@ -490,7 +358,7 @@ Het laden van voorgaande of volgende resultaten is een belangrijke methode. De a
 
 De implementatie waarbij algoritmes op de server toegepast worden, zal steeds een bepaald aantal resultaten proberen laden, om zo de overhead die HTTP requests met zich meebrengen te beperken. Hierbij moet er getracht worden om een evenwicht te vinden tussen een lange wachttijd, en het te vaak moeten opvragen van volgende resultaten, wat ook telkens een overhead met zich meebrengt.
 
-Tijdens het schrijven van deze masterproef werd ook de Linked Connections server voor de NMBS nog verder ontwikkeld. Zo werd er afgestapt van het principe om pagina's van constante tijdsintervallen te gebruiken, en overgestapt naar pagina's van constante grootte. Pagina's die constante tijdsintervallen beschrijven hebben een aantal nadelen, zoals het feit dat pagina's 's nachts bijna leeg zijn (of de pagina's zelfs niet bestaan). De ongelijke grootte van de pagina's zorgt er ook voor dat de tijd nodig om een interval te doorlopen niet lineair is. Wanneer pagina's van constante grootte gebruikt worden, vallen deze nadelen weg: elke pagina bevat ongeveer evenveel resultaten. Het verschil tussen deze twee varianten is duidelijk zichtbaar in grafieken~\ref{fig:responsetimeperresultsrouteBruSouth} en~\ref{fig:responsetimeperresultsrouteKiewit}. Naast de laadtijd bij het gebruik van pagina's van constante grootte en constant tijdsinterval, is hier ook de laadtijd bij pagina's van constante grootte zichtbaar wanneer deze op de server in het geheugen gecachet worden. Hierbij is een drastische verlaging van de responstijd te zien, met iets meer fluctuaties door \foreign{cache hits} en \foreign{cache misses}. Hierbij blijkt de server wel extreem goed te presteren.
+Tijdens het schrijven van deze masterproef werd ook de Linked Connections server voor de NMBS nog verder ontwikkeld. Zo werd er afgestapt van het principe om pagina's van constante tijdsintervallen te gebruiken, en overgestapt naar pagina's van constante grootte. Pagina's die constante tijdsintervallen beschrijven hebben een aantal nadelen, zoals het feit dat pagina's 's nachts bijna leeg zijn (of de pagina's zelfs niet bestaan). De ongelijke grootte van de pagina's zorgt er ook voor dat de tijd nodig om een interval te doorlopen niet lineair is. 
 
 \begin{figure}[h]
 	\centering
@@ -499,6 +367,8 @@ Tijdens het schrijven van deze masterproef werd ook de Linked Connections server
 	\caption[Laadtijd routes tussen Gent en Brussel in functie van aantal resultaten]{De tijd die nodig is om routes te laden, met aankomst om 18u, in functie van het gewenste aantal resultaten.}
 	\label{fig:responsetimeperresultsrouteBruSouth}
 \end{figure} 
+
+Wanneer pagina's van constante grootte gebruikt worden, vallen deze nadelen weg: elke pagina bevat ongeveer evenveel resultaten. Het verschil tussen deze twee varianten is duidelijk zichtbaar in grafieken~\ref{fig:responsetimeperresultsrouteBruSouth} en~\ref{fig:responsetimeperresultsrouteKiewit}. Naast de laadtijd bij het gebruik van pagina's van constante grootte en constant tijdsinterval, is hier ook de laadtijd bij pagina's van constante grootte zichtbaar wanneer deze op de server in het geheugen gecachet worden. Hierbij is een drastische verlaging van de responstijd te zien, met iets meer fluctuaties door \foreign{cache hits} en \foreign{cache misses}. Hierbij blijkt de server wel extreem goed te presteren.
 
 \begin{figure}[h]
 	\centering
@@ -511,11 +381,9 @@ We zien dat deze tijd telkens ongeveer lineair toeneemt, maar zeker de variant o
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.00\textwidth]{images/Laadtijd_routes.eps}
-	\caption[Laadtijd routes in functie van aantal resultaten]{De tijd die nodig is om routes te laden, met aankomst om 18u, in functie van het gewenste aantal resultaten. Er is een knik te zien wanneer Linked Connections voor de nacht opgehaald worden, terwijl deze relatief weinig data bevatten.}
+	\caption[Laadtijd routes in functie van aantal resultaten]{De tijd die nodig is om routes te laden, met aankomst om 18u, in functie van het gewenste aantal resultaten.}
 	\label{fig:responsetimeperresultsroute}
 \end{figure}
-
-Liveboards, die informatie geven over vertrekkende en aankomende treinen in een station, worden opgebouwd voor een bepaald interval. Gebruikers willen steeds informatie over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet op voorhand weten de hoeveelste trein ze zoeken. Ook voor liveboards wordt nu onderzocht hoe lang het duurt om een deze op te bouwen voor een gegeven tijdsinterval.
 
 \begin{figure}[h]
 	\centering
@@ -531,7 +399,11 @@ Liveboards, die informatie geven over vertrekkende en aankomende treinen in een 
 	\label{fig:stopsperintervaldetail}
 \end{figure}
 
-In grafiek~\ref{fig:responsetimeperintervalliveboards} is de tijd te zien die benodigd is om een liveboard te genereren over een bepaald interval. In deze grafieken is te zien dat bij pagina's van constante tijdsintervallen de responstijd initieel sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen opnieuw geweten worden aan daluren, in dit geval is dit zichtbaar als een vlak segment tussen 800 en 960 minuten. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. Wanneer in detail gekeken wordt naar het aantal stops per interval van 30 minuten, zichtbaar in grafiek~\ref{fig:stopsperintervaldetail}, is duidelijk te zien dat er een aantal uitschieters zijn rond de piekuren en 's middags, en momenten waarop er aanzienlijk minder treinen vertrekken, zoals in daluren en 's nachts. Deze fluctuaties zullen een effect hebben op zowel de server-side als client-side implementaties. Mogelijk zou dit ervoor kunnen zorgen dat de gebruikerservaring voor zoekopdrachten in de spits beter is dan voor zoekopdrachten 's nachts.
+Liveboards, die informatie geven over vertrekkende en aankomende treinen in een station, worden opgebouwd voor een bepaald interval. Gebruikers willen steeds informatie over treinen in de komende periode, en niet enkel de eerste resultaten, gezien ze niet op voorhand weten de hoeveelste trein ze zoeken. Ook voor liveboards wordt nu onderzocht hoe lang het duurt om een deze op te bouwen voor een gegeven tijdsinterval.
+
+In grafiek~\ref{fig:responsetimeperintervalliveboards} is de tijd te zien die benodigd is om een liveboard te genereren over een bepaald interval. In deze grafieken is te zien dat bij pagina's van constante tijdsintervallen de responstijd initieel sterk stijgt, waarna de curve een lineaire vorm aanneemt. Knikken in de curve kunnen opnieuw geweten worden aan daluren, in dit geval is dit zichtbaar als een vlak segment tussen 800 en 960 minuten. Dit komt ongeveer overeen met de periode tussen 1 en 4 uur 's nachts, waarin zeer weinig treinen rijden. 
+
+Wanneer in detail gekeken wordt naar het aantal stops per interval van 30 minuten, zichtbaar in grafiek~\ref{fig:stopsperintervaldetail}, is duidelijk te zien dat er een aantal uitschieters zijn rond de piekuren en 's middags, en momenten waarop er aanzienlijk minder treinen vertrekken, zoals in daluren en 's nachts. Deze fluctuaties zullen een effect hebben op zowel de server-side als client-side implementaties. Mogelijk zou dit ervoor kunnen zorgen dat de gebruikerservaring voor zoekopdrachten in de spits beter is dan voor zoekopdrachten 's nachts.
 
 Wanneer echter gekeken wordt naar de laadtijd bij pagina's van constante grootte, verloopt deze curve bijna lineair. De curve bevat geen vlakke segmenten meer, gezien alle pagina's aanwezig zijn. De toenemende laadtijd op momenten dat er geen treinen rijden is te wijten aan de implementatie: elke geladen pagina wordt volledig verwerkt. Bij gebruik van pagina's met een constante grootte zullen deze implementaties 's nachts dus resultaten geven die verder in de toekomst liggen, in plaats van geen resultaten. Wanneer gebruikgemaakt wordt van caching wordt de responstijd nog verder verlaagt. Het is deze variant die in productie gebruikt zal worden. 
 
@@ -542,7 +414,7 @@ Het is belangrijk om op te merken dat de metingen voor bovenstaande grafieken st
 
 Door gebruik te maken van een opslag op het toestel blijven alle opgeslagen pagina's behouden wanneer de applicatie afgesloten en herstart wordt. Hierdoor is de applicatie ook na het afsluiten nog te gebruiken voor offline opzoekingen. Wanneer pagina's constante tijdsintervallen beschrijven is het eenvoudig om te controleren of een pagina reeds gecachet is: de gezochte tijd afronden, URL construeren en opzoeken in de database is voldoende. Wanneer echter pagina's van constante fysieke grootte gebruikt worden, kan het id van de pagina niet meer client-side bepaald worden. Wanneer een nog nooit eerder opgezocht tijdstip gezocht wordt, zoals 8:05, is het mogelijk dat deze data zich in de pagina beginnend op 8:03 bevindt. Om dit op te lossen gebruiken wordt een \foreign{SQL-query} gebruikt, waarbij de URL voor een tijdstip geconstrueerd wordt en deze vergeleken wordt met de intervallen per pagina. De keuze voor \foreign{SQLite} laat toe om dit eenvoudig te implementeren. Een voorbeeld hiervan is te zien in fragment~\ref{code:2:LCCache}. In de cache worden steeds de URL, het volledige server antwoord en de tijd waarop het antwoord ontvangen werd opgeslagen.
 
-\begin{listing}[h]
+\begin{listing}[!h]
 	\begin{minted}[breaklines,tabsize=2]{java}
     db.query(TABLE, new String[]{"url", "data", "datetime"}, "url<=? AND next>?", new String[]{url,url}, null, null, "url DESC");
 	\end{minted}
@@ -559,7 +431,7 @@ Als oplossing wordt in eerste instantie het parsen van datums versneld: het tijd
 Deze aanpassingen zorgen voor een kleine verbetering, maar hebben geen al te grote impact: het laden van een voertuig gaat van gemiddeld 4500ms naar 3900ms op een HTC 10. Dit blijft enorm veel vanuit het standpunt van een gebruiker.
 Wanneer echter gekeken wordt naar een vergelijking tussen JSON parsers, blijkt al snel dat de standaard \foreign{org.json} parser bij de traagste parsers voor Java hoort\footnote{\url{https://github.com/fabienrenaud/java-json-benchmark}}. Dit is duidelijk te zien in figuur~\ref{fig:jsonparsersdeserialize}.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{jsondeserialization.png}
 	\caption[Prestaties van JSON parsers]{Prestaties van verschillende JSON parsers bij deserialiseren. \textcopyright 2016 Fabien Renaud}

@@ -1,4 +1,142 @@
 \begin{appendices}
+	
+\chapter{Codefragmenten}
+\label{appendix:code}
+
+
+\begin{listing}[h]
+	\begin{minted}[breaklines,tabsize=2]{java}
+	if (T3_transferArrivalTime.getMillis() <= T2_stayOnTripArrivalTime.getMillis()) {
+	Tmin = T3_transferArrivalTime;
+	exitTrainConnection = connection;
+	numberOfTransfers = T3_transfers;
+	} else {
+	Tmin = T2_stayOnTripArrivalTime;
+	if (T2_stayOnTripArrivalTime.isBefore(infinite)) {
+	exitTrainConnection = T.get(connection.trip).arrivalConnection;
+	} else {
+	exitTrainConnection = null;
+	}
+	numberOfTransfers = T2_transfers;
+	}
+	
+	// For equal times, prefer just arriving.
+	if (T1_walkingArrivalTime.getMillis() <= Tmin.getMillis()) {
+	Tmin = T1_walkingArrivalTime;
+	exitTrainConnection = connection;
+	numberOfTransfers = T1_transfers;
+	}
+	
+	if (Tmin.isEqual(infinite)) {
+	continue;
+	}
+	\end{minted}
+	\caption[CSA: Bepalen van vroegste aankomsttijd]{Bepalen van de vroegste aankomsttijd bij het evalueren van een nieuwe connectie.}
+	\label{code:2:csaMin}
+\end{listing}
+
+\begin{listing}[h]
+	\begin{minted}[breaklines,tabsize=2]{java}
+	if (Tmin.isEqual(T.get(connection.getTrip()).arrivalTime)
+	&& !T.get(connection.getTrip()).arrivalConnection.getArrivalStationUri()
+	.equals(mRoutesRequest.getDestination().getUri())
+	&& T3_transferArrivalTime.isEqual(T2_stayOnTripArrivalTime)
+	&& S.containsKey(T.get(connection.getTrip()).arrivalConnection.getArrivalStationUri())
+	&& S.containsKey(connection.getArrivalStationUri())
+	) {
+	LinkedConnection currentTrainExit = T.get(connection.getTrip()).arrivalConnection;
+	
+	StationStopProfile stationStopProfile = new StationStopProfile();
+	stationStopProfile.departureTime = connection.getDepartureTime();
+	stationStopProfile.departureConnection = connection;
+	
+	stationStopProfile.arrivalTime = Tmin;
+	stationStopProfile.arrivalConnection = currentTrainExit;
+	
+	Duration currentTransfer = new Duration(currentTrainExit.getArrivalTime(), getFirstReachableConnection(stationStopProfile).departureTime);
+	
+	// New situation
+	stationStopProfile.arrivalTime = Tmin;
+	stationStopProfile.arrivalConnection = exitTrainConnection;
+	Duration newTransfer = new Duration(exitTrainConnection.getArrivalTime(), getFirstReachableConnection(stationStopProfile).departureTime);
+	
+	// If the new situation is better
+	if (newTransfer.isLongerThan(currentTransfer)) {
+	TrainProfile trainProfile = new TrainProfile();
+	trainProfile.arrivalTime = Tmin;
+	trainProfile.arrivalConnection = exitTrainConnection;
+	trainProfile.transfers = numberOfTransfers;
+	
+	T.put(connection.getTrip(), trainProfile);
+	}
+	}
+	
+	if (Tmin.isBefore(T.get(connection.getTrip()).arrivalTime)) {
+	TrainProfile trainProfile = new TrainProfile();
+	trainProfile.arrivalTime = Tmin;
+	trainProfile.arrivalConnection = exitTrainConnection;
+	trainProfile.transfers = numberOfTransfers;
+	
+	T.put(connection.getTrip(), trainProfile);
+	}
+	\end{minted}
+	\caption[CSA: Bijwerken T]{Bijwerken van de trips gegevensstructuur.}
+	\label{code:2:csaT}
+\end{listing}
+
+\begin{listing}[h]
+	\begin{minted}[breaklines,tabsize=2]{java}
+	StationStopProfile newProfile = new StationStopProfile();
+	newProfile.departureTime = connection.getDepartureTime();
+	newProfile.arrivalTime = Tmin;
+	newProfile.departureConnection = connection;
+	newProfile.arrivalConnection = T.get(connection.getTrip()).arrivalConnection;
+	newProfile.transfers = numberOfTransfers;
+	if (S.containsKey(connection.getDepartureStationUri())) {
+	int numberOfPairs = S.get(connection.getDepartureStationUri()).size();
+	StationStopProfile existingProfile = S.get(connection.getDepartureStationUri()).get(numberOfPairs - 1);
+	
+	if (newProfile.arrivalTime.isBefore(existingProfile.arrivalTime)) {
+	if (newProfile.departureTime.isEqual(existingProfile.departureTime)) {
+	S.get(connection.getDepartureStationUri()).remove(numberOfPairs - 1);
+	S.get(connection.getDepartureStationUri()).add(numberOfPairs - 1, newProfile);
+	} else {
+	S.get(connection.getDepartureStationUri()).add(newProfile);
+	}
+	}
+	} else {
+	S.put(connection.getDepartureStationUri(), new ArrayList<StationStopProfile>());
+	S.get(connection.getDepartureStationUri()).add(newProfile);
+	}
+	\end{minted}
+	\caption[CSA: Bijwerken S]{Bijwerken van de stops gegevensstructuur.}
+	\label{code:2:csaS}
+\end{listing}
+
+\begin{listing}[h]
+	\begin{minted}[breaklines,tabsize=2]{java}
+	Route[] routes = new Route[S.get(mRoutesRequest.getOrigin().getSemanticId()).size()];
+	
+	int i = 0;
+	for (StationQuintuple quint : S.get(mRoutesRequest.getOrigin().getSemanticId())
+	) {
+	// it will iterate over all legs
+	StationQuintuple it = quint;
+	List<RouteLeg> legs = new ArrayList<>();
+	
+	while (!Objects.equals(it.arrivalConnection.arrivalStationUri, mRoutesRequest.getDestination().getSemanticId())) {
+	// use it.departureConnection and it.arrivalConnection to construct legs of this journey
+	legs.add(...);
+	it = getFirstReachableConnection(it);
+	}
+	
+	routes[i++] = new Route(legs);
+	}
+	\end{minted}
+	\caption[CSA: Journey extraction]{Journey Extraction door middel van post-processing.}
+	\label{code:2:csaJourneyExtraction}
+\end{listing}	
+
 \chapter{Vragen enquete}
 \label{appendix:enquete}
 
